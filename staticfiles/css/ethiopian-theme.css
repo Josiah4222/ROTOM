@@ -1,0 +1,206 @@
+:root {
+    /* Ethiopian flag colors */
+    --eth-red: #DA1F3D;
+    --eth-yellow: #FCCB06;
+    --eth-green: #006B3F;
+    --eth-gold: #D4AF37;
+    --eth-ivory: #FFFFF0;
+    --eth-charcoal: #2C3E50;
+}
+
+/* Navigation Styles with Sefed Design */
+.navbar {
+    background: linear-gradient(to right, var(--eth-red), var(--eth-yellow), var(--eth-green));
+    padding: 0.5rem 0;
+    position: relative;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Sefed Pattern Border */
+.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--eth-gold),
+        var(--eth-gold) 10px,
+        var(--eth-red) 10px,
+        var(--eth-red) 20px,
+        var(--eth-yellow) 20px,
+        var(--eth-yellow) 30px,
+        var(--eth-green) 30px,
+        var(--eth-green) 40px
+    );
+}
+
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--eth-gold),
+        var(--eth-gold) 10px,
+        var(--eth-red) 10px,
+        var(--eth-red) 20px,
+        var(--eth-yellow) 20px,
+        var(--eth-yellow) 30px,
+        var(--eth-green) 30px,
+        var(--eth-green) 40px
+    );
+}
+
+.navbar .container {
+    background-color: var(--eth-charcoal);
+    padding: 1rem;
+    border-radius: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Cultural Design Below Navbar */
+.cultural-border {
+    position: relative;
+    height: 30px;
+    background: var(--eth-charcoal);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.cultural-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: 
+        /* Traditional Ethiopian Cross Pattern */
+        linear-gradient(45deg, transparent 48%, var(--eth-gold) 49%, var(--eth-gold) 51%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, var(--eth-gold) 49%, var(--eth-gold) 51%, transparent 52%),
+        /* Decorative Lines */
+        linear-gradient(to right, 
+            var(--eth-red) 0%, 
+            var(--eth-red) 20%, 
+            var(--eth-yellow) 20%, 
+            var(--eth-yellow) 40%, 
+            var(--eth-green) 40%, 
+            var(--eth-green) 60%, 
+            var(--eth-yellow) 60%, 
+            var(--eth-yellow) 80%, 
+            var(--eth-red) 80%, 
+            var(--eth-red) 100%
+        );
+    background-size: 30px 30px, 30px 30px, 100% 100%;
+    opacity: 0.8;
+}
+
+.cultural-border::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(
+        to right,
+        var(--eth-gold) 0px,
+        var(--eth-gold) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    transform: translateY(-50%);
+}
+
+.navbar-brand {
+    color: var(--eth-gold) !important;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-brand::before {
+    content: '✝';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--eth-gold);
+    font-size: 1.2rem;
+}
+
+.navbar-brand::after {
+    content: '✝';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--eth-gold);
+    font-size: 1.2rem;
+}
+
+.nav-link {
+    color: var(--eth-ivory) !important;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 0.8rem 1.2rem !important;
+    margin: 0 0.3rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--eth-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: var(--eth-gold) !important;
+}
+
+.nav-link:hover::before {
+    width: 80%;
+}
+
+.nav-item {
+    position: relative;
+}
+
+/* Removing the dot style */
+.nav-item::after {
+    display: none;
+}
+
+/* Mobile Navigation */
+@media (max-width: 991px) {
+    .navbar .container {
+        border-radius: 0;
+    }
+    
+    .nav-link {
+        padding: 1rem !important;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    
+    .navbar-brand::before,
+    .navbar-brand::after {
+        display: none;
+    }
+} 

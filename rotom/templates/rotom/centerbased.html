@@ -1,0 +1,399 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Center-Based Senior Support{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* CSS Variables (if not in base.html) */
+    :root {
+        --main-color: #1C651B;
+        --secondary-color: #2d5a27;
+        --accent-color: #d4af37;
+        --text-color: #2c3e50;
+        --background-light: #f8f9fa;
+        --text-muted: #6c757d;
+        --transition: all 0.3s ease;
+    }
+
+    /* Base styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        overflow-x: hidden;
+        width: 100vw;
+        background-color: var(--background-light);
+    }
+
+    /* Hero section */
+    .hero {
+    min-height: 100vh;
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(rgba(0, 100, 0, 0.5), rgba(0, 100, 0, 0.7)), 
+                url("{% static 'images/centerbased.jpg' %}") center/cover no-repeat;
+    color: white;
+}
+
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        margin: 1rem 0;
+        color: white;
+    }
+
+    .hero-content p {
+        font-size: clamp(1rem, 2vw, 1.4rem);
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.6rem 1.5rem;
+        background: white;
+        color: var(--main-color);
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: var(--transition);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Section styles */
+    .section {
+        padding: clamp(2rem, 5vw, 6rem) clamp(1rem, 3vw, 2rem);
+    }
+
+    .section-title {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        margin-bottom: clamp(2rem, 5vw, 3rem);
+        color: var(--main-color);
+        text-align: center;
+    }
+
+    /* Services section */
+    .services {
+        background: var(--background-light);
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: clamp(1.5rem, 3vw, 2.5rem);
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .container {
+        background: white;
+        border-radius: 15px;
+        padding: clamp(1.5rem, 3vw, 2rem);
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .container i {
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--main-color);
+        margin-bottom: 1rem;
+    }
+
+    .text {
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        color: var(--main-color);
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+    }
+
+    .container p {
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    /* Gallery section */
+    .gallery {
+        background: var(--background-light);
+    }
+
+    .gallery-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: clamp(2rem, 3vw, 3rem);
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .card {
+        position: relative;
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-image {
+        position: relative;
+        width: 100%;
+        height: 220px;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-image img {
+        transform: scale(1.05);
+    }
+
+    .card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        padding: 1rem;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card:hover .card-overlay {
+        opacity: 1;
+    }
+
+    .card-overlay h3 {
+        font-size: clamp(1.2rem, 2vw, 1.4rem);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .card-content {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .card-content h3 {
+        font-size: clamp(1.2rem, 2vw, 1.4rem);
+        color: var(--main-color);
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+    }
+
+    .card-content p {
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    /* Utility classes */
+    .text-center {
+        text-align: center;
+    }
+
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mt-4 { margin-top: 2rem; }
+
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .mb-4 { margin-bottom: 2rem; }
+
+    .px-1 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-2 { padding-left: 1rem; padding-right: 1rem; }
+    .px-3 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-4 { padding-left: 2rem; padding-right: 2rem; }
+
+    @media (max-width: 768px) {
+        .gallery-cards,
+        .wrapper {
+            grid-template-columns: 1fr;
+        }
+
+        .hero {
+            padding: 0.8rem;
+        }
+
+        .hero-content {
+            padding: 0.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero {
+            padding: 0.8rem;
+        }
+
+        .hero-content {
+            padding: 0.8rem;
+        }
+
+        .card-image {
+            height: 180px;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Center-Based Senior Support</h1>
+        <p>Providing Comprehensive Care and Community in a Dedicated Space</p>
+        <a href="#services" class="btn">Discover Our Services</a>
+    </div>
+</header>
+
+<section id="services" class="services section">
+    <h2 class="section-title">Our Services</h2>
+    <div class="wrapper">
+        <div class="container">
+            <i class="fas fa-clock"></i>
+            <span class="text">24/7 Care</span>
+            <p>Round-the-clock care for seniors to ensure their safety and comfort.</p>
+        </div>
+        <div class="container">
+            <i class="fas fa-utensils"></i>
+            <span class="text">Nutritious Meals</span>
+            <p>Three nutritious meals daily</p>
+        </div>
+        <div class="container">
+            <i class="fas fa-coffee"></i>
+            <span class="text">Cultural Coffee Ceremony</span>
+            <p>Serving coffee with a cultural ceremony during lunchtime.</p>
+        </div>
+        <div class="container">
+            <i class="fas fa-shower"></i>
+            <span class="text">Hygiene Support</span>
+            <p> bathing sessions and haircuts for all seniors.</p>
+        </div>
+        <div class="container">
+            <i class="fas fa-heartbeat"></i>
+            <span class="text">Medical Support</span>
+            <p>Medical checkup for all seniors in the center</p>
+        </div>
+        <div class="container">
+            <i class="fas fa-cross"></i>
+            <span class="text">Burial Services</span>
+            <p>Ensuring a dignified burial service.</p>
+        </div>
+        <div class="container">
+            <i class="fas fa-broom"></i>
+            <span class="text">Cleanliness & Maintenance</span>
+            <p>Daily cleaning, monthly center cleaning, and well-maintained facilities.</p>
+        </div>
+        
+    </div>
+</section>
+
+<section id="gallery" class="gallery section">
+    <h2 class="section-title">Our Center with Photos</h2>
+    <div class="gallery-cards">
+        <div class="card">
+            <div class="card-image">
+                <img src="{% static 'images/dining.jpg' %}" alt="Dining Room">
+                <div class="card-overlay">
+                    <h3>Dining Room</h3>
+                </div>
+            </div>
+            <div class="card-content">
+                <h3>Dining Room</h3>
+                <p>A comfortable space for seniors to enjoy meals together.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="{% static 'images/centerbased.jpg' %}" alt="Elders Room">
+                <div class="card-overlay">
+                    <h3>Elders Room</h3>
+                </div>
+            </div>
+            <div class="card-content">
+                <h3>Elders Room</h3>
+                <p>Cozy and well-maintained rooms for rest and relaxation.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="{% static 'images/kitchen.jpg' %}" alt="Center Kitchen">
+                <div class="card-overlay">
+                    <h3>Center Kitchen</h3>
+                </div>
+            </div>
+            <div class="card-content">
+                <h3>Center Kitchen</h3>
+                <p>A modern kitchen preparing nutritious meals daily.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <img src="{% static 'images/common.jpg' %}" alt="Common Area">
+                <div class="card-overlay">
+                    <h3>Common Area</h3>
+                </div>
+            </div>
+            <div class="card-content">
+                <h3>Common Area</h3>
+                <p>A vibrant space for social activities and community bonding.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<!-- No JavaScript needed -->
+{% endblock %}

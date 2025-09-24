@@ -1,0 +1,779 @@
+{% extends "rotom/base.html" %}
+{% load static %}
+
+{% block title %}Events | ROTOM Ethiopia{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #1A5D1A;  /* Deep green */
+    --secondary: #F1C93B;  /* Gold accent */
+    --accent: #3D8361;  /* Muted teal */
+    --light: #F8F9FA;
+    --dark: #212529;
+    --gray: #6C757D;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--dark);
+    background-color: var(--light);
+    line-height: 1.6;
+  }
+
+  /* Section Styles */
+  .section {
+    padding: 5rem 2rem;
+    position: relative;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--secondary);
+    border-radius: 2px;
+  }
+
+  .section-header p {
+    color: var(--gray);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Upcoming Events */
+  .events-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+
+  .event-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .event-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .event-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .event-date {
+    display: inline-block;
+    /* background: var(--primary); */
+    color: var(--secondary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .event-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.75rem;
+  }
+
+  .event-description {
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .event-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .event-meta i {
+    color: var(--secondary);
+  }
+
+  .event-button {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+  }
+
+  .event-button:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* Previous Events Gallery */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .gallery-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    transition: var(--transition);
+  }
+
+  .gallery-item:hover {
+    transform: scale(1.02);
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    opacity: 0;
+    transition: var(--transition);
+    transform: translateY(20px);
+  }
+
+  .gallery-item:hover .gallery-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .gallery-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .gallery-description {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  /* Modal Styles */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+  }
+
+  .modal-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .modal-close:hover {
+    color: var(--secondary);
+  }
+
+  /* Booking Modal */
+  .booking-modal {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .booking-modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+
+  .booking-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .booking-header h3 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-weight: 500;
+    color: var(--dark);
+  }
+
+  .form-control {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+
+  .form-control:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 93, 26, 0.1);
+  }
+
+  .submit-btn {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 1rem;
+  }
+
+  .submit-btn:hover {
+    background: var(--accent);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .empty-state i {
+    font-size: 3rem;
+    color: var(--gray);
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h3 {
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--gray);
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--primary);
+    color: white;
+    padding: 4rem 2rem;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+  }
+
+  .footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .footer-about p {
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer-social a {
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+  }
+
+  .footer-social a:hover {
+    background: var(--secondary);
+    color: var(--primary);
+    transform: translateY(-3px);
+  }
+
+  .footer-heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-heading:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--secondary);
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-links a:hover {
+    color: var(--secondary);
+    transform: translateX(5px);
+  }
+
+  .footer-links i {
+    font-size: 0.8rem;
+  }
+
+  .footer-contact p {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .footer-contact i {
+    color: var(--secondary);
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .newsletter-input {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(241, 201, 59, 0.3);
+  }
+
+  .newsletter-btn {
+    background: var(--secondary);
+    color: var(--primary);
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .newsletter-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .copyright {
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .section {
+      padding: 3rem 1.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+    }
+
+    .events-container {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-about, .footer-links-container, .footer-contact, .footer-newsletter {
+      text-align: center;
+    }
+
+    .footer-heading:after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .footer-social {
+      justify-content: center;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize modals
+    const modals = {
+      init: function() {
+        // Gallery modal
+        this.galleryModal = document.getElementById('gallery-modal');
+        this.galleryItems = document.querySelectorAll('.gallery-item');
+        this.modalImage = document.getElementById('modal-image');
+        this.closeButtons = document.querySelectorAll('.modal-close');
+
+        // Booking modals
+        this.bookButtons = document.querySelectorAll('.event-button');
+        this.bookingModals = document.querySelectorAll('.booking-modal');
+        this.bookingCloseButtons = document.querySelectorAll('.booking-close');
+
+        // Set up event listeners
+        this.setupGalleryModal();
+        this.setupBookingModals();
+        this.setupCloseHandlers();
+      },
+
+      setupGalleryModal: function() {
+        this.galleryItems.forEach(item => {
+          item.addEventListener('click', () => {
+            const imgSrc = item.querySelector('.gallery-image').src;
+            this.modalImage.src = imgSrc;
+            this.openModal(this.galleryModal);
+          });
+        });
+      },
+
+      setupBookingModals: function() {
+        this.bookButtons.forEach((button, index) => {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.openModal(this.bookingModals[index]);
+          });
+        });
+      },
+
+      setupCloseHandlers: function() {
+        // Close buttons
+        this.closeButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            this.closeAllModals();
+          });
+        });
+
+        // Close when clicking outside content
+        document.addEventListener('click', (e) => {
+          if (e.target.classList.contains('modal')) {
+            this.closeAllModals();
+          }
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            this.closeAllModals();
+          }
+        });
+      },
+
+      openModal: function(modal) {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      },
+
+      closeModal: function(modal) {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      },
+
+      closeAllModals: function() {
+        this.bookingModals.forEach(modal => this.closeModal(modal));
+        this.closeModal(this.galleryModal);
+      }
+    };
+
+    modals.init();
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Form submission handling
+    document.querySelectorAll('.booking-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Here you would typically send the form data to your server
+        // For demo purposes, we'll just show an alert
+        alert('Thank you for your booking! We will contact you shortly.');
+        modals.closeAllModals();
+      });
+    });
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<!-- Upcoming Events Section -->
+<section class="section">
+  <div class="section-header">
+    <h2>Upcoming Events</h2>
+    <p>Join us for our upcoming activities and make a difference in your community</p>
+  </div>
+
+  <div class="events-container">
+    {% if upcoming_events %}
+      {% for event in upcoming_events %}
+        <div class="event-card">
+          <img src="{{ event.image.url }}" class="event-image" alt="{{ event.title }}">
+          <div class="event-content">
+            <span class="event-date">
+              <i class="far fa-calendar-alt"></i> {{ event.event_date|date:"M j, Y" }}
+            </span>
+            <h3 class="event-title">{{ event.title }}</h3>
+            <p class="event-description">{{ event.description|truncatewords:20 }}</p>
+            <!-- <div class="event-meta">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ event.location|default:"Online Event" }}</span>
+            </div> -->
+            
+          </div>
+        </div>
+
+        <!-- Booking Modal -->
+        <div id="booking-modal-{{ forloop.counter }}" class="modal booking-modal">
+          <div class="booking-modal-content">
+            <span class="modal-close booking-close">&times;</span>
+            <div class="booking-header">
+              <h3>Register for {{ event.title }}</h3>
+              <p>{{ event.event_date|date:"F j, Y \a\t g:i A" }}</p>
+            </div>
+            <form class="booking-form">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="name-{{ forloop.counter }}">Full Name</label>
+                <input type="text" id="name-{{ forloop.counter }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="email-{{ forloop.counter }}">Email Address</label>
+                <input type="email" id="email-{{ forloop.counter }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="phone-{{ forloop.counter }}">Phone Number</label>
+                <input type="tel" id="phone-{{ forloop.counter }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="tickets-{{ forloop.counter }}">Number of Tickets</label>
+                <select id="tickets-{{ forloop.counter }}" class="form-control" required>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <button type="submit" class="submit-btn">Complete Registration</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <i class="far fa-calendar-times"></i>
+        <h3>No Upcoming Events</h3>
+        <p>Check back later for our upcoming events or subscribe to our newsletter to stay updated.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Previous Events Gallery Section -->
+<section class="section" style="background-color: #f5f7fa;">
+  <div class="section-header">
+    <h2>Past Events Gallery</h2>
+    <p>Relive the memorable moments from our previous events and activities</p>
+  </div>
+
+  {% if previous_photos %}
+    <div class="gallery-grid">
+      {% for photo in previous_photos|slice:":12" %}
+        <div class="gallery-item">
+          <img src="{{ photo.image.url }}" class="gallery-image" alt="{{ photo.title|default:'Event Photo' }}">
+          <div class="gallery-overlay">
+            <h4 class="gallery-title">{{ photo.title|default:"Event Photo" }}</h4>
+            <p class="gallery-description">{{ photo.description|default:"A memorable moment from our events"|truncatewords:10 }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <i class="far fa-images"></i>
+      <h3>No Event Photos Yet</h3>
+      <p>We're working on capturing memorable moments from our events. Check back soon!</p>
+    </div>
+  {% endif %}
+
+  <!-- Gallery Modal -->
+  <div id="gallery-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <img id="modal-image" class="modal-image" src="" alt="Event Photo">
+    </div>
+  </div>
+</section>
+{% include 'rotom/footer.html' %}
+
+<!-- Footer -->
+
+
+{% endblock %}

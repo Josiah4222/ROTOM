@@ -1,0 +1,290 @@
+<!-- templates/dashboard/manage_contacts.html (new template for listing contacts/messages) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Messages • ROTOM Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1C651B; /* Green */
+            --secondary: #D4AF37; /* Soft gold */
+            --accent: #4F998A; /* Muted teal */
+            --background: #FFFFFF; /* White */
+            --card-bg: #FFFFFF;
+            --text: #1F2A44; /* Dark navy */
+            --text-muted: #6B7280; /* Gray */
+            --border: #E5E7EB; /* Light gray */
+        }
+
+        [data-theme="dark"] {
+            --primary: #2d5a27;
+            --secondary: #B8972F;
+            --accent: #3B7A6B;
+            --background: #1F2A44;
+            --card-bg: #2D3748;
+            --text: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --border: #4B5563;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            transition: all 0.3s ease;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background-color: var(--background);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 2rem 1rem;
+        }
+
+        .sidebar .logo {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: var(--secondary);
+            background-color: var(--border);
+        }
+
+        .sidebar .nav-link.text-warning {
+            color: #F59E0B;
+        }
+
+        .sidebar .nav-link.text-danger {
+            color: #DC2626;
+        }
+
+        .sidebar .theme-toggle {
+            color: var(--text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar .theme-toggle:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 3.5rem 2rem;
+            min-height: 100vh;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* Table Cards */
+        .table-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .table-card .card-header {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .table-card .card-body {
+            padding: 0;
+        }
+
+        .table {
+            margin-bottom: 0;
+            color: var(--text);
+        }
+
+        .table th {
+            background-color: var(--accent);
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .message-snippet {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Buttons */
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1rem;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+
+            .message-snippet {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "dashboard/partials/sidebar.html" %}
+
+    <main class="main-content">
+        <h2 class="page-title">Manage Messages</h2>
+
+        <!-- Messages Table -->
+        <div class="card table-card">
+            <div class="card-header">Recent Messages</div>
+            <div class="card-body">
+                {% if contacts %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Location</th>
+                                <th>Message Snippet</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contact in contacts %}
+                            <tr>
+                                <td>{{ contact.name }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td>{{ contact.phone_number|default:"N/A" }}</td>
+                                <td>{{ contact.location|default:"N/A" }}</td>
+                                <td class="message-snippet">{{ contact.message|truncatewords:10 }}</td>
+                                <td>{{ contact.created_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <a href="{% url 'dashboard:contact_detail' contact.pk %}" class="btn btn-sm btn-outline-primary" title="View Details"><i class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                {% if contacts.has_other_pages %}
+                <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
+                    <ul class="pagination">
+                        {% if contacts.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        {% for num in contacts.paginator.page_range %}
+                            {% if contacts.number == num %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if contacts.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ contacts.next_page_number }}">Next</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+                {% else %}
+                <p class="text-center text-muted p-3">No messages received yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+                themeToggle.classList.toggle('fa-moon');
+                themeToggle.classList.toggle('fa-sun');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - ROTOM Ethiopia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --main-color: #1C651B;
+            --secondary-color: #2d5a27;
+            --accent-color: #d4af37;
+            --text-color: #2c3e50;
+            --background-light: #f8f9fa;
+            --text-muted: #6c757d;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-light);
+            line-height: 1.6;
+        }
+
+        /* Hero section */
+        .hero {
+            background: url('{% static "images/graduates.jpg" %}') no-repeat center center/cover;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 3rem 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(28, 101, 27, 0.85), rgba(45, 90, 39, 0.95));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Achievement Cards */
+        .achievement {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: var(--transition);
+            border-left: 4px solid var(--main-color);
+        }
+
+        .achievement:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .achievement:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .achievement img {
+            width: 40%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .achievement-info {
+            width: 60%;
+        }
+
+        .achievement-info h2 {
+            font-size: 1.8rem;
+            color: var(--main-color);
+            margin-bottom: 1rem;
+        }
+
+        .achievement-info p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .achievement-separator {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--main-color), transparent);
+            margin: 3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .achievement {
+                flex-direction: column !important;
+                padding: 1.5rem;
+            }
+
+            .achievement img {
+                width: 100%;
+                height: 200px;
+            }
+
+            .achievement-info {
+                width: 100%;
+            }
+
+            .achievement-info h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'rotom/navbar.html' %}
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Our Achievements</h1>
+            <p>Celebrating our milestones and impact in serving seniors</p>
+        </div>
+    </section>
+
+    <div class="main-content">
+        <div class="achievement">
+            <img src="{% static 'images/centerbased.jpg' %}" alt="Achievement 1">
+            <div class="achievement-info">
+                <h2>Achievement Title 1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at ullamcorper nisi. Nullam vehicula, leo at fermentum hendrerit, nisl justo fermentum nulla, sit amet aliquam dui magna id lacus.</p>
+            </div>
+        </div>
+        <hr class="achievement-separator">
+        <div class="achievement">
+            <div class="achievement-info">
+                <h2>Achievement Title 2</h2>
+                <p>Integer placerat orci et diam facilisis, sit amet suscipit est tristique. Cras nec nibh at sapien varius cursus.</p>
+            </div>
+            <img src="{% static 'images/centerbased.jpg' %}" alt="Achievement 2">
+        </div>
+        <hr class="achievement-separator">
+        <div class="achievement">
+            <img src="{% static 'images/centerbased.jpg' %}" alt="Achievement 3">
+            <div class="achievement-info">
+                <h2>Achievement Title 3</h2>
+                <p>Sed eget sapien tincidunt, tincidunt lectus a, efficitur erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+            </div>
+        </div>
+    </div>
+</body>
+{% include 'rotom/footer.html' %}
+{% include 'rotom/base.html' %}
+</html>

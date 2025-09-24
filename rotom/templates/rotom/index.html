@@ -1,0 +1,1121 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}ROTOM Ethiopia - Empowering Communities{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    :root {
+        --main-color: #1C651B; /* Primary green */
+        --secondary-color: #2d5a27; /* Darker green for hover */
+        --accent-color: #d4af37; /* Gold accent */
+        --text-color: #2c3e50; /* Dark text */
+        --background-light: #f8f9fa; /* Light background */
+        --text-muted: #6c757d; /* Muted text */
+        --transition: all 0.4s ease; /* Smoother transition */
+        --primary: #1A5D1A; /* Match base template's primary color */
+        --secondary: #F1C93B; /* Match base template's gold accent */
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url("{% static 'images/myhome.jpg' %}") no-repeat center center/cover;
+        overflow: hidden;
+        margin-top: 80px; /* Offset for navbar */
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(28, 101, 27, 0.4) 0%, rgba(0, 80, 0, 0.3) 100%);
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        padding: 2.5rem;
+        color: white;
+        animation: slideUp 1.2s ease-out;
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 5.5vw, 4.5rem);
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+        margin-bottom: 2.5rem;
+        opacity: 0.95;
+        line-height: 1.8;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-cta {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+        display: inline-block;
+        padding: 1rem 3rem;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: var(--transition);
+        animation: fadeIn 1.8s ease-out;
+    }
+
+    .btn-primary {
+        background: var(--main-color);
+        color: white;
+        border: 2px solid var(--main-color);
+    }
+
+    .btn-primary:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid var(--accent-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--accent-color);
+        color: var(--text-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Section styles */
+    .section {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 3vw, 2.5rem);
+        color: var(--main-color);
+        margin-bottom: 2rem;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    /* Impacts section */
+    .impacts {
+        background: var(--background-light);
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    @media (min-width: 769px) {
+        .wrapper {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .container {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border-left: 5px solid var(--main-color);
+        display: flex;
+        flex-direction: column;
+        min-height: 250px;
+    }
+
+    .container:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .container i {
+        font-size: 2.5rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+    }
+
+    .num {
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        color: var(--main-color);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+
+    .text {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+    }
+
+    /* About section */
+    .about-us {
+        background: white;
+    }
+
+    .about-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .about-content {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .about-content h2 {
+        font-size: clamp(1.8rem, 3vw, 2rem);
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .about-content p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+    }
+
+    /* Projects Section */
+    .projects {
+        background: var(--background-light);
+        padding: 5rem 2rem;
+    }
+
+    .project-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        text-decoration: none;
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        border: 2px solid var(--main-color);
+    }
+
+    .card-image {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .card:hover img {
+        transform: scale(1.1);
+    }
+
+    .card-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card h3 {
+        font-size: 1.6rem;
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .card p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+        flex-grow: 1;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+        background: white;
+        padding: 5rem 2rem;
+    }
+
+    .testimonials-slider {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .testimonial-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .testimonial {
+        flex: 0 0 100%;
+        padding: 1rem;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .testimonial.active {
+        opacity: 1;
+    }
+
+    .testimonial-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2.5rem;
+        background: var(--background-light);
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        transform: scale(0.95);
+        transition: transform 0.5s ease, box-shadow 0.3s ease;
+    }
+
+    .testimonial-content:hover {
+        transform: scale(1);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .testimonial-img img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 1.5rem;
+        object-fit: cover;
+        border: 3px solid var(--main-color);
+        transition: transform 0.3s ease;
+    }
+
+    .testimonial-content:hover .testimonial-img img {
+        transform: scale(1.1);
+    }
+
+    .testimonial-text {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+        line-height: 1.8;
+        font-style: italic;
+    }
+
+    .testimonial-content h4 {
+        font-size: 1.4rem;
+        color: var(--main-color);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .testimonial-role {
+        font-size: 1rem;
+        color: var(--text-muted);
+        font-style: normal;
+    }
+
+    .testimonial-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .control-prev, .control-next {
+        background: var(--main-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .control-prev:hover, .control-next:hover {
+        background: var(--secondary-color);
+        transform: scale(1.1);
+    }
+
+    /* Partners section */
+    .partners {
+        background: var(--background-light);
+        padding: 4rem 2rem;
+    }
+
+    .partners-slider {
+        overflow: hidden;
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .slider-track {
+        display: flex;
+        width: calc(200px * 15);
+        animation: slide 40s linear infinite;
+    }
+
+    .slider-track:hover {
+        animation-play-state: paused;
+    }
+
+    .partner-logo {
+        flex: 0 0 auto;
+        width: 200px;
+        height: 100px;
+        margin: 0 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+    }
+
+    .partner-logo:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .partner-logo img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+    }
+
+    @keyframes slide {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc(-200px * 7.5)); }
+    }
+
+    /* Contact Us section */
+    .contact-us {
+        background: white;
+        padding: 4rem 2rem;
+    }
+
+    .contact-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .contact-info h3 {
+        font-size: 1.5rem;
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .contact-info ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .contact-info li {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
+        color: var(--text-muted);
+    }
+
+    .contact-info li i {
+        color: var(--accent-color);
+        font-size: 1.2rem;
+    }
+
+    .contact-form {
+        background: var(--background-light);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .contact-form h3 {
+        font-size: 1.5rem;
+        color: var(--main-color);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .contact-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-group .errorlist {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1rem;
+}
+    .contact-form label {
+        display: block;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        font-size: 1rem;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        transition: var(--transition);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+        border-color: var(--main-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(28, 101, 27, 0.1);
+    }
+
+    .contact-form textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .contact-form .submit-btn {
+        background: var(--main-color);
+        color: white;
+        padding: 0.9rem 2rem;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: block;
+        margin: 1rem auto 0;
+    }
+
+    .contact-form .submit-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 1.5rem auto;
+        max-width: 600px;
+        text-align: center;
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .hero {
+            min-height: 70vh;
+        }
+        .hero-content {
+            padding: 2rem;
+            max-width: 90%;
+        }
+        .hero-title {
+            font-size: clamp(2.2rem, 4.5vw, 3rem);
+        }
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+        }
+        .hero-cta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 0.9rem 2.5rem;
+            font-size: 1.1rem;
+        }
+        .section {
+            padding: 2rem 1rem;
+        }
+        .wrapper,
+        .project-cards,
+        .about-container,
+        .contact-container {
+            grid-template-columns: 1fr;
+        }
+        .testimonials,
+        .partners,
+        .contact-us {
+            padding: 3rem 1rem;
+        }
+        .projects {
+            padding: 3rem 1rem;
+        }
+        .card img {
+            height: 180px;
+        }
+        .card h3 {
+            font-size: 1.4rem;
+        }
+        .card p {
+            font-size: 0.95rem;
+        }
+        .testimonials {
+            padding: 3rem 1rem;
+        }
+        .testimonial-content {
+            padding: 1.5rem;
+        }
+        .testimonial-img img {
+            width: 80px;
+            height: 80px;
+        }
+        .testimonial-text {
+            font-size: 1.1rem;
+        }
+        .slider-track {
+            width: calc(150px * 15);
+        }
+        .partner-logo {
+            width: 150px;
+            height: 75px;
+            margin: 0 0.75rem;
+        }
+        @keyframes slide {
+            100% { transform: translateX(calc(-150px * 7.5)); }
+        }
+    }
+    .contact-map { display: flex; flex-direction: column; justify-content: center; }
+    .contact-map iframe { width: 100%; height: 400px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 2px solid var(--main-color); }
+
+    @media (max-width: 768px) {
+        .contact-container { grid-template-columns: 1fr; }
+        .contact-map iframe { height: 300px; }
+    }
+
+    @media (max-width: 480px) {
+        .contact-map iframe { height: 250px; }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+        }
+        .hero-subtitle {
+            font-size: clamp(0.95rem, 2vw, 1.2rem);
+        }
+        .slider-track {
+            width: calc(120px * 15);
+        }
+        .partner-logo {
+            width: 120px;
+            height: 60px;
+            margin: 0 0.5rem;
+        }
+        @keyframes slide {
+            100% { transform: translateX(calc(-120px * 7.5)); }
+        }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<!-- Hero Section -->
+<header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">ROTOM-Ethiopia</h1>
+        <p class="hero-subtitle">.</p>
+        <div class="hero-cta">
+            <a href="#about" class="btn btn-primary">Discover Our Impact</a>
+            <a href="#contact" class="btn btn-secondary">Get Involved</a>
+        </div>
+    </div>
+</header>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<section id="impacts" class="impacts section">
+    <h2 class="section-title">Our Impact</h2>
+    <div class="wrapper">
+        <div class="container">
+            <i class="fas fa-users"></i>
+            <span class="num" data-val="120">120+</span>
+            <span class="text">Elders Reached</span>
+        </div>
+        <div class="container">
+            <i class="fas fa-child"></i>
+            <span class="num" data-val="50">50+</span>
+            <span class="text">Champions</span>
+        </div>
+        <div class="container">
+            <i class="fas fa-building"></i>
+            <span class="num" data-val="30">30</span>
+            <span class="text">Seniors in Center</span>
+        </div>
+        <div class="container">
+            <i class="fas fa-hands-helping"></i>
+            <span class="num" data-val="500">500+</span>
+            <span class="text">Volunteers</span>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about-us section">
+    <div class="about-container">
+        <div class="about-image">
+            <img src="{% static 'images/homebased.jpg' %}" alt="ROTOM Ethiopia team in action">
+        </div>
+        <div class="about-content">
+            <h2>Our Story</h2>
+            <p>
+                Reach One Touch One Mission (ROTOM) Ethiopia is a dedicated non-profit organization
+                established in 2017 by a group of compassionate individuals committed to making a 
+                positive impact in their community. Registered under NGO number #3764, our headquarters 
+                are located in Bishoftu, Ethiopia Kebele 05. Our core mission is to elevate the dignity 
+                and enhance the quality of life for vulnerable older adults and their dependents through holistic 
+                support and improvements in their living conditions.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="projects section">
+    <h2 class="section-title">Our Programs</h2>
+    <div class="project-cards">
+        <a href="{% url 'homebased' %}" class="card">
+            <div class="card-image">
+                <img src="{% static 'images/homebased.jpg' %}" alt="Home Based Care Program">
+            </div>
+            <div class="card-content">
+                <h3>Home Based Care</h3>
+                <p>ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of life for 80 older persons in our community.</p>
+            </div>
+        </a>
+        <a href="{% url 'centerbased' %}" class="card">
+            <div class="card-image">
+                <img src="{% static 'images/centerbased.jpg' %}" alt="Center Based Program">
+            </div>
+            <div class="card-content">
+                <h3>Center Based Care</h3>
+                <p>Our center-based services deliver comprehensive assistance for 20 elderly individuals who require more intensive support.</p>
+            </div>
+        </a>
+        <a href="{% url 'champion' %}" class="card">
+            <div class="card-image">
+                <img src="{% static 'images/champions.jpg' %}" alt="Our Story">
+            </div>
+            <div class="card-content">
+                <h3>grandchildren and girls</h3>
+                <p>Learn about our journey and the impact we've made in communities across Ethiopia.</p>
+            </div>
+        </a>
+    </div>
+</section>
+
+<section id="testimonials" class="testimonials section">
+    <h2 class="section-title">Stories of Impact</h2>
+    <div class="testimonials-slider">
+        <div class="testimonial-container">
+            <div class="testimonial active">
+                <div class="testimonial-content">
+                    <div class="testimonial-img">
+                        <img src="{% static 'images/1A5A8116.jpg' %}" alt="Volunteer Testimonial">
+                    </div>
+                    <div class="testimonial-text">
+                        <p>"Being part of ROTOM Ethiopia has transformed not just the lives of the elders we serve, but my own life as well. The joy and wisdom they share is truly priceless."</p>
+                    </div>
+                    <h4>Sarah Johnson</h4>
+                    <span class="testimonial-role">Volunteer Coordinator</span>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <div class="testimonial-img">
+                        <img src="{% static 'images/1A5A8116.jpg' %}" alt="Beneficiary Testimonial">
+                    </div>
+                    <div class="testimonial-text">
+                        <p>"The care and support I receive from ROTOM Ethiopia has given me a new lease on life. I feel valued, respected, and part of a loving community."</p>
+                    </div>
+                    <h4>Abebe Kebede</h4>
+                    <span class="testimonial-role">Program Beneficiary</span>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <div class="testimonial-img">
+                        <img src="{% static 'images/volun.jpg' %}" alt="Donor Testimonial">
+                    </div>
+                    <div class="testimonial-text">
+                        <p>"Supporting ROTOM Ethiopia has been one of the most rewarding decisions I've made. Their impact on the community is tangible and their dedication is inspiring."</p>
+                    </div>
+                    <h4>Michael Chen</h4>
+                    <span class="testimonial-role">Long-term Donor</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-controls">
+            <button class="control-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="control-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<section id="partners" class="partners section">
+    <h2 class="section-title">Our Partners</h2>
+    <p class="text-center" style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">
+        We are proud to collaborate with these organizations to make a lasting impact.
+    </p>
+    <div class="partners-slider">
+        <div class="slider-track">
+            <div class="partner-logo">
+                <img src="{% static 'images/HFTFrec_tan.png' %}" alt="Partner 1">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/holland.png' %}" alt="Partner 2">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/rotom_usa.jpg' %}" alt="Partner 5">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/canada.jpg' %}" alt="Partner 6">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/gk.jpg' %}" alt="Partner 7">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/ahsam.jpg' %}" alt="Partner 8">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/andu.jpg' %}" alt="Partner 9">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/alfa.jpg' %}" alt="Partner 10">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/beautifulworld.jpg' %}" alt="Partner 11">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/edf.jpg' %}" alt="Partner 12">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/globalcare.jpg' %}" alt="Partner 13">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/maranatha.jpg' %}" alt="Partner 14">
+            </div>
+            <div class="partner-logo">
+                <img src="{% static 'images/pyramid.jpg' %}" alt="Partner 15">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact-us section">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h3>Get in Touch</h3>
+            <ul>
+                <li><i class="fas fa-envelope"></i> rotomethiopia@reachone-touchone.org</li>
+                <li><i class="fas fa-phone"></i> +251 911 234 567</li>
+                <li><i class="fas fa-map-marker-alt"></i> Bishoftu, Ethiopia Kebele 05</li>
+            </ul>
+        </div>
+        <div class="contact-form">
+            <h3>Send Us a Message</h3>
+            <div id="form-messages"></div>
+            <form method="POST" id="contactForm" action="{% url 'home' %}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Name</label>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}">Location</label>
+                    {{ form.location }}
+                    {{ form.location.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.phone_number.id_for_label }}">Phone Number (optional)</label>
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.message.id_for_label }}">Message</label>
+                    {{ form.message }}
+                    {{ form.message.errors }}
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+        <!-- <div class="contact-map">
+            <h3>Find Us</h3>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.217882001048!2d38.9783073!3d8.7655604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b73004e3b9505%3A0xfdb5b82590291fba!2sReach%20One%20Touch%20One%20mission!5e0!3m2!1sen!2set!4v1758301984887!5m2!1sen!2set" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div> -->
+    </div>
+</section>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Counter Animation (unchanged)
+    let valueDisplays = document.querySelectorAll(".num");
+    let interval = 4000;
+
+    valueDisplays.forEach((valueDisplay) => {
+        let startValue = 0;
+        let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+        let duration = Math.floor(interval / endValue);
+        let counter = setInterval(function () {
+            startValue += Math.ceil(endValue / (interval / duration));
+            valueDisplay.textContent = startValue;
+            if (startValue >= endValue) {
+                valueDisplay.textContent = endValue + (endValue >= 100 ? '+' : '');
+                clearInterval(counter);
+            }
+        }, duration);
+    });
+
+    // Testimonial Slider (unchanged)
+    const testimonialContainer = document.querySelector('.testimonial-container');
+    const testimonials = document.querySelectorAll('.testimonial');
+    const prevButton = document.querySelector('.control-prev');
+    const nextButton = document.querySelector('.control-next');
+    let currentIndex = 0;
+    const totalTestimonials = testimonials.length;
+
+    function updateTestimonial() {
+        testimonialContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        testimonials.forEach((testimonial, index) => {
+            testimonial.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % totalTestimonials;
+        updateTestimonial();
+    });
+
+    prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + totalTestimonials) % totalTestimonials;
+        updateTestimonial();
+    });
+
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalTestimonials;
+        updateTestimonial();
+    }, 6000);
+
+    // Contact Form Submission
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = this;
+        const email = document.getElementById('id_email').value;
+        const phone = document.getElementById('id_phone_number').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const messagesDiv = document.getElementById('form-messages');
+
+        // Clear previous messages
+        messagesDiv.innerHTML = '';
+
+        // Client-side validation
+        if (!emailRegex.test(email)) {
+            showFormError('Please enter a valid email address.');
+            return;
+        }
+
+        if (phone && (!phone.match(/^\d{10}$/) || (!phone.startsWith('09') && !phone.startsWith('07')))) {
+            showFormError('Phone number, if provided, must be 10 digits starting with 09 or 07.');
+            return;
+        }
+
+        // Submit form via AJAX
+        const data = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: {
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-Requested-With': 'XMLHttpRequest' // Ensure AJAX detection
+            }
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text(); // Use text() to inspect raw response
+        })
+        .then(text => {
+            console.log('Raw response:', text);
+            try {
+                const data = JSON.parse(text); // Parse JSON manually
+                if (data.success) {
+                    showFormError('Thank you for your message! We will get back to you soon.', 'success');
+                    form.reset();
+                } else {
+                    showFormError('There was an error with your submission. Please check the form.');
+                    if (data.errors) {
+                        Object.entries(data.errors).forEach(([field, errors]) => {
+                            const fieldErrors = document.createElement('div');
+                            fieldErrors.className = 'errorlist';
+                            fieldErrors.innerHTML = errors.join('<br>');
+                            document.querySelector(`#id_${field}`).after(fieldErrors);
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error('JSON parse error:', e);
+                showFormError('An error occurred. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Form submission error:', error);
+            showFormError('An error occurred. Please try again.');
+        });
+    });
+
+    function showFormError(message, type = 'error') {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = `alert ${type}`;
+        errorDiv.textContent = message;
+        document.getElementById('form-messages').appendChild(errorDiv);
+        setTimeout(() => errorDiv.remove(), 5000);
+    }
+</script>
+{% endblock %}

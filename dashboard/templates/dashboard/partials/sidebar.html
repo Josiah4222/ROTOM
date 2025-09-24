@@ -1,0 +1,35 @@
+<!-- templates/dashboard/partials/sidebar.html -->
+<nav class="sidebar">
+    <div class="logo">
+        <span>ROTOM Admin</span>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a href="{% url 'dashboard:admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_volunteers' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_volunteers' %}active{% endif %}">Volunteers</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_events' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_events' %}active{% endif %}">Events</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_contacts' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_contacts' %}active{% endif %}">Messages</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_payments' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_payments' %}active{% endif %}">Payments</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_registrations' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_registrations' %}active{% endif %}">Meal Regs</a>
+        </li>
+        <li class="nav-item mt-auto pt-3 border-top">
+            <a href="/admin/" class="nav-link text-warning">Django Admin</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:logout' %}" class="nav-link text-danger">Logout</a>
+        </li>
+        <li class="nav-item">
+            <i class="fas fa-moon theme-toggle" id="themeToggle"></i>
+        </li>
+    </ul>
+</nav>

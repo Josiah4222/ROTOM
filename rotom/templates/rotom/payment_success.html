@@ -1,0 +1,162 @@
+<!-- templates/rotom/payment_success.html -->
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Payment Successful - ROTOM Ethiopia{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    :root {
+        --main-color: #1C651B;
+        --secondary-color: #2d5a27;
+        --accent-color: #d4af37;
+        --text-color: #2c3e50;
+        --background-light: #f8f9fa;
+        --text-muted: #6c757d;
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-light);
+        line-height: 1.6;
+    }
+
+    .success-hero {
+        min-height: 60vh;
+        width: 100%;
+        padding: 4rem 2rem;
+        margin-top: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: linear-gradient(rgba(28, 101, 27, 0.8), rgba(28, 101, 27, 0.9)),
+                    url('{% static "images/myindex.jpg" %}') no-repeat center center/cover;
+        color: white;
+    }
+
+    .success-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .success-content h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        font-weight: 600;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .success-content p {
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+        line-height: 1.7;
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+    }
+
+    .tx-details {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 3rem auto;
+        max-width: 600px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        text-align: center;
+    }
+
+    .tx-details h3 {
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .tx-details p {
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .btn-home {
+        background: var(--main-color);
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .btn-home:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .success-hero {
+            padding: 2rem 1rem;
+            min-height: 50vh;
+        }
+        .success-content h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+        .success-content p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+        }
+        .tx-details {
+            margin: 2rem auto;
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<header class="success-hero">
+    <div class="success-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h1>Thank You for Your Generous Donation!</h1>
+        <p>Your support will make a real difference in the lives of seniors and youth in Ethiopia. We truly appreciate your kindness and commitment to our cause.</p>
+        {% if status == 'success' %}
+            <p><strong>Transaction Reference:</strong> {{ tx_ref }}</p>
+        {% else %}
+            <p><strong>Transaction Reference:</strong> {{ tx_ref }} (Status: {{ status }})</p>
+        {% endif %}
+    </div>
+</header>
+
+<div class="tx-details">
+    <h3>Donation Confirmed</h3>
+    <p>Your payment has been processed successfully. We'll send a receipt to {{ request.user.email|default:"your email" }} shortly.</p>
+    <a href="{% url 'home' %}" class="btn-home">Return to Home</a>
+</div>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}

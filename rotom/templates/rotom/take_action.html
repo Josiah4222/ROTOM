@@ -1,0 +1,630 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Take Action - ROTOM Ethiopia{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    :root {
+        --main-color: #1C651B; /* Primary green from reference */
+        --secondary-color: #2d5a27; /* Darker green */
+        --accent-color: #d4af37; /* Gold accent */
+        --text-color: #2c3e50; /* Dark text */
+        --background-light: #f8f9fa; /* Light background */
+        --text-muted: #6c757d; /* Muted text */
+        --transition: all 0.3s ease; /* Smooth transitions */
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-light);
+        line-height: 1.6;
+    }
+
+    /* Hero section */
+    .take-action-hero {
+        min-height: 60vh;
+        width: 100%;
+        padding: 4rem 2rem;
+        margin-top: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: linear-gradient(rgba(0, 100, 0, 0.5), rgba(0, 100, 0, 0.7)),
+                    url("{% static 'images/myhome.jpg' %}") no-repeat center center/cover;
+        color: white;
+    }
+
+    .take-action-hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .take-action-hero-content h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 1rem;
+        font-weight: 600;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .take-action-hero-content p {
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        max-width: 800px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background: var(--main-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        border: 2px solid var(--main-color);
+        min-width: 200px;
+        text-align: center;
+    }
+
+    .action-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form styles */
+    .feeding-form-section {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .feeding-form-section h3 {
+        text-align: center;
+        color: var(--main-color);
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+
+    .feeding-form-section p {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--text-muted);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 1rem;
+        color: var(--main-color);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid var(--text-muted);
+        border-radius: 8px;
+        font-size: 1rem;
+        color: var(--text-color);
+        background: var(--background-light);
+        transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--main-color);
+        box-shadow: 0 0 5px rgba(28, 101, 27, 0.3);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .form-group select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='var(--text-muted)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 0.8rem center;
+        background-size: 1.2rem;
+    }
+
+    .form-group select:invalid {
+        color: var(--text-muted);
+    }
+
+    button.btn[type="submit"] {
+        width: 100%;
+        max-width: 200px;
+        display: block;
+        margin: 2rem auto 0;
+        padding: 0.8rem;
+        background: var(--main-color);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    button.btn[type="submit"]:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+    }
+
+    /* Success message */
+    .form-success {
+        text-align: center;
+        color: var(--main-color);
+        margin-top: 1rem;
+        font-weight: 500;
+        display: none;
+    }
+
+    /* Section styles */
+    .action-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+    }
+
+    .action-section:nth-child(even) {
+        background: var(--background-light);
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 3vw, 2.5rem);
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        text-align: center;
+        position: relative;
+        display: inline-block;
+    }
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .action-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border-left: 5px solid var(--main-color);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .action-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-icon {
+        font-size: 2.5rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .action-card h3 {
+        font-size: 1.5rem;
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .action-card p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
+        flex-grow: 1;
+    }
+
+    .action-card ul {
+        list-style: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+
+    .action-card li {
+        margin-bottom: 0.5rem;
+        color: var(--text-muted);
+        font-size: 1rem;
+    }
+
+    .action-card .btn {
+        background: var(--main-color);
+        color: white;
+        padding: 0.7rem 1.8rem;
+        font-size: 1rem;
+        border-radius: 25px;
+        align-self: center;
+        margin-top: auto;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .action-card .btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Visit section details */
+    .visit-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+
+    .visit-location, .visit-hours {
+        flex: 1;
+        min-width: 280px;
+    }
+
+    .visit-details h4 {
+        color: var(--main-color);
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    .visit-details p, .visit-details ul {
+        color: var(--text-muted);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .visit-details li {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        .action-btn {
+            width: 100%;
+            max-width: 300px;
+        }
+        .action-grid {
+            grid-template-columns: 1fr;
+        }
+        .visit-details {
+            flex-direction: column;
+        }
+        .take-action-hero {
+            padding: 2rem 1rem;
+        }
+        .take-action-hero-content h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+        .take-action-hero-content p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+        }
+        .action-section {
+            padding: 2rem 1rem;
+        }
+        .feeding-form-section {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<header class="take-action-hero">
+    <div class="take-action-hero-content">
+        <h1>Take Action / እርምጃ ውሰዱ</h1>
+        <p>Your involvement makes a real difference in the lives of older persons and their dependents. Discover how you can contribute. / ተሳትፎዎ በአረጋውያን እና በጥገኞቻቸው ሕይወት ላይ እውነተኛ ለውጥ ያመጣል። እንዴት መዋጮ መቻልዎን ያግኙ።</p>
+        <div class="action-buttons">
+            <a href="#give" class="action-btn">Give / መስጠት</a>
+            <a href="#visit" class="action-btn">Visit / መጎብኘት</a>
+            <a href="{% url 'volunteer' %}" class="action-btn">Volunteer / በጎ ፈቃደኝነት</a>
+        </div>
+    </div>
+</header>
+
+<section id="give" class="action-section give">
+    <h2 class="section-title">Give / መስጠት</h2>
+    <div class="action-grid">
+        <div class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <h3>Donate Items / እቃዎችን መለገስ</h3>
+            <p>Your generous donations help support our programs and the elders in our care. We are currently accepting: / ለጋስ ልገሳዎችዎ ፕሮግራሞቻችንን እና በእንክብካቤችን ያሉ አረጋውያንን ለመደገፍ ይረዳሉ። በአሁኑ ጊዜ እንቀበላለን፡</p>
+            <ul>
+                <li>Non-perishable food items / የማይበላሹ የምግብ እቃዎች</li>
+                <li>Clothing for elders (clean and gently used) / ለአረጋውያን ልብስ (ንጹህ እና በቀስታ ጥቅም ላይ የዋለ)</li>
+                <li>Adult diapers / ለአዋቂዎች ዳይፐር</li>
+                <li>Sanitary materials / የንፅህና እቃዎች</li>
+                <li>Office supplies (paper, pens, notebooks) / የቢሮ እቃዎች (ወረቀት፣ እስክሪብቶ፣ ማስታወሻ ደብተሮች)</li>
+                <li>Other essentials as needed / እንደ አስፈላጊነቱ ሌሎች አስፈላጊ ነገሮች</li>
+            </ul>
+            <!-- <a href="{% url 'donate' %}" class="btn">Donate Now / አሁን ይለግሱ</a> -->
+        </div>
+
+        <div class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <h3>Financial Support / የገንዘብ ድጋፍ</h3>
+            <p>Monetary donations allow us to purchase specific items, maintain our center, and expand our services. Every contribution, big or small, makes a significant impact. / የገንዘብ ልገሳ የተወሰኑ እቃዎችን እንድንገዛ፣ ማዕከላችንን እንድንጠንቅቅ እና አገልግሎቶቻችንን እንድናስፋፋ ያስችለናል። ትልቅም ይሁን ትንሽ፣ እያንዳንዱ አስተዋፅኦ ጉልህ ተጽእኖ ይፈጥራል።</p>
+            <ul>
+                <li>General donations / አጠቃላይ ልገሳዎች</li>
+                <li>Sponsor an elder program / የአረጋውያን ፕሮግራም ስፖንሰር ማድረግ</li>
+                <li>Fund specific projects or events / የተወሰኑ ፕሮጀክቶችን ወይም ዝግጅቶችን መደገፍ</li>
+            </ul>
+            <a href="{% url 'donate' %}" class="btn">Make a Donation / ልገሳ ያድርጉ</a>
+        </div>
+    </div>
+</section>
+
+<!-- Standalone Feeding Form Section -->
+<!-- Updated template snippet for the feeding-form-section in take_action.html -->
+<!-- Standalone Feeding Form Section -->
+<section id="feeding-form-section" class="feeding-form-section">
+    <h3><i class="fas fa-utensils"></i> Register to Feed Elders / አረጋውያንን ለመመገብ ይመዝገቡ</h3>
+    <p>Provide a meal for our elders and bring joy to their day. Select a meal type and schedule a time to contribute food or support our feeding program. / ለአረጋውያን ምግብ ያቅርቡ እና ደስታን ወደ ቀናቸው ያመጡ። የምግብ አይነት ይምረጡ እና ምግብ ለመስጠት ወይም የመመገቢያ ፕሮግራማችንን ለመደገፍ ጊዜ ይያዙ።</p>
+    
+    <!-- Display Django messages (success/errors from view) -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} form-success" style="display: block; text-align: center; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid transparent; border-radius: 0.25rem;">
+                {% if message.tags == 'success' %}
+                    <div style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
+                        <strong>We will contact you!</strong> {{ message }}
+                    </div>
+                {% elif message.tags == 'error' %}
+                    <div style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;">
+                        <strong>Error!</strong> {{ message }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+        
+        <div class="form-group">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+            {% if form.full_name.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.full_name.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.email.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.phone.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.meal_type.label_tag }}
+            {{ form.meal_type }}
+            {% if form.meal_type.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.meal_type.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.location.label_tag }}
+            {{ form.location }}
+            {% if form.location.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.location.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.preferred_date.label_tag }}
+            {{ form.preferred_date }}
+            {% if form.preferred_date.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.preferred_date.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.notes.label_tag }}
+            {{ form.notes }}
+            {% if form.notes.errors %}
+                <div class="text-danger" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.notes.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        
+        {{ form.non_field_errors }}
+        
+        <button type="submit" class="btn">Register Now / አሁን ይመዝገቡ</button>
+    </form>
+</section>
+<!-- Remove the entire <script> block at the bottom of the template that has event.preventDefault() and the simulation logic -->
+
+<section id="visit" class="action-section visit">
+    <h2 class="section-title">Visit Us / ይጎብኙን</h2>
+    <div class="action-grid">
+        <div class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3>Welcome! / እንኳን ደህና መጡ!</h3>
+            <p>We warmly welcome visitors who want to learn more about our work, meet our team and the elders, and see our center firsthand. Your visit brings joy and encouragement to everyone here. / ስለ ሥራችን የበለጠ ለመማር፣ ቡድናችንን እና አረጋውያንን ለመገናኘት፣ እና ማዕከላችንን በቀጥታ ለማየት ለሚፈልጉ ጎብኝዎች ሞቅ ያለ አቀባበል እናደርጋለን። ጉብኝትዎ ለሁሉም ደስታ እና ማበረታታትን ያመጣል።</p>
+            <p><strong>Our Center / የኛ ማዕከል:</strong></p>
+            <div class="visit-details">
+                <div class="visit-location">
+                    <h4>Location / ቦታ</h4>
+                    <p>Bishoftu, Ethiopia Kebele 05 / ቢሾፍቱ፣ ኢትዮጵያ ቀበሌ 05</p>
+                    <p>(Near [Landmark if applicable] / ([አስፈላጊ ከሆነ በአቅራቢያ ያለ ምልክት])</p>
+                </div>
+                <div class="visit-hours">
+                    <h4>Visiting Hours / የጉብኝት ሰዓቶች</h4>
+                    <ul>
+                        <li><strong>Monday - Friday / ሰኞ - አርብ:</strong> 9:00 AM - 4:00 PM</li>
+                        <li><strong>Saturday / ቅዳሜ:</strong> 10:00 AM - 2:00 PM</li>
+                        <li><strong>Sunday / እሁድ:</strong> Closed / ተዘግቷል</li>
+                    </ul>
+                    <p><em>Please call ahead to schedule a visit and ensure someone is available to greet you. / እባክዎ ጉብኝት ለመያዝ እና አንድ ሰው እንዲቀብልዎ ለማረጋገጥ አስቀድመው ይደውሉ።</em></p>
+                    <p><i class="fas fa-phone"></i> +251 911 234 567</p>
+                </div>
+            </div>
+            <a href="tel:+251911234567" class="btn">Call to Schedule / ለመያዝ ይደውሉ</a>
+        </div>
+    </div>
+</section>
+
+<!-- <section id="events" class="action-section events">
+    <h2 class="section-title">Attend Events / ዝግጅቶች ላይ መገኘት</h2>
+    <div class="action-grid">
+        <div class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h3>Upcoming Events / መጪ ዝግጅቶች</h3>
+            <p>Join us for our community events, fundraisers, awareness campaigns, and celebrations. It's a great way to connect, have fun, and support our cause. / ለማህበረሰብ ዝግጅቶቻችን፣ የገንዘብ ማሰባሰቢያዎች፣ የግንዛቤ ዘመቻዎች እና በዓላት ይቀላቀሉን። ለመገናኘት፣ መዝናናት እና ጉዳዮቻችንን ለመደገፍ ጥሩ መንገድ ነው።</p>
+            <p><strong>Stay Tuned / ተከታተሉ:</strong> Check back regularly or follow us on social media for announcements about upcoming events. / ስለ መጪ ዝግጅቶች ማስታወቂያዎች በየጊዜው ይመልከቱ ወይም በማህበራዊ ሚዲያ ይከተሉን።</p>
+            <p><strong>Get Involved / ይሳተፉ:</strong> Want to help organize an event or have an idea? Contact us! / ዝግጅት ለመደራጀት መርዳት ወይም ሀሳብ አሎት? ያነጋግሩን!</p>
+            <a href="mailto:rotomethiopia@reachone-touchone.org?subject=Event Inquiry" class="btn">Contact About Events / ስለ ዝግጅቶች ያነጋግሩ</a>
+        </div>
+
+        <div class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3>Past Events / ያለፉ ዝግጅቶች</h3>
+            <p>See highlights and photos from our previous successful events. Get a glimpse of the community spirit and impact we create together. / ከቀደሙ ስኬታማ ዝግጅቶቻችን ድምቀቶችን እና ፎቶዎችን ይመልከቱ። እኛ አብረን የምንፈጥረውን የማህበረሰብ መንፈስ እና ተጽእኖ ቅድመ እይታ ያግኙ።</p>
+            <p><em>Event gallery or summary link can go here if available. / የዝግጅት ጋለሪ ወይም ማጠቃለያ አገናኝ ከተገኘ እዚህ ሊቀመጥ ይችላል።</em></p>
+            <a href="#" class="btn">View Past Events / ያለፉ ዝግጅቶችን ይመልከቱ</a>
+        </div>
+    </div>
+</section> -->
+
+<section id="volunteer" class="action-section volunteer">
+    <h2 class="section-title">Volunteer / በጎ ፈቃደኝነት</h2>
+    <div class="action-grid">
+        <div class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <h3>Make a Difference / ለውጥ ያድርጉ</h3>
+            <p>Join our dedicated team of volunteers. Whether it's helping at our center, providing home-based care, supporting our events, or offering your professional skills, your time and talents are invaluable. / ለተወሰኑ በጎ ፈቃደኞቻችን ቡድን ይቀላቀሉ። በማዕከላችን መርዳት፣ በቤት ላይ የተመሰረተ እንክብካቤ መስጠት፣ ዝግጅቶቻችንን መደገፍ፣ ወይም የባለሙያ ክህሎቶችዎን መስጠት፣ ጊዜዎ እና ተሰጥኦዎችዎ ዋጋ የማይተመን ነው።</p>
+            <p><strong>Volunteer Opportunities Include / የበጎ ፈቃደኝነት እድሎች ያካትታሉ:</strong></p>
+            <ul>
+                <li>Direct care and companionship for elders / ለአረጋውያን ቀጥተኛ እንክብካቤ እና ጓደኝነት</li>
+                <li>Administrative and office support / አስተዳደራዊ እና የቢሮ ድጋፍ</li>
+                <li>Event planning and organization / የዝግጅት እቅድ እና ድርጅት</li>
+                <li>Maintenance and handyman tasks / ጥገና እና የእጅ ባለሙያ ሥራዎች</li>
+                <li>Fundraising activities / የገንዘብ ማሰባሰቢያ እንቅስቃሴዎች</li>
+                <li>Professional skills (legal, medical, IT, etc.) / የባለሙያ ክህሎቶች (ህጋዊ፣ ሕክምና፣ አይቲ፣ ወዘተ)</li>
+            </ul>
+            <a href="{% url 'volunteer' %}" class="btn">Volunteer Now / አሁን በጎ ፈቃደኝነት</a>
+        </div>
+    </div>
+</section>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Smooth scroll to section if hash present on load
+    window.addEventListener('load', function() {
+        if (window.location.hash === '#feeding-form-section') {
+            const element = document.getElementById('feeding-form-section');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    });
+</script>
+
+<!-- <script>
+    document.getElementById('feeding-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission for demo
+
+        // Basic client-side validation
+        const form = this;
+        const fullName = form.querySelector('#full-name').value.trim();
+        const email = form.querySelector('#email').value.trim();
+        const phone = form.querySelector('#phone').value.trim();
+        const mealType = form.querySelector('#meal-type').value;
+        const location = form.querySelector('#location').value;
+        const preferredDate = form.querySelector('#preferred-date').value;
+
+        if (!fullName || !email || !phone || !mealType || !location || !preferredDate) {
+            alert('Please fill out all required fields, including meal type and location. / እባክዎ ሁሉንም አስፈላጊ መስኮች፣ የምግብ አይነት እና ቦታን ጨምሮ ይሙሉ።');
+            return;
+        }
+
+        // Simulate form submission (replace with actual AJAX or form submission logic)
+        setTimeout(() => {
+            form.reset(); // Clear the form
+            document.getElementById('form-success').style.display = 'block'; // Show success message
+            setTimeout(() => {
+                document.getElementById('form-success').style.display = 'none'; // Hide after 5 seconds
+            }, 5000);
+        }, 1000);
+    });
+</script> -->
+{% endblock %}

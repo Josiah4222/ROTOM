@@ -1,0 +1,742 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Our Story & Achievements - ROTOM Ethiopia{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-background" style="background-image: url('{% get_static_prefix %}images/graduates.jpg');"></div>
+    <div class="hero-content">
+        <h1>Our Story & Achievements</h1>
+        <p>Discover the journey of ROTOM Ethiopia and celebrate our milestones in empowering seniors and communities.</p>
+        <a href="#timeline" class="btn">Explore Our Journey</a>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section id="timeline" class="timeline section">
+    <h2 class="section-title">Our Journey</h2>
+    <p class="section-subtitle">A path through ROTOM Ethiopia’s milestones.</p>
+    <div class="timeline-container">
+        <div class="timeline-event">
+            <div class="timeline-content left">
+                <time datetime="2017">2017</time>
+                <h3>Our Beginning</h3>
+                <p>Reach One Touch One Mission (ROTOM) Ethiopia was founded with a passion for positive change through acts of kindness. Officially registered as a non-profit charitable organization (Civil Society Organization Certificate #3764), our headquarters is in Bishoftu, Ethiopia.</p>
+                <img src="{% static 'images/volunteers.jpg' %}" alt="ROTOM Founding">
+            </div>
+        </div>
+        <div class="timeline-event">
+            <div class="timeline-content right">
+                <time datetime="2018">2018</time>
+                <h3>Expanding Our Reach</h3>
+                <p>We expanded our efforts by renting a facility near Ziquala behind Gold Mark Hotel. This allowed us to introduce two additional programs: 24/7 care for 10 seniors without homes and educational support for 35 young girls pursuing higher education.</p>
+                <img src="{% static 'images/parking.jpg' %}" alt="ROTOM Facility">
+            </div>
+        </div>
+        <div class="timeline-event">
+            <div class="timeline-content left">
+                <time datetime="2023">2023</time>
+                <h3>New Chapter</h3>
+                <p>In January 2023, we secured a new location provided by the Bishoftu city administration, allowing us to continue our vital work with seniors, as well as their grandchildren and other beneficiaries.</p>
+                <img src="{% static 'images/jemaneshafter.jpg' %}" alt="New ROTOM Location">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements Section -->
+<section id="achievements" class="achievements section">
+    <h2 class="section-title">Our Achievements</h2>
+    <p class="section-subtitle">Celebrating our milestones in serving seniors and communities.</p>
+    <div class="achievements-grid">
+        <div class="achievement-card">
+            <img src="{% static 'images/centerbased.jpg' %}" alt="Achievement 1">
+            <div class="achievement-info">
+                <h3>Achievement Title 1</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at ullamcorper nisi. Nullam vehicula, leo at fermentum hendrerit, nisl justo fermentum nulla, sit amet aliquam dui magna id lacus.</p>
+            </div>
+        </div>
+        <div class="achievement-card">
+            <img src="{% static 'images/centerbased.jpg' %}" alt="Achievement 2">
+            <div class="achievement-info">
+                <h3>Achievement Title 2</h3>
+                <p>Integer placerat orci et diam facilisis, sit amet suscipit est tristique. Cras nec nibh at sapien varius cursus.</p>
+            </div>
+        </div>
+        <div class="achievement-card">
+            <img src="{% static 'images/centerbased.jpg' %}" alt="Achievement 3">
+            <div class="achievement-info">
+                <h3>Achievement Title 3</h3>
+                <p>Sed eget sapien tincidunt, tincidunt lectus a, efficitur erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section id="team" class="team-section section">
+    <h2 class="section-title">Meet Our Team</h2>
+    <p class="section-subtitle">The passionate individuals driving our mission forward.</p>
+    <div class="team-carousel">
+        <div class="team-track">
+            <div class="team-member">
+                <img src="{% static 'images/hawi.jpg' %}" alt="Hawi Belete">
+                <div class="team-member-info">
+                    <h3>Hawi Belete</h3>
+                    <p>Director</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{% static 'images/buzepro.jpg' %}" alt="Bizunesh Alemayehu">
+                <div class="team-member-info">
+                    <h3>Bizunesh Alemayehu</h3>
+                    <p>Social Worker</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{% static 'images/tg.jpg' %}" alt="Tigi Shambel">
+                <div class="team-member-info">
+                    <h3>Tigi Shambel</h3>
+                    <p>Education Director</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{% static 'images/muse.jpg' %}" alt="Muse">
+                <div class="team-member-info">
+                    <h3>Muse Etana</h3>
+                    <p>Nurse</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+                 
+            </div>
+
+            <div class="team-member">
+                <img src="{% static 'images/konjit.jpg' %}" alt="Muse">
+                <div class="team-member-info">
+                    <h3>Konjit Habte</h3>
+                    <p>Care Giver</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Duplicate for seamless loop -->
+            <div class="team-member">
+                <img src="{% static 'images/hawi.jpg' %}" alt="Hawi Belete">
+                <div class="team-member-info">
+                    <h3>Hawi Belete</h3>
+                    <p>Director</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{% static 'images/buzepro.jpg' %}" alt="Bizunesh Alemayehu">
+                <div class="team-member-info">
+                    <h3>Bizunesh Alemayehu</h3>
+                    <p>Social Worker</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{% static 'images/hawi.jpg' %}" alt="Tigi Shambel">
+                <div class="team-member-info">
+                    <h3>Tigi Shambel</h3>
+                    <p>Program Assistant</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{% static 'images/muse.jpg' %}" alt="Muse">
+                <div class="team-member-info">
+                    <h3>Muse</h3>
+                    <p>Community Outreach</p>
+                    <div class="social-links">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'rotom/footer.html' %}
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --main-color: #1C651B;
+        --secondary-color: #fff;
+        --accent-color: #2d8a2d;
+        --text-color: #333;
+        --background-light: #f8f9fa;
+        --text-muted: #6c757d;
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--background-light);
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+        position: relative;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-top: 80px; /* Account for fixed navbar */
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.7);
+        transform: scale(1.1);
+        transition: transform 0.5s ease;
+    }
+
+    .hero-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 100, 0, 0.5), rgba(0, 100, 0, 0.7));  /* Green overlay using --main-color and --accent-color */
+        z-index: 1;
+    }
+
+    .hero:hover .hero-background {
+        transform: scale(1.15);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2; /* Above overlay */
+        text-align: center;
+        max-width: 1000px;
+        padding: 2rem;
+        color: var(--secondary-color);
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content p {
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.8rem 2.5rem;
+        background: var(--main-color);
+        color: var(--secondary-color);
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1rem;
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideInBtn 0.8s ease 0.5s forwards;
+    }
+
+    .btn:hover {
+        background: var(--accent-color);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideInBtn {
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* Section Styles */
+    .section {
+        padding: clamp(3rem, 6vw, 7rem) clamp(1rem, 3vw, 2rem);
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: var(--main-color);
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .section-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        color: var(--text-muted);
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+
+    /* Timeline Section */
+    .timeline {
+        background: var(--secondary-color);
+        position: relative;
+    }
+
+    .timeline-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 4px;
+        background: linear-gradient(to bottom, var(--main-color), var(--accent-color));
+        transform: translateX(-50%);
+        border-radius: 2px;
+        z-index: 0;
+    }
+
+    .timeline-event {
+        position: relative;
+        margin-bottom: 4rem;
+        opacity: 0;
+        transition: var(--transition);
+    }
+
+    .timeline-event.visible {
+        opacity: 1;
+    }
+
+    .timeline-event.visible .timeline-content.left {
+        transform: translateX(0);
+    }
+
+    .timeline-event.visible .timeline-content.right {
+        transform: translateX(0);
+    }
+
+    .timeline-content {
+        background: var(--secondary-color);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        width: calc(50% - 40px);
+        position: relative;
+        transition: var(--transition);
+        border: 1px solid var(--accent-color);
+    }
+
+    .timeline-content.left {
+        margin-right: auto;
+        transform: translateX(-50px);
+    }
+
+    .timeline-content.right {
+        margin-left: auto;
+        transform: translateX(50px);
+    }
+
+    .timeline-content::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        width: 18px;
+        height: 18px;
+        background: var(--main-color);
+        border: 3px solid var(--secondary-color);
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px var(--accent-color);
+        z-index: 1;
+    }
+
+    .timeline-content.left::before {
+        right: -49px;
+    }
+
+    .timeline-content.right::before {
+        left: -49px;
+    }
+
+    .timeline-content::after {
+        content: '';
+        position: absolute;
+        top: 22px;
+        width: 30px;
+        height: 2px;
+        background: var(--main-color);
+    }
+
+    .timeline-content.left::after {
+        right: -30px;
+    }
+
+    .timeline-content.right::after {
+        left: -30px;
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        border-color: var(--main-color);
+    }
+
+    .timeline-content time {
+        font-size: 1.1rem;
+        color: var(--main-color);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .timeline-content h3 {
+        font-size: clamp(1.6rem, 3vw, 2rem);
+        color: var(--text-color);
+        margin-bottom: 0.8rem;
+    }
+
+    .timeline-content p {
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    .timeline-content img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        margin: 1rem auto 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Achievements Section */
+    .achievements {
+        background: var(--background-light);
+    }
+
+    .achievements-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+
+    .achievement-card {
+        background: var(--secondary-color);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .achievement-card.visible {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .achievement-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .achievement-card img {
+        width: 100%;
+        height: 50%;
+        object-fit: cover;
+        /* border-radius: 50%; */
+        /* margin: 1.5rem auto; */
+        display: block;
+    }
+
+    .achievement-info {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .achievement-info h3 {
+        font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+        color: var(--main-color);
+        margin-bottom: 0.8rem;
+    }
+
+    .achievement-info p {
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        color: var(--text-muted);
+    }
+
+    /* Team Section */
+    .team-section {
+        background: var(--secondary-color);
+    }
+
+    .team-carousel {
+        max-width: 1200px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .team-track {
+        display: flex;
+        width: calc(300px * 8); /* 4 members * 2 for loop */
+        animation: teamSlide 30s linear infinite;
+    }
+
+    .team-track:hover {
+        animation-play-state: paused;
+    }
+
+    .team-member {
+        flex: 0 0 auto;
+        width: 300px;
+        margin: 0 1rem;
+        background: var(--background-light);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+    }
+
+    .team-member:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: 1.5rem auto;
+        display: block;
+    }
+
+    .team-member-info {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .team-member-info h3 {
+        font-size: 1.2rem;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .team-member-info p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .social-links a {
+        color: var(--main-color);
+        font-size: 1.2rem;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        color: var(--accent-color);
+        transform: scale(1.2);
+    }
+
+    @keyframes teamSlide {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-300px * 4));
+        }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .hero {
+            min-height: 70vh;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+        }
+
+        .timeline-container::before {
+            left: 30px;
+        }
+
+        .timeline-content {
+            width: calc(100% - 60px);
+            margin-left: 60px !important;
+            margin-right: auto;
+            transform: translateX(0) !important;
+        }
+
+        .timeline-content::before {
+            left: -36px !important;
+        }
+
+        .timeline-content::after {
+            left: -30px !important;
+        }
+
+        .timeline-content img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        .achievements-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .team-track {
+            width: calc(250px * 8);
+        }
+
+        .team-member {
+            width: 250px;
+        }
+
+        @keyframes teamSlide {
+            100% {
+                transform: translateX(calc(-250px * 4));
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero {
+            min-height: 60vh;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+        }
+
+        .hero-content p {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+        }
+
+        .timeline-content {
+            width: calc(100% - 50px);
+            margin-left: 50px !important;
+        }
+
+        .timeline-content img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .achievement-card img,
+        .team-member img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .team-track {
+            width: calc(200px * 8);
+        }
+
+        .team-member {
+            width: 200px;
+        }
+
+        @keyframes teamSlide {
+            100% {
+                transform: translateX(calc(-200px * 4));
+            }
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Intersection Observer for Timeline and Achievements
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    document.querySelectorAll('.timeline-event, .achievement-card').forEach(element => {
+        observer.observe(element);
+    });
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+{% endblock %}

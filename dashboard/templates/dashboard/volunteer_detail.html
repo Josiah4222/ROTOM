@@ -1,0 +1,270 @@
+<!-- templates/dashboard/volunteer_detail.html (new template for viewing volunteer details) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Details • ROTOM Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1C651B; /* Green */
+            --secondary: #D4AF37; /* Soft gold */
+            --accent: #4F998A; /* Muted teal */
+            --background: #FFFFFF; /* White */
+            --card-bg: #FFFFFF;
+            --text: #1F2A44; /* Dark navy */
+            --text-muted: #6B7280; /* Gray */
+            --border: #E5E7EB; /* Light gray */
+        }
+
+        [data-theme="dark"] {
+            --primary: #2d5a27;
+            --secondary: #B8972F;
+            --accent: #3B7A6B;
+            --background: #1F2A44;
+            --card-bg: #2D3748;
+            --text: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --border: #4B5563;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            transition: all 0.3s ease;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background-color: var(--background);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 2rem 1rem;
+        }
+
+        .sidebar .logo {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: var(--secondary);
+            background-color: var(--border);
+        }
+
+        .sidebar .nav-link.text-warning {
+            color: #F59E0B;
+        }
+
+        .sidebar .nav-link.text-danger {
+            color: #DC2626;
+        }
+
+        .sidebar .theme-toggle {
+            color: var(--text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar .theme-toggle:hover {
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 3.5rem 2rem;
+            min-height: 100vh;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .detail-card .card-header {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .detail-card .card-body {
+            padding: 2rem;
+        }
+
+        .btn-secondary {
+            background-color: var(--text-muted);
+            border-color: var(--text-muted);
+            color: white;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border);
+            border-color: var(--border);
+        }
+
+        .interests-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            justify-content: center;
+        }
+
+        .interest-tag {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .days-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            justify-content: center;
+        }
+
+        .day-tag {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1rem;
+            }
+
+            .page-title {
+                font-size: 1.6rem;
+            }
+
+            .interests-tags, .days-tags {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "dashboard/partials/sidebar.html" %}
+
+    <main class="main-content">
+        <h2 class="page-title">Volunteer: {{ volunteer.first_name }} {{ volunteer.last_name }}</h2>
+
+        <div class="card detail-card">
+            <div class="card-header">Volunteer Details</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Full Name:</strong> {{ volunteer.first_name }} {{ volunteer.last_name }}</p>
+                        <p><strong>Age:</strong> {{ volunteer.age }}</p>
+                        <p><strong>Phone:</strong> {{ volunteer.phone_number }}</p>
+                        <p><strong>Education Level:</strong> {{ volunteer.get_education_level_display }}</p>
+                        <p><strong>Available Times:</strong> {{ volunteer.get_times_available_display }}</p>
+                        <p><strong>Date Registered:</strong> {{ volunteer.created_at|date:"M d, Y \\a\\t g:i A"|default:"N/A" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Available Days:</strong></p>
+                        <div class="days-tags">
+                            {% for day in volunteer.days_available.all %}
+                                <span class="day-tag">{{ day.name }}</span>
+                            {% empty %}
+                                <span class="text-muted">None</span>
+                            {% endfor %}
+                        </div>
+                        <p><strong>Interests:</strong></p>
+                        <div class="interests-tags">
+                            {% for interest in volunteer.interests.all %}
+                                <span class="interest-tag">{{ interest.name }}</span>
+                            {% empty %}
+                                <span class="text-muted">None</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'dashboard:manage_volunteers' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Volunteers
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+                themeToggle.classList.toggle('fa-moon');
+                themeToggle.classList.toggle('fa-sun');
+            });
+        }
+    </script>
+</body>
+</html>

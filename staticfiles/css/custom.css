@@ -1,0 +1,80 @@
+/* Custom font size overrides */
+body {
+    font-size: 0.875rem !important;
+}
+
+h1 {
+    font-size: 1.75rem !important;
+}
+
+h2 {
+    font-size: 1.5rem !important;
+}
+
+h3 {
+    font-size: 1.25rem !important;
+}
+
+h4 {
+    font-size: 1.125rem !important;
+}
+
+h5 {
+    font-size: 1rem !important;
+}
+
+p, li, td, th, label, input, select, textarea {
+    font-size: 0.875rem !important;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+}
+
+.hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem) !important;
+}
+
+.section-header h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem) !important;
+}
+
+.section-header p {
+    font-size: 0.9rem !important;
+}
+
+/* Admin specific overrides */
+.form-row {
+    font-size: 0.875rem !important;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    font-size: 0.875rem !important;
+}
+
+ul.messagelist li {
+    font-size: 0.875rem !important;
+}
+
+.errornote {
+    font-size: 0.875rem !important;
+}
+
+ul.errorlist li {
+    font-size: 0.875rem !important;
+}
+
+.description {
+    font-size: 0.875rem !important;
+}
+
+/* Form elements */
+input[type=text], input[type=password], input[type=email], input[type=url],
+input[type=number], input[type=tel], textarea, select, .vTextField {
+    font-size: 0.875rem !important;
+}
+
+/* Buttons */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    font-size: 0.875rem !important;
+} 

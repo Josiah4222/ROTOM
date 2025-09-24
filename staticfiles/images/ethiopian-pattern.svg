@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Traditional Ethiopian Cross Pattern -->
+    <defs>
+        <pattern id="ethiopian-pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+            <!-- Cross -->
+            <path d="M25 5 L25 45 M5 25 L45 25" stroke="#D4AF37" stroke-width="2" fill="none"/>
+            <!-- Decorative circles -->
+            <circle cx="25" cy="25" r="3" fill="#EF3340"/>
+            <circle cx="25" cy="25" r="8" stroke="#009A49" stroke-width="1" fill="none"/>
+        </pattern>
+    </defs>
+    
+    <!-- Fill the entire SVG with the pattern -->
+    <rect x="0" y="0" width="100" height="100" fill="url(#ethiopian-pattern)"/>
+</svg> 

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard • ROTOM Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1C651B;
+            --secondary: #D4AF37;
+            --accent: #4F998A;
+            --background: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --text: #1F2A44;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+        }
+        [data-theme="dark"] {
+            --primary: #2d5a27;
+            --secondary: #B8972F;
+            --accent: #3B7A6B;
+            --background: #1F2A44;
+            --card-bg: #2D3748;
+            --text: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --border: #4B5563;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            transition: all 0.3s ease;
+            margin: 0;
+            font-weight: 400;
+        }
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background-color: var(--background);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 2rem 1rem;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        .sidebar .logo {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .sidebar .nav-link {
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            display: block;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            color: var(--secondary);
+            background-color: var(--border);
+        }
+        .sidebar .nav-link.text-warning { color: #F59E0B; }
+        .sidebar .nav-link.text-danger { color: #DC2626; }
+        .sidebar .theme-toggle {
+            color: var(--text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+        .sidebar .theme-toggle:hover { color: var(--secondary); }
+        .main-content {
+            margin-left: 260px;
+            padding: 3.5rem 2rem;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        .welcome {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: var(--text);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .stat-card .card-body {
+            padding: 2rem;
+            text-align: center;
+        }
+        .stat-card h4 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .card-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .table-card .card-header {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            border-radius: 10px 10px 0 0;
+        }
+        .table-card .card-body { padding: 0; }
+        .table {
+            margin-bottom: 0;
+            color: var(--text);
+        }
+        .table th {
+            background-color: var(--accent);
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s ease;
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.show { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 2rem 1rem; }
+            .welcome { font-size: 1.6rem; }
+            .stat-card h4 { font-size: 1.8rem; }
+            .stat-card .card-body { padding: 1.5rem; }
+            .navbar-toggler {
+                display: block !important;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<nav class="sidebar collapse" id="sidebarCollapse">
+    <div class="logo">
+        <span>ROTOM Admin</span>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a href="{% url 'dashboard:admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_volunteers' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_volunteers' %}active{% endif %}">
+                <i class="fas fa-users me-2"></i> Volunteers
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_events' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_events' %}active{% endif %}">
+                <i class="fas fa-calendar-alt me-2"></i> Events
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_contacts' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_contacts' %}active{% endif %}">
+                <i class="fas fa-envelope me-2"></i> Messages
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_payments' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_payments' %}active{% endif %}">
+                <i class="fas fa-dollar-sign me-2"></i> Payments
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_registrations' %}" class="nav-link {% if request.resolver_match.url_name == 'manage_registrations' %}active{% endif %}">
+                <i class="fas fa-utensils me-2"></i> Meal Regs
+            </a>
+        </li>
+        <li class="nav-item mt-auto pt-3 border-top">
+            <a href="/admin/" class="nav-link text-warning">
+                <i class="fas fa-cog me-2"></i> Django Admin
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:logout' %}" class="nav-link text-danger">
+                <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </a>
+        </li>
+        <li class="nav-item">
+            <i class="fas fa-sun theme-toggle" id="themeToggle"></i>
+        </li>
+    </ul>
+</nav>
+<body>
+    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% include "dashboard/partials/sidebar.html" %}
+    <main class="main-content">
+        <h1 class="welcome">Welcome, {{ request.user.get_full_name|default:request.user.username }}</h1>
+        <div class="row g-4 mb-5">
+            <div class="col-lg-2 col-md-6">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <h4>{{ total_volunteers }}</h4>
+                        <h6 class="card-title">Volunteers</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <h4>{{ total_events }}</h4>
+                        <h6 class="card-title">Upcoming Events</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <h4>{{ total_previous_events }}</h4>
+                        <h6 class="card-title">Past Events</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <h4>{{ total_payments }}</h4>
+                        <h6 class="card-title">Donations</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <h4>{{ total_contacts }}</h4>
+                        <h6 class="card-title">Messages</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <h4>{{ total_registrations }}</h4>
+                        <h6 class="card-title">Registrations</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card table-card">
+                    <div class="card-header">
+                        Recent Volunteers <a href="{% url 'dashboard:manage_volunteers' %}" class="btn btn-sm btn-outline-primary float-end">View All</a>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_volunteers %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Name</th><th>Education</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody>
+                                    {% for volunteer in recent_volunteers %}
+                                    <tr>
+                                        <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
+                                        <td>{{ volunteer.get_education_level_display|title }}</td>
+                                        <td><a href="{% url 'dashboard:volunteer_detail' volunteer.pk %}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <p class="text-center text-muted p-3">No volunteers yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card table-card">
+                    <div class="card-header">
+                        Recent Donations <a href="{% url 'dashboard:manage_payments' %}" class="btn btn-sm btn-outline-primary float-end">View All</a>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_payments %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Donor</th><th>Amount (ETB)</th><th>Date</th></tr>
+                                </thead>
+                                <tbody>
+                                    {% for payment in recent_payments %}
+                                    <tr>
+                                        <td>{{ payment.first_name }} {{ payment.last_name }}</td>
+                                        <td><strong>{{ payment.amount }}</strong></td>
+                                        <td>{{ payment.created_at|date:"M d" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <p class="text-center text-muted p-3">No donations yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card table-card">
+                    <div class="card-header">
+                        Recent Messages <a href="{% url 'dashboard:manage_contacts' %}" class="btn btn-sm btn-outline-primary float-end">View All</a>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_contacts %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Name</th><th>Message</th><th>Date</th></tr>
+                                </thead>
+                                <tbody>
+                                    {% for contact in recent_contacts %}
+                                    <tr>
+                                        <td>{{ contact.name }}</td>
+                                        <td>{{ contact.message|truncatechars:50 }}</td>
+                                        <td>{{ contact.created_at|date:"M d" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <p class="text-center text-muted p-3">No messages yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card table-card">
+                    <div class="card-header">
+                        Recent Registrations <a href="{% url 'dashboard:manage_registrations' %}" class="btn btn-sm btn-outline-primary float-end">View All</a>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_registrations %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Name</th><th>Meal Type</th><th>Date</th></tr>
+                                </thead>
+                                <tbody>
+                                    {% for reg in recent_registrations %}
+                                    <tr>
+                                        <td>{{ reg.full_name }}</td>
+                                        <td>{{ reg.get_meal_type_display }}</td>
+                                        <td>{{ reg.preferred_date|date:"M d" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <p class="text-center text-muted p-3">No registrations yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script>
+        console.log('Dashboard loaded');
+        const toggler = document.querySelector('.navbar-toggler');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        if (toggler && sidebar) {
+            console.log('Toggler and sidebar found');
+            toggler.addEventListener('click', () => {
+                const isShown = sidebar.classList.toggle('show');
+                if (window.innerWidth <= 768) {
+                    mainContent.style.marginLeft = isShown ? '280px' : '0';
+                }
+                console.log('Toggled sidebar:', isShown);
+            });
+        } else {
+            console.error('Missing elements!');
+        }
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.classList.add('fa-sun');
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.body.dataset.theme === 'dark';
+                document.body.dataset.theme = isDark ? 'light' : 'dark';
+                themeToggle.classList.toggle('fa-sun', !isDark);
+                themeToggle.classList.toggle('fa-moon', isDark);
+            });
+        }
+    </script>
+</body>
+</html>

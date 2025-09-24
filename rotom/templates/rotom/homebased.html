@@ -1,0 +1,508 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Home-Based Senior Support{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    :root {
+        --main-color: #1C651B;
+        --secondary-color: #2d5a27;
+        --accent-color: #d4af37;
+        --text-color: #2c3e50;
+        --background-light: #f8f9fa;
+        --text-muted: #6c757d;
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-light);
+        line-height: 1.6;
+    }
+
+    /* Hero section */
+    .hero {
+        min-height: 80vh;
+        width: 100%;
+        padding: 5rem 2rem;
+        margin-top: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: linear-gradient(rgba(0, 100, 0, 0.5), rgba(0, 100, 0, 0.7)), 
+                    url('{% static "images/volun.jpg" %}') no-repeat center center/cover;
+        color: white;
+    }
+
+    .hero-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero h1 {
+        font-size: clamp(3rem, 5vw, 4.5rem);
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero p {
+        font-size: clamp(1.2rem, 2vw, 1.6rem);
+        max-width: 900px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    /* Main Content */
+    .main-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 5rem 3rem;
+    }
+
+    /* Section Styles */
+    .section {
+        margin-bottom: 8rem;
+        background: white;
+        border-radius: 20px;
+        padding: 4rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+        font-size: clamp(2.2rem, 3vw, 2.8rem);
+        color: var(--main-color);
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-header p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* Services Grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+        margin-top: 4rem;
+        align-items: stretch;
+    }
+
+    .service-card {
+        background: var(--background-light);
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border: 2px solid var(--main-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 250px;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        border-color: var(--accent-color);
+    }
+
+    .service-card h3 {
+        font-size: 1.6rem;
+        color: var(--main-color);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .service-card h3 i {
+        font-size: 2.2rem;
+        color: var(--accent-color); /* Reverted to original icon color */
+    }
+
+    .service-card p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        flex-grow: 1;
+    }
+
+    /* Before/After Gallery */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+        margin-top: 4rem;
+    }
+
+    .gallery-item {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        background: var(--background-light);
+        cursor: pointer;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        background: linear-gradient(transparent, rgba(28, 101, 27, 0.9));
+        color: white;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: var(--transition);
+    }
+
+    .gallery-item:hover .gallery-caption {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .gallery-caption h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .gallery-caption p {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    /* Lightbox Styles */
+    .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .lightbox.active {
+        display: flex;
+    }
+
+    .lightbox-img {
+        max-width: 90%;
+        max-height: 80vh;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .lightbox-close:hover {
+        color: var(--accent-color);
+    }
+
+    /* Footer */
+    .footer {
+        background: var(--main-color);
+        color: white;
+        padding: 5rem 3rem;
+    }
+
+    .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+    }
+
+    .footer-section h4 {
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .contact-info li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.6rem;
+    }
+
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+        color: var(--accent-color);
+    }
+
+    .social-links a {
+        color: white;
+        font-size: 1.6rem;
+        margin-right: 1.2rem;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        color: var(--accent-color);
+    }
+
+    .newsletter-form .input-group {
+        display: flex;
+        gap: 0.6rem;
+    }
+
+    .newsletter-form input {
+        padding: 0.6rem;
+        border: none;
+        border-radius: 5px;
+        flex: 1;
+    }
+
+    .newsletter-form .btn {
+        background: var(--accent-color);
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .newsletter-form .btn:hover {
+        background: var(--secondary-color);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 1024px) {
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .services-grid,
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .main-content {
+            padding: 3rem 1.5rem;
+        }
+
+        .section {
+            padding: 2.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .hero {
+            padding: 3rem 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+        }
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+        }
+        .section-header h2 {
+            font-size: clamp(1.9rem, 3vw, 2.3rem);
+        }
+        .service-card h3 {
+            font-size: 1.4rem;
+        }
+        .service-card h3 i {
+            font-size: 1.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Home-Based Senior Support</h1>
+        <p>Creating a Caring and Supportive Home Environment for Our Seniors</p>
+    </div>
+</section>
+
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h2>Our Approach</h2>
+            <p>ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of life for 80 older persons in our community:</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <h3><i class="fas fa-heart"></i> Psycho-Social Growth</h3>
+                <p>Promoting emotional and social well-being through monthly meetings and supportive home visits.</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-heartbeat"></i> Health Enhancement</h3>
+                <p>Offering medical services, annual health check-ups, monthly sanitation supplies, and educational resources to improve overall health.</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-utensils"></i> Income and Food Security</h3>
+                <p>Providing monthly grocery support to ensure access to essential resources for older adults.</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-book"></i> Educational Support for Dependents</h3>
+                <p>Reducing the burden on older caregivers by supplying educational resources to empower the next generation.</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-home"></i> Additional Support</h3>
+                <p>Facilitating home repairs, holiday packages, clothing, and dignified burial assistance.</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-bullhorn"></i> Awareness Raising</h3>
+                <p>Advocating for the dignity and rights of older individuals.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header Ren">
+            <h2>Home Renovation Transformations</h2>
+            <p>Discover the impact of our home renovation program, improving living conditions for seniors through thoughtful upgrades and repairs.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item" data-img="{% static 'images/jemanesh.jpg' %}">
+                <img src="{% static 'images/jemanesh.jpg' %}" alt="Before Jemanesh's Home Renovation">
+                <div class="gallery-caption">
+                    <h3>Before Renovation</h3>
+                    <p>Jemanesh's home before our intervention, with worn-out walls and inadequate roofing, making daily life challenging.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-img="{% static 'images/jemaneshafter.jpg' %}">
+                <img src="{% static 'images/jemaneshafter.jpg' %}" alt="After Jemanesh's Home Renovation">
+                <div class="gallery-caption">
+                    <h3>After Renovation</h3>
+                    <p>Jemanesh's home transformed with sturdy roofing, reinforced walls, and a safer, more comfortable living environment.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-img="{% static 'images/before.jpg' %}">
+                <img src="{% static 'images/before.jpg' %}" alt="Before Home Renovation">
+                <div class="gallery-caption">
+                    <h3>Before Renovation</h3>
+                    <p>An older adult's home with structural issues and poor living conditions before ROTOM's renovation support.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-img="{% static 'images/after.jpg' %}">
+                <img src="{% static 'images/after.jpg' %}" alt="After Home Renovation">
+                <div class="gallery-caption">
+                    <h3>After Renovation</h3>
+                    <p>A revitalized home with improved safety, insulation, and comfort, enhancing the senior's quality of life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Lightbox Container -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="Lightbox Image">
+</div>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.getAttribute('data-img');
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+    });
+</script>
+{% endblock %}
