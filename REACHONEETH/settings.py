@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-na2_qyrfj%e%yru916ayx
 DEBUG = config('DEBUG', default=False, cast=bool)  # Set to False on PythonAnywhere
 
 # For PythonAnywhere, add your domain here (replace 'yourusername' with actual)
-ALLOWED_HOSTS = ['rotom.com', '127.0.0.1']  # Add '*' for dev, but not prod
+ALLOWED_HOSTS = ['rotom.pythonanywhere.com', '127.0.0.1']  # Add '*' for dev, but not prod
 
 # Application definition
 
