@@ -1,4 +1,5 @@
 import uuid
+from functools import wraps
 
 from django.urls import reverse
 import requests
@@ -6,14 +7,40 @@ import logging
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib import messages
-from .models import Event, Payment, PreviousEvent,  InterestCategory
+from django.core.mail import send_mail
+from django.core.cache import cache
+from django.http import JsonResponse
+from .models import Event, Payment, PreviousEvent, InterestCategory
 from .forms import ContactForm, FeedingRegistrationForm, SubscriberForm, VolunteerProfileForm
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
-from django.http import JsonResponse
 
+def rate_limit(key_prefix, limit=5, period=60):
+    """Simple rate limiting decorator. Limits requests per IP."""
+    def decorator(view_func):
+        @wraps(view_func)
+        def wrapper(request, *args, **kwargs):
+            if request.method == 'POST':
+                ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
+                if ',' in ip:
+                    ip = ip.split(',')[0].strip()
+                cache_key = f"rate_limit:{key_prefix}:{ip}"
+                requests_count = cache.get(cache_key, 0)
+                
+                if requests_count >= limit:
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return JsonResponse({'success': False, 'error': 'Too many requests. Please try again later.'}, status=429)
+                    messages.error(request, 'Too many requests. Please try again later.')
+                    return redirect(request.path)
+                
+                cache.set(cache_key, requests_count + 1, period)
+            return view_func(request, *args, **kwargs)
+        return wrapper
+    return decorator
+
+@rate_limit('contact', limit=5, period=300)  # 5 submissions per 5 minutes
 def home(request):
     if request.method == 'POST':
         logger.info(f"POST data: {request.POST}")
@@ -113,7 +140,20 @@ def events_view(request):
         'previous_photos': previous_photos
     })
 
+
+def event_detail(request, event_id):
+    from django.shortcuts import get_object_or_404
+    event = get_object_or_404(Event, id=event_id)
+    # Get other upcoming events for sidebar
+    now = timezone.now()
+    other_events = Event.objects.filter(event_date__gte=now).exclude(id=event_id).order_by('event_date')[:3]
+    return render(request, 'rotom/event_detail.html', {
+        'event': event,
+        'other_events': other_events
+    })
+
 # rotom/views.py (updated donate function to pass tx_ref in return_url)
+@rate_limit('donate', limit=10, period=300)  # 10 donations per 5 minutes
 def donate(request):
     if request.method == 'POST':
         amount = request.POST.get('amount')
@@ -298,3 +338,6 @@ def feeding_registration(request):
 def champions(request):
     context = {}
     return render(request, 'rotom/champions.html', context)
+
+def stories(request):
+    return render(request, 'rotom/stories.html')

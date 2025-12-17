@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
 <style>
     :root {
         --main-color: #1C651B;
@@ -92,11 +92,60 @@
     /* Section Styles */
     .section {
         margin-bottom: 8rem;
+        position: relative;
     }
 
     .section-header {
         text-align: center;
         margin-bottom: 4rem;
+    }
+    
+    /* Ethiopian Cultural Decorative Border */
+    .ethiopian-section-border {
+        position: relative;
+        padding-top: 2rem;
+    }
+    
+    .ethiopian-section-border::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 20px;
+        background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
+        background-repeat: repeat-x;
+    }
+    
+    /* Ethiopian Woven Pattern Background */
+    .ethiopian-bg {
+        background-color: #fafafa;
+        background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+    }
+    
+    /* Decorative Corner Motif */
+    .corner-motif {
+        position: relative;
+    }
+    
+    .corner-motif::before,
+    .corner-motif::after {
+        content: '◆';
+        position: absolute;
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        opacity: 0.4;
+    }
+    
+    .corner-motif::before {
+        top: 1rem;
+        left: 1rem;
+    }
+    
+    .corner-motif::after {
+        bottom: 1rem;
+        right: 1rem;
     }
 
     .section-header h2 {
@@ -367,10 +416,11 @@
     </div>
 </section>
 
-<div class="main-content">
-    <section class="section">
+<div class="main-content ethiopian-bg">
+    <section class="section ethiopian-section-border">
         <div class="section-header">
             <h2>Our Approach</h2>
+            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
             <p>ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of life
                 for 80 older persons in our community:</p>
         </div>
@@ -405,9 +455,10 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section ethiopian-section-border corner-motif">
         <div class="section-header Ren">
             <h2>Home Renovation Transformations</h2>
+            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
             <p>Discover the impact of our home renovation program, improving living conditions for seniors through
                 thoughtful upgrades and repairs.</p>
         </div>

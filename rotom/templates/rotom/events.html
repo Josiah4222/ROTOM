@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
 <style>
   :root {
     --primary: #1A5D1A;
@@ -31,6 +31,25 @@
   .section {
     padding: 5rem 2rem;
     position: relative;
+  }
+  
+  /* Ethiopian Woven Background Pattern */
+  .section-ethiopian {
+    background-color: #fafafa;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  
+  /* Ethiopian Decorative Border */
+  .ethiopian-top-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
   }
 
   .section-header {
@@ -76,18 +95,37 @@
 
   .event-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: var(--transition);
     display: flex;
     flex-direction: column;
     height: 100%;
+    border: 1px solid rgba(28, 101, 27, 0.08);
   }
 
   .event-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 35px rgba(28, 101, 27, 0.15);
+    border-color: rgba(28, 101, 27, 0.15);
+  }
+  
+  /* Premium card accent */
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .event-card:hover::before {
+    opacity: 1;
   }
 
   .event-image {
@@ -559,84 +597,41 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Initialize modals
-    const modals = {
-      init: function () {
-        // Gallery modal
-        this.galleryModal = document.getElementById('gallery-modal');
-        this.galleryItems = document.querySelectorAll('.gallery-item');
-        this.modalImage = document.getElementById('modal-image');
-        this.closeButtons = document.querySelectorAll('.modal-close');
+    // Gallery lightbox
+    const galleryModal = document.getElementById('gallery-modal');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const modalImage = document.getElementById('modal-image');
+    const closeButtons = document.querySelectorAll('.modal-close');
 
-        // Booking modals
-        this.bookButtons = document.querySelectorAll('.event-button');
-        this.bookingModals = document.querySelectorAll('.booking-modal');
-        this.bookingCloseButtons = document.querySelectorAll('.booking-close');
-
-        // Set up event listeners
-        this.setupGalleryModal();
-        this.setupBookingModals();
-        this.setupCloseHandlers();
-      },
-
-      setupGalleryModal: function () {
-        this.galleryItems.forEach(item => {
-          item.addEventListener('click', () => {
-            const imgSrc = item.querySelector('.gallery-image').src;
-            this.modalImage.src = imgSrc;
-            this.openModal(this.galleryModal);
-          });
-        });
-      },
-
-      setupBookingModals: function () {
-        this.bookButtons.forEach((button, index) => {
-          button.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.openModal(this.bookingModals[index]);
-          });
-        });
-      },
-
-      setupCloseHandlers: function () {
-        // Close buttons
-        this.closeButtons.forEach(button => {
-          button.addEventListener('click', () => {
-            this.closeAllModals();
-          });
-        });
-
-        // Close when clicking outside content
-        document.addEventListener('click', (e) => {
-          if (e.target.classList.contains('modal')) {
-            this.closeAllModals();
-          }
-        });
-
-        // Close with Escape key
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            this.closeAllModals();
-          }
-        });
-      },
-
-      openModal: function (modal) {
-        modal.classList.add('open');
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const imgSrc = item.querySelector('.gallery-image').src;
+        modalImage.src = imgSrc;
+        galleryModal.classList.add('open');
         document.body.style.overflow = 'hidden';
-      },
+      });
+    });
 
-      closeModal: function (modal) {
-        modal.classList.remove('open');
+    closeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        galleryModal.classList.remove('open');
         document.body.style.overflow = '';
-      },
+      });
+    });
 
-      closeAllModals: function () {
-        this.bookingModals.forEach(modal => this.closeModal(modal));
-        this.closeModal(this.galleryModal);
+    galleryModal.addEventListener('click', (e) => {
+      if (e.target === galleryModal) {
+        galleryModal.classList.remove('open');
+        document.body.style.overflow = '';
       }
-    };
+    });
 
-    modals.init();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        galleryModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
 
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -670,16 +665,17 @@
 {% include 'rotom/navbar.html' %}
 
 <!-- Upcoming Events Section -->
-<section class="section">
+<section class="section section-ethiopian ethiopian-top-border">
   <div class="section-header">
     <h2>Upcoming Events</h2>
+    <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
     <p>Join us for our upcoming activities and make a difference in your community</p>
   </div>
 
   <div class="events-container">
     {% if upcoming_events %}
     {% for event in upcoming_events %}
-    <div class="event-card">
+    <a href="{% url 'event_detail' event.id %}" class="event-card" style="text-decoration: none; color: inherit;">
       <img src="{{ event.image.url }}" class="event-image" alt="{{ event.title }}">
       <div class="event-content">
         <span class="event-date">
@@ -687,50 +683,9 @@
         </span>
         <h3 class="event-title">{{ event.title }}</h3>
         <p class="event-description">{{ event.description|truncatewords:20 }}</p>
-        <!-- <div class="event-meta">
-              <i class="fas fa-map-marker-alt"></i>
-              <span>{{ event.location|default:"Online Event" }}</span>
-            </div> -->
-
+        <span class="event-button" style="margin-top: auto;">View Details <i class="fas fa-arrow-right"></i></span>
       </div>
-    </div>
-
-    <!-- Booking Modal -->
-    <div id="booking-modal-{{ forloop.counter }}" class="modal booking-modal">
-      <div class="booking-modal-content">
-        <span class="modal-close booking-close">&times;</span>
-        <div class="booking-header">
-          <h3>Register for {{ event.title }}</h3>
-          <p>{{ event.event_date|date:"F j, Y \a\t g:i A" }}</p>
-        </div>
-        <form class="booking-form">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="name-{{ forloop.counter }}">Full Name</label>
-            <input type="text" id="name-{{ forloop.counter }}" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label for="email-{{ forloop.counter }}">Email Address</label>
-            <input type="email" id="email-{{ forloop.counter }}" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label for="phone-{{ forloop.counter }}">Phone Number</label>
-            <input type="tel" id="phone-{{ forloop.counter }}" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label for="tickets-{{ forloop.counter }}">Number of Tickets</label>
-            <select id="tickets-{{ forloop.counter }}" class="form-control" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
-          <button type="submit" class="submit-btn">Complete Registration</button>
-        </form>
-      </div>
-    </div>
+    </a>
     {% endfor %}
     {% else %}
     <div class="empty-state">
@@ -743,9 +698,10 @@
 </section>
 
 <!-- Previous Events Gallery Section -->
-<section class="section" style="background-color: #f5f7fa;">
+<section class="section section-ethiopian ethiopian-top-border">
   <div class="section-header">
     <h2>Past Events Gallery</h2>
+    <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
     <p>Relive the memorable moments from our previous events and activities</p>
   </div>
 
@@ -753,11 +709,10 @@
   <div class="gallery-grid">
     {% for photo in previous_photos|slice:":12" %}
     <div class="gallery-item">
-      <img src="{{ photo.image.url }}" class="gallery-image" alt="{{ photo.title|default:'Event Photo' }}">
+      <img src="{{ photo.image.url }}" class="gallery-image" alt="{{ photo.title|default:'Event Photo' }}" loading="lazy">
       <div class="gallery-overlay">
         <h4 class="gallery-title">{{ photo.title|default:"Event Photo" }}</h4>
-        <p class="gallery-description">{{ photo.description|default:"A memorable moment from our
-          events"|truncatewords:10 }}</p>
+        <p class="gallery-description">{{ photo.description|default:"A memorable moment from our events"|truncatewords:10 }}</p>
       </div>
     </div>
     {% endfor %}

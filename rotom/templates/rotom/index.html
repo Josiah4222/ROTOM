@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
 <style>
     :root {
         --main-color: #1C651B;
@@ -35,13 +35,56 @@
         overflow-x: hidden;
     }
 
+    /* Premium Ethiopian Tilet-Inspired Geometric Pattern */
+    .tilet-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 L10 10 L20 20 L10 30 Z M20 0 L30 10 L20 20 L10 10 Z M20 20 L30 10 L40 20 L30 30 Z M20 20 L30 30 L20 40 L10 30 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+    }
+
+    /* Premium Woven Border - Inspired by Ethiopian Textiles */
+    .woven-border {
+        height: 12px;
+        background: 
+            linear-gradient(135deg, var(--main-color) 25%, transparent 25%),
+            linear-gradient(225deg, var(--main-color) 25%, transparent 25%),
+            linear-gradient(45deg, var(--main-color) 25%, transparent 25%),
+            linear-gradient(315deg, var(--main-color) 25%, transparent 25%);
+        background-size: 12px 12px;
+        background-color: rgba(28, 101, 27, 0.08);
+        opacity: 0.6;
+    }
+
+    /* Elegant Divider */
+    .elegant-divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin: 1.5rem 0 2rem;
+    }
+    
+    .elegant-divider::before,
+    .elegant-divider::after {
+        content: '';
+        height: 1px;
+        width: 80px;
+        background: linear-gradient(90deg, transparent, rgba(28, 101, 27, 0.3), transparent);
+    }
+    
+    .elegant-divider .diamond {
+        width: 8px;
+        height: 8px;
+        background: var(--accent-color);
+        transform: rotate(45deg);
+    }
+
     /* General Utilities */
     .section-title {
         font-size: 2.5rem;
         font-weight: 700;
         color: var(--main-color);
         text-align: center;
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
         position: relative;
         display: block;
         width: 100%;
@@ -50,11 +93,19 @@
     .section-title::after {
         content: '';
         display: block;
-        width: 80px;
-        height: 4px;
+        width: 60px;
+        height: 3px;
         background: var(--accent-color);
-        margin: 15px auto 0;
+        margin: 12px auto 0;
         border-radius: 2px;
+    }
+    
+    /* Premium Gold Accent Line */
+    .gold-accent {
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        margin: 0 auto 2rem;
     }
 
     /* Hero Section */
@@ -228,6 +279,20 @@
     .about-us {
         padding: 6rem 2rem;
         background: var(--background-light);
+        position: relative;
+    }
+    
+    /* Subtle geometric pattern background */
+    .about-us::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='%231C651B' stroke-width='0.3' opacity='0.03'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        pointer-events: none;
     }
 
     .about-container {
@@ -274,6 +339,7 @@
     .projects {
         padding: 6rem 2rem;
         background: white;
+        position: relative;
     }
 
     .project-cards {
@@ -534,14 +600,11 @@
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        filter: grayscale(100%);
         transition: var(--transition);
-        opacity: 0.7;
     }
     
     .partner-logo:hover img {
-        filter: grayscale(0%);
-        opacity: 1;
+        transform: scale(1.05);
     }
 
     @keyframes slide {
@@ -553,6 +616,7 @@
     .contact-us {
         padding: 6rem 2rem;
         background: var(--background-light);
+        position: relative;
     }
 
     .contact-container {
@@ -764,6 +828,7 @@
 
 <section id="impacts" class="impacts section">
     <h2 class="section-title">Our Impact</h2>
+    <div class="gold-accent"></div>
     <div class="wrapper">
         <div class="container">
             <i class="fas fa-users"></i>
@@ -791,10 +856,11 @@
 <section id="about" class="about-us section">
     <div class="about-container">
         <div class="about-image">
-            <img src="{% static 'images/homebased.jpg' %}" alt="ROTOM Ethiopia team in action">
+            <img src="{% static 'images/homebased.jpg' %}" alt="ROTOM Ethiopia team in action" loading="lazy">
         </div>
         <div class="about-content">
             <h2>Our Story</h2>
+            <div class="elegant-divider"><span class="diamond"></span></div>
             <p>
                 Reach One Touch One Mission (ROTOM) Ethiopia is a dedicated non-profit organization
                 established in 2017 by a group of compassionate individuals committed to making a 
@@ -809,10 +875,11 @@
 
 <section id="projects" class="projects section">
     <h2 class="section-title">Our Programs</h2>
+    <div class="gold-accent"></div>
     <div class="project-cards">
         <a href="{% url 'homebased' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/homebased.jpg' %}" alt="Home Based Care Program">
+                <img src="{% static 'images/homebased.jpg' %}" alt="Home Based Care Program" loading="lazy">
             </div>
             <div class="card-content">
                 <h3>Home Based Care</h3>
@@ -821,7 +888,7 @@
         </a>
         <a href="{% url 'centerbased' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/centerbased.jpg' %}" alt="Center Based Program">
+                <img src="{% static 'images/centerbased.jpg' %}" alt="Center Based Program" loading="lazy">
             </div>
             <div class="card-content">
                 <h3>Center Based Care</h3>
@@ -830,7 +897,7 @@
         </a>
         <a href="{% url 'champion' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/champions.jpg' %}" alt="Our Story">
+                <img src="{% static 'images/champions.jpg' %}" alt="Our Story" loading="lazy">
             </div>
             <div class="card-content">
                 <h3>grandchildren support</h3>
@@ -847,19 +914,19 @@
             <div class="testimonial active">
                 <div class="testimonial-content">
                     <div class="testimonial-img">
-                        <img src="{% static 'images/1A5A8116.jpg' %}" alt="Volunteer Testimonial">
+                        <img src="{% static 'images/1A5A8116.jpg' %}" alt="Volunteer Testimonial" loading="lazy">
                     </div>
                     <div class="testimonial-text">
                         <p>"My children thank you so much. You've given me the privilege to see the outside. I haven't seen the outside in over 30 years. You give me an opportunity to chat with people and see the fresh air. Be blessed. You give me dignity. I am speechless"</p>
                     </div>
                     <h4>Senior Tsige</h4>
-                    <span class="testimonial-role">Volunteer Coordinator</span>
+                    <span class="testimonial-role">Program Beneficiary</span>
                 </div>
             </div>
             <div class="testimonial">
                 <div class="testimonial-content">
                     <div class="testimonial-img">
-                        <img src="{% static 'images/1A5A8116.jpg' %}" alt="Beneficiary Testimonial">
+                        <img src="{% static 'images/1A5A8116.jpg' %}" alt="Beneficiary Testimonial" loading="lazy">
                     </div>
                     <div class="testimonial-text">
                         <p>"The care and support I receive from ROTOM Ethiopia has given me a new lease on life. I feel valued, respected, and part of a loving community."</p>
@@ -871,7 +938,7 @@
             <div class="testimonial">
                 <div class="testimonial-content">
                     <div class="testimonial-img">
-                        <img src="{% static 'images/volun.jpg' %}" alt="Donor Testimonial">
+                        <img src="{% static 'images/volun.jpg' %}" alt="Donor Testimonial" loading="lazy">
                     </div>
                     <div class="testimonial-text">
                         <p>"Supporting ROTOM Ethiopia has been one of the most rewarding decisions I've made. Their impact on the community is tangible and their dedication is inspiring."</p>
@@ -896,43 +963,43 @@
     <div class="partners-slider">
         <div class="slider-track">
             <div class="partner-logo">
-                <img src="{% static 'images/HFTFrec_tan.png' %}" alt="Partner 1">
+                <img src="{% static 'images/HFTFrec_tan.png' %}" alt="Partner 1" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/holland.png' %}" alt="Partner 2">
+                <img src="{% static 'images/holland.png' %}" alt="Partner 2" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/rotom_usa.jpg' %}" alt="Partner 5">
+                <img src="{% static 'images/rotom_usa.jpg' %}" alt="Partner 5" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/canada.jpg' %}" alt="Partner 6">
+                <img src="{% static 'images/canada.jpg' %}" alt="Partner 6" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/gk.jpg' %}" alt="Partner 7">
+                <img src="{% static 'images/gk.jpg' %}" alt="Partner 7" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/ahsam.jpg' %}" alt="Partner 8">
+                <img src="{% static 'images/ahsam.jpg' %}" alt="Partner 8" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/andu.jpg' %}" alt="Partner 9">
+                <img src="{% static 'images/andu.jpg' %}" alt="Partner 9" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/alfa.jpg' %}" alt="Partner 10">
+                <img src="{% static 'images/alfa.jpg' %}" alt="Partner 10" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/beautifulworld.jpg' %}" alt="Partner 11">
+                <img src="{% static 'images/beautifulworld.jpg' %}" alt="Partner 11" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/edf.jpg' %}" alt="Partner 12">
+                <img src="{% static 'images/edf.jpg' %}" alt="Partner 12" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/globalcare.jpg' %}" alt="Partner 13">
+                <img src="{% static 'images/globalcare.jpg' %}" alt="Partner 13" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/maranatha.jpg' %}" alt="Partner 14">
+                <img src="{% static 'images/maranatha.jpg' %}" alt="Partner 14" loading="lazy">
             </div>
             <div class="partner-logo">
-                <img src="{% static 'images/pyramid.jpg' %}" alt="Partner 15">
+                <img src="{% static 'images/pyramid.jpg' %}" alt="Partner 15" loading="lazy">
             </div>
         </div>
     </div>
@@ -940,6 +1007,7 @@
 
 <section id="contact" class="contact-us section">
     <h2 class="section-title">Contact Us</h2>
+    <div class="gold-accent"></div>
     <div class="contact-container">
         <div class="contact-info">
             <h3>Get in Touch</h3>

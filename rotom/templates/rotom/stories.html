@@ -1,0 +1,576 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Transformation Stories - ROTOM Ethiopia{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-background" style="background-image: url('{% static 'images/myhome.jpg' %}');"></div>
+    <div class="hero-content">
+        <h1>Transformation Stories</h1>
+        <p>Witness the incredible journeys of our seniors - from struggle to hope, from isolation to community.</p>
+    </div>
+</section>
+
+<!-- Intro Section -->
+<section class="intro-section">
+    <h2 class="section-title">Lives Changed Through Love</h2>
+    <div class="gold-accent"></div>
+    <p class="section-subtitle">Every elder who comes to ROTOM has a unique story. Here are just a few of the remarkable transformations we've witnessed through the power of care, community, and compassion.</p>
+</section>
+
+<!-- Stories -->
+<div class="stories-container">
+
+    <!-- Story 1: Images Left, Text Right -->
+    <section class="story">
+        <div class="story-images">
+            <div class="image-wrapper" onclick="openLightbox(this)">
+                <img src="{% static 'images/jemaneshbefore.jpg' %}" alt="Jemanesh Before" loading="lazy">
+                <span class="image-label before">Before</span>
+                <div class="image-hover"><i class="fas fa-expand"></i></div>
+            </div>
+            <div class="image-wrapper" onclick="openLightbox(this)">
+                <img src="{% static 'images/jemaneshafter.jpg' %}" alt="Jemanesh After" loading="lazy">
+                <span class="image-label after">After</span>
+                <div class="image-hover"><i class="fas fa-expand"></i></div>
+            </div>
+        </div>
+        <div class="story-content">
+            <span class="story-tag">Center-Based Care</span>
+            <h2>Jemanesh's Journey</h2>
+            <div class="story-meta">
+                <span><i class="fas fa-calendar-alt"></i> Joined 2019</span>
+                <span><i class="fas fa-map-marker-alt"></i> Bishoftu</span>
+            </div>
+            <p>When Jemanesh first came to us, she was frail, malnourished, and had lost hope. Living alone with no family support, she struggled to meet her basic needs.</p>
+            <p>After joining our center-based care program, she received regular meals, medical attention, and most importantly - a loving community. Today, Jemanesh is thriving with a smile that lights up our center.</p>
+            <div class="story-stats">
+                <div class="stat">
+                    <span class="stat-num">3+</span>
+                    <span class="stat-text">Years of Care</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-text">Health Improved</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story 2: Text Left, Images Right -->
+    <section class="story reverse">
+        <div class="story-images">
+            <div class="image-wrapper" onclick="openLightbox(this)">
+                <img src="{% static 'images/centerbased.jpg' %}" alt="Tadesse Before" loading="lazy">
+                <span class="image-label before">Before</span>
+                <div class="image-hover"><i class="fas fa-expand"></i></div>
+            </div>
+            <div class="image-wrapper" onclick="openLightbox(this)">
+                <img src="{% static 'images/champions.jpg' %}" alt="Tadesse After" loading="lazy">
+                <span class="image-label after">After</span>
+                <div class="image-hover"><i class="fas fa-expand"></i></div>
+            </div>
+        </div>
+        <div class="story-content">
+            <span class="story-tag">Rescue & Recovery</span>
+            <h2>Tadesse's Transformation</h2>
+            <div class="story-meta">
+                <span><i class="fas fa-calendar-alt"></i> Joined 2020</span>
+                <span><i class="fas fa-map-marker-alt"></i> Bishoftu</span>
+            </div>
+            <p>Tadesse was found living on the streets, suffering from untreated health conditions and severe malnutrition. He had been abandoned by his family and had given up on life.</p>
+            <p>Our outreach team brought him to our center where he received immediate medical care. After months of dedicated support, Tadesse regained his strength and dignity. He now helps mentor other new arrivals.</p>
+            <div class="story-stats">
+                <div class="stat">
+                    <span class="stat-num">40kg</span>
+                    <span class="stat-text">Weight Gained</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">New</span>
+                    <span class="stat-text">Purpose Found</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story 3: Images Left, Text Right -->
+    <section class="story">
+        <div class="story-images">
+            <div class="image-wrapper" onclick="openLightbox(this)">
+                <img src="{% static 'images/homebased.jpg' %}" alt="Almaz Before" loading="lazy">
+                <span class="image-label before">Before</span>
+                <div class="image-hover"><i class="fas fa-expand"></i></div>
+            </div>
+            <div class="image-wrapper" onclick="openLightbox(this)">
+                <img src="{% static 'images/volunteers.jpg' %}" alt="Almaz After" loading="lazy">
+                <span class="image-label after">After</span>
+                <div class="image-hover"><i class="fas fa-expand"></i></div>
+            </div>
+        </div>
+        <div class="story-content">
+            <span class="story-tag">Home-Based Care</span>
+            <h2>Almaz's New Beginning</h2>
+            <div class="story-meta">
+                <span><i class="fas fa-calendar-alt"></i> Joined 2021</span>
+                <span><i class="fas fa-map-marker-alt"></i> Bishoftu</span>
+            </div>
+            <p>Almaz, a grandmother raising three orphaned grandchildren, was struggling to survive. She couldn't afford food, medicine, or school fees for the children.</p>
+            <p>Through our integrated support program, Almaz now receives regular home visits, medical care, and food assistance. Her grandchildren are enrolled in school with full support.</p>
+            <div class="story-stats">
+                <div class="stat">
+                    <span class="stat-num">3</span>
+                    <span class="stat-text">Kids in School</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num">Weekly</span>
+                    <span class="stat-text">Home Visits</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <h2>Help Us Write More Success Stories</h2>
+    <p>Your support can transform the life of an elder in need.</p>
+    <div class="cta-buttons">
+        <a href="{% url 'donate' %}" class="btn btn-primary"><i class="fas fa-heart"></i> Donate Now</a>
+        <a href="{% url 'volunteer' %}" class="btn btn-outline"><i class="fas fa-hands-helping"></i> Volunteer</a>
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img src="" alt="Full size image" id="lightbox-img">
+</div>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+<style>
+:root {
+    --main-color: #1C651B;
+    --secondary-color: #154d14;
+    --accent-color: #F1C93B;
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    background: #fff;
+}
+
+/* Hero */
+.hero {
+    position: relative;
+    height: 55vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.hero-background {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.hero-background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+}
+
+.hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Intro */
+.intro-section {
+    padding: 5rem 2rem 3rem;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--main-color);
+    margin-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+/* Stories Container */
+.stories-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+/* Story Row */
+.story {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 4rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.story:last-child {
+    border-bottom: none;
+}
+
+.story.reverse {
+    direction: rtl;
+}
+
+.story.reverse > * {
+    direction: ltr;
+}
+
+/* Story Images */
+.story-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.image-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.image-wrapper:hover img {
+    transform: scale(1.08);
+}
+
+.image-label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.image-label.before {
+    background: rgba(0,0,0,0.7);
+    color: white;
+}
+
+.image-label.after {
+    background: var(--main-color);
+    color: white;
+}
+
+.image-hover {
+    position: absolute;
+    inset: 0;
+    background: rgba(28, 101, 27, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.image-hover i {
+    color: white;
+    font-size: 2rem;
+    transform: scale(0.8);
+    transition: var(--transition);
+}
+
+.image-wrapper:hover .image-hover {
+    opacity: 1;
+}
+
+.image-wrapper:hover .image-hover i {
+    transform: scale(1);
+}
+
+/* Story Content */
+.story-content {
+    padding: 1rem 0;
+}
+
+.story-tag {
+    display: inline-block;
+    background: rgba(28, 101, 27, 0.1);
+    color: var(--main-color);
+    padding: 0.5rem 1.25rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.story-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+.story-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.story-meta i {
+    color: var(--accent-color);
+    margin-right: 0.4rem;
+}
+
+.story-content p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.story-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.stat {
+    text-align: left;
+}
+
+.stat-num {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--main-color);
+    line-height: 1;
+}
+
+.stat-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+    display: block;
+}
+
+/* CTA */
+.cta-section {
+    background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+    padding: 5rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.cta-section h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.15rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: var(--main-color);
+}
+
+.btn-primary:hover {
+    background: white;
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.8);
+}
+
+.btn-outline:hover {
+    background: white;
+    color: var(--main-color);
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.lightbox.active { display: flex; }
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.lightbox-close:hover { transform: rotate(90deg); }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .story {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .story.reverse { direction: ltr; }
+    .story-images { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+    .story-images { grid-template-columns: 1fr; }
+    .image-wrapper img { height: 250px; }
+    .story-stats { gap: 2rem; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .btn { width: 100%; max-width: 280px; justify-content: center; }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openLightbox(el) {
+    const img = el.querySelector('img');
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.story').forEach(s => {
+    s.style.opacity = '0';
+    s.style.transform = 'translateY(40px)';
+    s.style.transition = 'all 0.7s ease-out';
+    observer.observe(s);
+});
+</script>
+{% endblock %}

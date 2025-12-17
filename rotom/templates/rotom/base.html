@@ -4,19 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}REACH ONE{% endblock %}</title>
-    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+    <title>{% block title %}ROTOM Ethiopia - Empowering Seniors{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}ROTOM Ethiopia empowers older persons and their dependents to live dignified, fulfilling lives through home-based care, center-based programs, and community support in Ethiopia.{% endblock %}">
+    <meta name="keywords" content="ROTOM Ethiopia, elderly care, senior support, Ethiopia charity, nonprofit, Bishoftu, older persons, community care">
+    <meta name="author" content="ROTOM Ethiopia">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% block og_url %}https://rotomethiopia.org{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}ROTOM Ethiopia - Empowering Seniors{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Empowering older persons and their dependents to live dignified, fulfilling lives in Ethiopia.{% endblock %}">
+    <meta property="og:image" content="{% static 'images/logo.png' %}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ROTOM Ethiopia">
+    <meta name="twitter:description" content="Empowering older persons and their dependents in Ethiopia.">
+    <meta name="twitter:image" content="{% static 'images/logo.png' %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'images/logo.png' %}">
     
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome (single include) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome (local) -->
+    <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
     
     <!-- Your CSS -->
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ethiopian-premium.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
     {% block extra_css %}
     <style>
@@ -441,11 +465,29 @@
     <div class="menu-backdrop"></div>
 
     <!-- PAGE CONTENT -->
-    <div style="margin-top: 120px;"> <!-- Push content below fixed navbar + pattern -->
+    <main class="main-content-wrapper">
         {% block content %}
         <!-- Page-specific content goes here -->
         {% endblock %}
-    </div>
+    </main>
+    
+    <style>
+        .main-content-wrapper {
+            margin-top: 120px;
+        }
+        
+        @media (max-width: 991px) {
+            .main-content-wrapper {
+                margin-top: 110px;
+            }
+        }
+        
+        @media (max-width: 575px) {
+            .main-content-wrapper {
+                margin-top: 100px;
+            }
+        }
+    </style>
 
 
     <!-- <footer class="footer">
@@ -495,36 +537,7 @@
     </footer> -->
 
     <!-- JAVASCRIPT -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const hamburger = document.querySelector('.hamburger');
-        const nav = document.querySelector('.navbar-nav');
-        const backdrop = document.querySelector('.menu-backdrop');
-
-        if (!hamburger || !nav || !backdrop) {
-            console.error('Navbar elements not found. Check your HTML structure.');
-            return;
-        }
-
-        function toggleMenu() {
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('active');
-            backdrop.classList.toggle('active');
-        }
-
-        hamburger.addEventListener('click', toggleMenu);
-        backdrop.addEventListener('click', toggleMenu);
-
-        // Close menu if screen resizes to desktop
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                hamburger.classList.remove('active');
-                nav.classList.remove('active');
-                backdrop.classList.remove('active');
-            }
-        });
-    });
-    </script>
+    <!-- Navbar JS is handled in navbar.html -->
 
     {% block extra_js %}{% endblock %}
 </body>

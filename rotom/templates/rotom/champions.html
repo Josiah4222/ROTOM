@@ -5,7 +5,7 @@
 
 {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
 <style>
     :root {
         --main-color: #1C651B;
@@ -44,7 +44,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: url('{% static "images/education-hero.jpg" %}') no-repeat center center/cover;
+        background: url('{% static "images/champions.JPG" %}') no-repeat center center/cover;
         background-attachment: fixed;
     }
 
@@ -92,11 +92,60 @@
     /* Section Styles */
     .section {
         margin-bottom: 8rem;
+        position: relative;
     }
 
     .section-header {
         text-align: center;
         margin-bottom: 4rem;
+    }
+    
+    /* Ethiopian Cultural Decorative Border */
+    .ethiopian-section-border {
+        position: relative;
+        padding-top: 2rem;
+    }
+    
+    .ethiopian-section-border::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 20px;
+        background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
+        background-repeat: repeat-x;
+    }
+    
+    /* Ethiopian Woven Pattern Background */
+    .ethiopian-bg {
+        background-color: #fafafa;
+        background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+    }
+    
+    /* Decorative Corner Motif */
+    .corner-motif {
+        position: relative;
+    }
+    
+    .corner-motif::before,
+    .corner-motif::after {
+        content: '◆';
+        position: absolute;
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        opacity: 0.4;
+    }
+    
+    .corner-motif::before {
+        top: 1rem;
+        left: 1rem;
+    }
+    
+    .corner-motif::after {
+        bottom: 1rem;
+        right: 1rem;
     }
 
     .section-header h2 {
@@ -268,6 +317,156 @@
         }
     }
 
+    /* Stories Section */
+    .stories-container {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        margin-top: 3rem;
+    }
+
+    .story-card {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 3rem;
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition);
+    }
+
+    .story-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-5px);
+    }
+
+    .story-card.reverse {
+        direction: rtl;
+    }
+
+    .story-card.reverse > * {
+        direction: ltr;
+    }
+
+    .story-image {
+        position: relative;
+        min-height: 350px;
+        overflow: hidden;
+    }
+
+    .story-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .story-card:hover .story-image img {
+        transform: scale(1.05);
+    }
+
+    .story-badge {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
+        background: var(--accent-color);
+        color: var(--main-color);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .story-card.reverse .story-badge {
+        left: auto;
+        right: 1.5rem;
+    }
+
+    .story-content {
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .story-quote {
+        color: var(--accent-color);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.6;
+    }
+
+    .story-content h3 {
+        font-size: 1.8rem;
+        color: var(--main-color);
+        margin-bottom: 0.3rem;
+        font-weight: 700;
+    }
+
+    .story-role {
+        color: var(--text-muted);
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .story-text {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        line-height: 1.8;
+        font-style: italic;
+        margin-bottom: 2rem;
+    }
+
+    .story-impact {
+        display: flex;
+        gap: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .impact-item {
+        text-align: center;
+    }
+
+    .impact-number {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--main-color);
+    }
+
+    .impact-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+        .story-card,
+        .story-card.reverse {
+            grid-template-columns: 1fr;
+            direction: ltr;
+        }
+
+        .story-image {
+            min-height: 250px;
+        }
+
+        .story-content {
+            padding: 2rem;
+        }
+
+        .story-card.reverse .story-badge {
+            left: 1.5rem;
+            right: auto;
+        }
+    }
+
     /* Lightbox Styles */
     .lightbox {
         display: none;
@@ -367,10 +566,11 @@
     </div>
 </section>
 
-<div class="main-content">
-    <section class="section">
+<div class="main-content ethiopian-bg">
+    <section class="section ethiopian-section-border">
         <div class="section-header">
             <h2>Our Educational Initiatives</h2>
+            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
             <p>ROTOM Ethiopia is dedicated to empowering grandchildren and girls through comprehensive educational
                 support, fostering dignity, empowerment, and community:</p>
         </div>
@@ -398,9 +598,118 @@
         </div>
     </section>
 
-    <section class="section">
+    <!-- Success Stories Section -->
+    <section class="section ethiopian-section-border">
+        <div class="section-header">
+            <h2>Stories of Transformation</h2>
+            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
+            <p>Meet some of the young lives transformed through our educational support programs.</p>
+        </div>
+
+        <div class="stories-container">
+            <!-- Story 1 -->
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="{% static 'images/champions.jpg' %}" alt="Meron's Story" loading="lazy">
+                    <div class="story-badge">
+                        <i class="fas fa-star"></i> Success Story
+                    </div>
+                </div>
+                <div class="story-content">
+                    <div class="story-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <h3>Meron Tadesse</h3>
+                    <span class="story-role">University Student, Age 19</span>
+                    <p class="story-text">
+                        "When my grandmother became too ill to work, I thought my dreams of education were over. 
+                        ROTOM Ethiopia not only paid for my school fees but gave me a mentor who believed in me. 
+                        Today, I'm studying nursing at university. I want to give back to my community just like 
+                        ROTOM gave to me."
+                    </p>
+                    <div class="story-impact">
+                        <div class="impact-item">
+                            <span class="impact-number">5</span>
+                            <span class="impact-label">Years Supported</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-number">1st</span>
+                            <span class="impact-label">In Family to University</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 2 -->
+            <div class="story-card reverse">
+                <div class="story-image">
+                    <img src="{% static 'images/centerbased.jpg' %}" alt="Dawit's Story" loading="lazy">
+                    <div class="story-badge">
+                        <i class="fas fa-star"></i> Success Story
+                    </div>
+                </div>
+                <div class="story-content">
+                    <div class="story-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <h3>Dawit Bekele</h3>
+                    <span class="story-role">High School Graduate, Age 17</span>
+                    <p class="story-text">
+                        "Living with my elderly grandfather, I had to choose between helping him and going to school. 
+                        ROTOM's home visits and support meant I could do both. My mentor taught me time management 
+                        and encouraged me when things got hard. I just graduated top of my class!"
+                    </p>
+                    <div class="story-impact">
+                        <div class="impact-item">
+                            <span class="impact-number">3</span>
+                            <span class="impact-label">Years Supported</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-number">Top 5%</span>
+                            <span class="impact-label">Class Ranking</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story 3 -->
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="{% static 'images/homebased.jpg' %}" alt="Hana's Story" loading="lazy">
+                    <div class="story-badge">
+                        <i class="fas fa-star"></i> Success Story
+                    </div>
+                </div>
+                <div class="story-content">
+                    <div class="story-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <h3>Hana Girma</h3>
+                    <span class="story-role">Vocational Training Graduate, Age 20</span>
+                    <p class="story-text">
+                        "As a girl from a poor family, many said education wasn't for me. ROTOM's training program 
+                        taught me tailoring skills and gave me confidence. Now I run my own small business and 
+                        support my grandmother who raised me. Education changed everything."
+                    </p>
+                    <div class="story-impact">
+                        <div class="impact-item">
+                            <span class="impact-number">4</span>
+                            <span class="impact-label">Years Supported</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-number">Own</span>
+                            <span class="impact-label">Business Started</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section ethiopian-section-border corner-motif">
         <div class="section-header">
             <h2>Celebrating Educational Milestones</h2>
+            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
             <p>Explore moments from our educational programs, showcasing the joy, growth, and achievements of our
                 students.</p>
         </div>

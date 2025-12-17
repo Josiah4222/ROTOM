@@ -18,14 +18,23 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views  
+from django.contrib.auth import views as auth_views
+from django.shortcuts import render
+
+# Custom error handlers
+def custom_404(request, exception):
+    return render(request, 'rotom/404.html', status=404)
+
+handler404 = custom_404
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('rotom-secure-admin/', admin.site.urls),  # Changed from 'admin/' for security
     path('', include('rotom.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-]# Only add this in development
+]
+
+# Only add this in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

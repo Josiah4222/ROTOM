@@ -20,6 +20,7 @@
 <!-- Timeline Section -->
 <section id="timeline" class="timeline section">
     <h2 class="section-title">Our Journey</h2>
+    <div class="gold-accent"></div>
     <p class="section-subtitle">A path through ROTOM Ethiopia’s milestones.</p>
     <div class="timeline-container">
         <div class="timeline-event">
@@ -57,6 +58,7 @@
 <!-- Achievements Section -->
 <section id="achievements" class="achievements section">
     <h2 class="section-title">Our Achievements</h2>
+    <div class="gold-accent"></div>
     <p class="section-subtitle">Celebrating our milestones in serving seniors and communities.</p>
     <div class="achievements-grid">
         <div class="achievement-card">
@@ -89,81 +91,42 @@
 <!-- Team Section -->
 <section id="team" class="team-section section">
     <h2 class="section-title">Meet Our Team</h2>
+    <div class="gold-accent"></div>
     <p class="section-subtitle">The passionate individuals driving our mission forward.</p>
-    <div class="team-carousel">
-        <div class="team-track">
-            <!-- Unique Members -->
-            <div class="team-member">
-                <img src="{% static 'images/hawi.jpg' %}" alt="Hawi Belete">
-                <div class="team-member-info">
-                    <h3>Hawi Belete</h3>
-                    <p>Director</p>
-                </div>
+    <div class="team-grid">
+        <div class="team-member">
+            <img src="{% static 'images/hawi.jpg' %}" alt="Hawi Belete">
+            <div class="team-member-info">
+                <h3>Hawi Belete</h3>
+                <p>Director</p>
             </div>
-            <div class="team-member">
-                <img src="{% static 'images/buzepro.jpg' %}" alt="Bizunesh Alemayehu">
-                <div class="team-member-info">
-                    <h3>Bizunesh Alemayehu</h3>
-                    <p>Social Worker</p>
-                </div>
+        </div>
+        <div class="team-member">
+            <img src="{% static 'images/buzepro.jpg' %}" alt="Bizunesh Alemayehu">
+            <div class="team-member-info">
+                <h3>Bizunesh Alemayehu</h3>
+                <p>Social Worker</p>
             </div>
-            <div class="team-member">
-                <img src="{% static 'images/tg.jpg' %}" alt="Tigi Shambel">
-                <div class="team-member-info">
-                    <h3>Tigi Shambel</h3>
-                    <p>Education Director</p>
-                </div>
+        </div>
+        <div class="team-member">
+            <img src="{% static 'images/tg.jpg' %}" alt="Tigi Shambel">
+            <div class="team-member-info">
+                <h3>Tigi Shambel</h3>
+                <p>Education Director</p>
             </div>
-            <div class="team-member">
-                <img src="{% static 'images/muse.jpg' %}" alt="Muse Etana">
-                <div class="team-member-info">
-                    <h3>Muse Etana</h3>
-                    <p>Nurse</p>
-                </div>
+        </div>
+        <div class="team-member">
+            <img src="{% static 'images/muse.jpg' %}" alt="Muse Etana">
+            <div class="team-member-info">
+                <h3>Muse Etana</h3>
+                <p>Nurse</p>
             </div>
-            <div class="team-member">
-                <img src="{% static 'images/konjit.jpg' %}" alt="Konjit Habte">
-                <div class="team-member-info">
-                    <h3>Konjit Habte</h3>
-                    <p>Care Giver</p>
-                </div>
-            </div>
-
-            <!-- Duplicates for Seamless Loop -->
-            <div class="team-member">
-                <img src="{% static 'images/hawi.jpg' %}" alt="Hawi Belete">
-                <div class="team-member-info">
-                    <h3>Hawi Belete</h3>
-                    <p>Director</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <img src="{% static 'images/buzepro.jpg' %}" alt="Bizunesh Alemayehu">
-                <div class="team-member-info">
-                    <h3>Bizunesh Alemayehu</h3>
-                    <p>Social Worker</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <img src="{% static 'images/tg.jpg' %}" alt="Tigi Shambel">
-                <div class="team-member-info">
-                    <h3>Tigi Shambel</h3>
-                    <p>Education Director</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <img src="{% static 'images/muse.jpg' %}" alt="Muse Etana">
-                <div class="team-member-info">
-                    <h3>Muse Etana</h3>
-                    <p>Nurse</p>
-                </div>
-            </div>
-            <div class="team-member">
-                <img src="{% static 'images/konjit.jpg' %}" alt="Konjit Habte">
-                <div class="team-member-info">
-                    <h3>Konjit Habte</h3>
-                    <p>Care Giver</p>
-                </div>
+        </div>
+        <div class="team-member">
+            <img src="{% static 'images/konjit.jpg' %}" alt="Konjit Habte">
+            <div class="team-member-info">
+                <h3>Konjit Habte</h3>
+                <p>Care Giver</p>
             </div>
         </div>
     </div>
@@ -505,98 +468,69 @@
     /* Team Section */
     .team-section {
         background: white;
-        overflow: hidden;
+        padding: 5rem 2rem;
     }
 
-    .team-carousel {
-        max-width: 1200px;
+    .team-grid {
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 2rem 0;
-        position: relative;
-    }
-
-    .team-section::before,
-    .team-section::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100px;
-        z-index: 2;
-        pointer-events: none;
-    }
-
-    .team-section::before {
-        left: 0;
-        background: linear-gradient(to right, white, transparent);
-    }
-
-    .team-section::after {
-        right: 0;
-        background: linear-gradient(to left, white, transparent);
-    }
-
-    .team-track {
-        display: flex;
-        width: calc((280px + 2rem) * 10);
-        /* 5 members * 2 sets */
-        animation: scroll 30s linear infinite;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
         gap: 2rem;
     }
 
-    .team-track:hover {
-        animation-play-state: paused;
-    }
-
     .team-member {
-        flex: 0 0 280px;
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        border: 1px solid #f3f4f6;
         text-align: center;
-        padding-bottom: 1.5rem;
+        transition: var(--transition);
     }
 
     .team-member:hover {
         transform: translateY(-8px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--accent-color);
     }
 
     .team-member img {
-        width: 100%;
-        height: 280px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
         object-fit: cover;
-        border-bottom: 4px solid var(--accent-color);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        transition: var(--transition);
+        margin-bottom: 1rem;
     }
 
-    .team-member-info {
-        padding: 1.5rem 1rem 0;
+    .team-member:hover img {
+        box-shadow: 0 12px 35px rgba(28, 101, 27, 0.2);
+        transform: scale(1.05);
     }
 
     .team-member-info h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: var(--main-color);
         font-weight: 700;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.3rem;
     }
 
     .team-member-info p {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         color: var(--text-muted);
         margin-bottom: 0;
+        font-weight: 500;
     }
 
-    @keyframes scroll {
-        0% {
-            transform: translateX(0);
+    @media (max-width: 900px) {
+        .team-grid {
+            grid-template-columns: repeat(3, 1fr);
         }
+    }
 
-        100% {
-            transform: translateX(calc(-1 * (280px + 2rem) * 5));
+    @media (max-width: 600px) {
+        .team-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        .team-member img {
+            width: 130px;
+            height: 130px;
         }
     }
 

@@ -1,0 +1,271 @@
+/* ============================================
+   Premium Ethiopian-Inspired Design System
+   Inspired by traditional Tilet textile patterns
+   ============================================ */
+
+/* Premium Tilet-Inspired Geometric Pattern */
+.tilet-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 L10 10 L20 20 L10 30 Z M20 0 L30 10 L20 20 L10 10 Z M20 20 L30 10 L40 20 L30 30 Z M20 20 L30 30 L20 40 L10 30 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+/* Ethiopian Cultural Decorative Border */
+.ethiopian-section-border {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.ethiopian-section-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+}
+
+/* Ethiopian Woven Pattern Background */
+.ethiopian-bg {
+    background-color: #fafafa;
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Decorative Corner Motif */
+.corner-motif {
+    position: relative;
+}
+
+.corner-motif::before,
+.corner-motif::after {
+    content: '◆';
+    position: absolute;
+    font-size: 1.5rem;
+    color: #F1C93B;
+    opacity: 0.4;
+}
+
+.corner-motif::before {
+    top: 1rem;
+    left: 1rem;
+}
+
+.corner-motif::after {
+    bottom: 1rem;
+    right: 1rem;
+}
+
+/* Subtle Diamond Pattern Background */
+.diamond-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='%231C651B' stroke-width='0.3' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+/* Premium Woven Border - Inspired by Ethiopian Textiles */
+.woven-border {
+    height: 12px;
+    background: 
+        linear-gradient(135deg, #1C651B 25%, transparent 25%),
+        linear-gradient(225deg, #1C651B 25%, transparent 25%),
+        linear-gradient(45deg, #1C651B 25%, transparent 25%),
+        linear-gradient(315deg, #1C651B 25%, transparent 25%);
+    background-size: 12px 12px;
+    background-color: rgba(28, 101, 27, 0.08);
+    opacity: 0.6;
+}
+
+/* Elegant Divider with Diamond */
+.elegant-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0 2rem;
+}
+
+.elegant-divider::before,
+.elegant-divider::after {
+    content: '';
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, rgba(28, 101, 27, 0.3), transparent);
+}
+
+.elegant-divider .diamond {
+    width: 8px;
+    height: 8px;
+    background: #F1C93B;
+    transform: rotate(45deg);
+}
+
+/* Premium Gold Accent Line */
+.gold-accent {
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #F1C93B, transparent);
+    margin: 0 auto 2rem;
+}
+
+/* Section Title Enhancement */
+.section-title-premium {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1C651B;
+    text-align: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title-premium::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #F1C93B;
+    margin: 12px auto 0;
+    border-radius: 2px;
+}
+
+/* Premium Card Styling */
+.premium-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(28, 101, 27, 0.08);
+}
+
+.premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(28, 101, 27, 0.15);
+    border-color: rgba(28, 101, 27, 0.15);
+}
+
+/* Premium Section Background */
+.section-light {
+    background: #f9fafb;
+    position: relative;
+}
+
+.section-light::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='%231C651B' stroke-width='0.3' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    pointer-events: none;
+}
+
+/* Premium Button */
+.btn-premium {
+    background: #1C651B;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(28, 101, 27, 0.25);
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-premium:hover {
+    background: #154d14;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(28, 101, 27, 0.3);
+    color: white;
+}
+
+/* Premium Hero Overlay */
+.hero-overlay-premium {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(28, 101, 27, 0.65) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* Decorative Corner Elements */
+.corner-decoration {
+    position: relative;
+}
+
+.corner-decoration::before,
+.corner-decoration::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(28, 101, 27, 0.1);
+}
+
+.corner-decoration::before {
+    top: 1rem;
+    left: 1rem;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-decoration::after {
+    bottom: 1rem;
+    right: 1rem;
+    border-left: none;
+    border-top: none;
+}
+
+/* Premium Input Styling */
+.input-premium {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+}
+
+.input-premium:focus {
+    border-color: #1C651B;
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(28, 101, 27, 0.1);
+}
+
+/* Premium Stats/Impact Numbers */
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1C651B;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .section-title-premium {
+        font-size: 2rem;
+    }
+    
+    .elegant-divider::before,
+    .elegant-divider::after {
+        width: 50px;
+    }
+    
+    .corner-decoration::before,
+    .corner-decoration::after {
+        width: 25px;
+        height: 25px;
+    }
+}

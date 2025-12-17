@@ -114,6 +114,23 @@ CHAPA_SECRET_KEY = config('CHAPA_SECRET_KEY', default='')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Cache Configuration (for rate limiting)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@rotomethiopia.org')
+
 # Security settings
 if DEBUG:
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
