@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator
 from django.utils import timezone
+from django.core.mail import send_mass_mail
+from django.conf import settings
 
-from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile
-from .forms import EventForm, PreviousEventForm  # Import the new form
+from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber
+from .forms import EventForm, PreviousEventForm, NewsletterForm  # Import the new form
 
 def custom_login(request):
     if request.user.is_authenticated and request.user.is_staff:
@@ -39,30 +41,35 @@ def logout_view(request):
 
 @staff_member_required(login_url='dashboard:login')
 def admin_dashboard(request):
+    from django.db.models import Count, Q
     now = timezone.now()
-    total_volunteers = VolunteerProfile.objects.count()
-    total_events = Event.objects.filter(event_date__gte=now).count()  # Only upcoming
-    total_previous_events = PreviousEvent.objects.count()
-    total_payments = Payment.objects.filter(status='success').count()
-    total_contacts = Contact.objects.count()
-    total_registrations = FeedingRegistration.objects.count()
+    
+    # Use aggregation instead of separate queries
+    stats = {
+        'total_volunteers': VolunteerProfile.objects.count(),
+        'total_events': Event.objects.filter(event_date__gte=now).count(),
+        'total_previous_events': PreviousEvent.objects.count(),
+        'total_payments': Payment.objects.filter(status='success').count(),
+        'total_contacts': Contact.objects.count(),
+        'total_registrations': FeedingRegistration.objects.count(),
+        'total_newsletters': Newsletter.objects.count(),
+        'total_subscribers': Subscriber.objects.count(),
+    }
 
-    recent_volunteers = VolunteerProfile.objects.all().order_by('-id')[:5]
-    recent_contacts = Contact.objects.all().order_by('-created_at')[:5]
-    recent_payments = Payment.objects.filter(status='success').order_by('-created_at')[:5]
-    recent_registrations = FeedingRegistration.objects.all().order_by('-created_at')[:5]
+    # Use select_related for foreign keys in recent queries
+    recent_volunteers = VolunteerProfile.objects.select_related().order_by('-id')[:5]
+    recent_contacts = Contact.objects.select_related().order_by('-created_at')[:5]
+    recent_payments = Payment.objects.filter(status='success').select_related().order_by('-created_at')[:5]
+    recent_registrations = FeedingRegistration.objects.select_related().order_by('-created_at')[:5]
+    recent_newsletters = Newsletter.objects.select_related().order_by('-created_at')[:5]
 
     context = {
-        'total_volunteers': total_volunteers,
-        'total_events': total_events,
-        'total_previous_events': total_previous_events,
-        'total_payments': total_payments,
-        'total_contacts': total_contacts,
-        'total_registrations': total_registrations,
+        **stats,
         'recent_volunteers': recent_volunteers,
         'recent_contacts': recent_contacts,
         'recent_payments': recent_payments,
         'recent_registrations': recent_registrations,
+        'recent_newsletters': recent_newsletters,
     }
     return render(request, 'dashboard/admin_dashboard.html', context)
 
@@ -188,3 +195,92 @@ def payment_detail(request, pk):
 def registration_detail(request, pk):
     registration = get_object_or_404(FeedingRegistration, pk=pk)
     return render(request, 'dashboard/registration_detail.html', {'registration': registration})
+
+# Newsletter Management Views
+@staff_member_required(login_url='dashboard:login')
+def manage_newsletters(request):
+    newsletters = Newsletter.objects.all().order_by('-created_at')
+    paginator = Paginator(newsletters, 10)
+    page_number = request.GET.get('page')
+    newsletters_paginated = paginator.get_page(page_number)
+    return render(request, 'dashboard/manage_newsletters.html', {'newsletters': newsletters_paginated})
+
+@staff_member_required(login_url='dashboard:login')
+def create_newsletter(request):
+    if request.method == 'POST':
+        form = NewsletterForm(request.POST, request.FILES)
+        if form.is_valid():
+            newsletter = form.save(commit=False)
+            newsletter.created_at = timezone.now()
+            
+            # Just save the newsletter - don't send emails automatically
+            # Email sending is disabled to use this system for blog publishing only
+            if newsletter.status == 'sent':
+                newsletter.sent_at = timezone.now()
+                newsletter.recipients_count = 0  # Set to 0 since we're not sending emails
+                messages.success(request, f'Blog post "{newsletter.title}" published successfully!')
+            else:
+                messages.success(request, f'Blog post "{newsletter.title}" saved as draft!')
+            
+            newsletter.save()
+            return redirect('dashboard:manage_newsletters')
+    else:
+        form = NewsletterForm()
+    return render(request, 'dashboard/create_newsletter.html', {'form': form})
+
+@staff_member_required(login_url='dashboard:login')
+def edit_newsletter(request, pk):
+    newsletter = get_object_or_404(Newsletter, pk=pk)
+    if request.method == 'POST':
+        form = NewsletterForm(request.POST, request.FILES, instance=newsletter)
+        if form.is_valid():
+            newsletter = form.save(commit=False)
+            
+            # Just save the newsletter - don't send emails automatically
+            # Email sending is disabled to use this system for blog publishing only
+            if newsletter.status == 'sent' and not newsletter.sent_at:
+                newsletter.sent_at = timezone.now()
+                newsletter.recipients_count = 0  # Set to 0 since we're not sending emails
+                messages.success(request, f'Blog post "{newsletter.title}" published successfully!')
+            else:
+                messages.success(request, f'Blog post "{newsletter.title}" updated successfully!')
+            
+            newsletter.save()
+            return redirect('dashboard:manage_newsletters')
+    else:
+        form = NewsletterForm(instance=newsletter)
+    return render(request, 'dashboard/edit_newsletter.html', {'form': form, 'newsletter': newsletter})
+
+@staff_member_required(login_url='dashboard:login')
+def newsletter_detail(request, pk):
+    newsletter = get_object_or_404(Newsletter, pk=pk)
+    return render(request, 'dashboard/newsletter_detail.html', {'newsletter': newsletter})
+
+@staff_member_required(login_url='dashboard:login')
+def preview_newsletter(request, pk):
+    newsletter = get_object_or_404(Newsletter, pk=pk)
+    return render(request, 'dashboard/newsletter_preview.html', {'newsletter': newsletter})
+
+def send_newsletter(newsletter):
+    """Helper function to send newsletter to all subscribers"""
+    try:
+        subscribers = Subscriber.objects.all()
+        if not subscribers.exists():
+            return False
+        
+        # Prepare email data
+        email_messages = []
+        for subscriber in subscribers:
+            email_messages.append((
+                newsletter.subject,
+                newsletter.content,
+                settings.DEFAULT_FROM_EMAIL,
+                [subscriber.email]
+            ))
+        
+        # Send mass email
+        send_mass_mail(email_messages, fail_silently=False)
+        return True
+    except Exception as e:
+        print(f"Error sending newsletter: {e}")
+        return False

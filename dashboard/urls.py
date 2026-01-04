@@ -17,10 +17,15 @@ urlpatterns = [
     path('manage-contacts/', views.manage_contacts, name='manage_contacts'),
     path('manage-payments/', views.manage_payments, name='manage_payments'),
     path('manage-registrations/', views.manage_registrations, name='manage_registrations'),
+    # Newsletter URLs
+    path('manage-newsletters/', views.manage_newsletters, name='manage_newsletters'),
+    path('create-newsletter/', views.create_newsletter, name='create_newsletter'),
+    path('edit-newsletter/<int:pk>/', views.edit_newsletter, name='edit_newsletter'),
+    path('newsletter/<int:pk>/', views.newsletter_detail, name='newsletter_detail'),
+    path('newsletter/<int:pk>/preview/', views.preview_newsletter, name='preview_newsletter'),
     # Detail views
     path('volunteer/<int:pk>/', views.volunteer_detail, name='volunteer_detail'),
     path('contact/<int:pk>/', views.contact_detail, name='contact_detail'),
     path('payment/<int:pk>/', views.payment_detail, name='payment_detail'),
-    
     path('registration/<int:pk>/', views.registration_detail, name='registration_detail'),
 ]

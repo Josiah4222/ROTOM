@@ -1,0 +1,179 @@
+{% extends 'dashboard/base_admin.html' %}
+{% load static %}
+
+{% block title %}{{ newsletter.title }} - ROTOM Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        border: 1px solid #e3e6f0;
+    }
+    
+    .status-badge {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.35rem;
+    }
+    
+    .status-draft { background-color: #f8f9fc; color: #5a5c69; border: 1px solid #d1d3e2; }
+    .status-sent { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    .status-scheduled { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    
+    .newsletter-content {
+        background-color: #f8f9fc;
+        border: 1px solid #e3e6f0;
+        border-radius: 0.35rem;
+        padding: 1.5rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-weight: 600;
+        color: #5a5c69;
+    }
+    
+    .info-value {
+        color: #858796;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-newspaper fa-fw mr-2"></i>{{ newsletter.title }}
+        </h1>
+        <div>
+            <a href="{% url 'dashboard:preview_newsletter' newsletter.pk %}" 
+               class="btn btn-info btn-sm mr-2" target="_blank">
+                <i class="fas fa-external-link-alt fa-sm mr-1"></i>Preview
+            </a>
+            {% if newsletter.status != 'sent' %}
+            <a href="{% url 'dashboard:edit_newsletter' newsletter.pk %}" 
+               class="btn btn-warning btn-sm mr-2">
+                <i class="fas fa-edit fa-sm mr-1"></i>Edit
+            </a>
+            {% endif %}
+            <a href="{% url 'dashboard:manage_newsletters' %}" class="btn btn-secondary btn-sm">
+                <i class="fas fa-arrow-left fa-sm mr-1"></i>Back to Newsletters
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Newsletter Content -->
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Newsletter Content</h6>
+                    <span class="status-badge status-{{ newsletter.status }}">
+                        {{ newsletter.get_status_display }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5 class="font-weight-bold text-primary">Subject: {{ newsletter.subject }}</h5>
+                    </div>
+                    
+                    <div class="newsletter-content">
+                        {{ newsletter.content|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Newsletter Information -->
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-info-circle mr-1"></i>Newsletter Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="info-item">
+                        <span class="info-label">Title:</span>
+                        <span class="info-value">{{ newsletter.title }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Status:</span>
+                        <span class="status-badge status-{{ newsletter.status }}">
+                            {{ newsletter.get_status_display }}
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Created:</span>
+                        <span class="info-value">{{ newsletter.created_at|date:"M j, Y g:i A" }}</span>
+                    </div>
+                    
+                    {% if newsletter.sent_at %}
+                    <div class="info-item">
+                        <span class="info-label">Sent:</span>
+                        <span class="info-value">{{ newsletter.sent_at|date:"M j, Y g:i A" }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Recipients:</span>
+                        <span class="info-value">{{ newsletter.recipients_count }} subscribers</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if newsletter.scheduled_for %}
+                    <div class="info-item">
+                        <span class="info-label">Scheduled For:</span>
+                        <span class="info-value">{{ newsletter.scheduled_for|date:"M j, Y g:i A" }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Actions Card -->
+            <div class="card mt-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-cogs mr-1"></i>Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'dashboard:preview_newsletter' newsletter.pk %}" 
+                           class="btn btn-info btn-block" target="_blank">
+                            <i class="fas fa-external-link-alt fa-sm mr-1"></i>Preview Newsletter
+                        </a>
+                        
+                        {% if newsletter.status != 'sent' %}
+                        <a href="{% url 'dashboard:edit_newsletter' newsletter.pk %}" 
+                           class="btn btn-warning btn-block">
+                            <i class="fas fa-edit fa-sm mr-1"></i>Edit Newsletter
+                        </a>
+                        {% endif %}
+                        
+                        <a href="{% url 'dashboard:create_newsletter' %}" 
+                           class="btn btn-success btn-block">
+                            <i class="fas fa-plus fa-sm mr-1"></i>Create New Newsletter
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

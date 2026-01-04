@@ -215,10 +215,35 @@
 
     .wrapper {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 2rem;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
+        justify-items: center;
+    }
+
+    /* Better layout for 5 cards */
+    @media (min-width: 1200px) {
+        .wrapper {
+            grid-template-columns: repeat(5, 1fr);
+            max-width: 1300px;
+        }
+    }
+
+    @media (max-width: 1199px) and (min-width: 900px) {
+        .wrapper {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .wrapper .container:nth-child(4),
+        .wrapper .container:nth-child(5) {
+            grid-column: span 1;
+        }
+        .wrapper .container:nth-child(4) {
+            grid-column: 1 / 2;
+        }
+        .wrapper .container:nth-child(5) {
+            grid-column: 3 / 4;
+        }
     }
 
     .impacts .container {
@@ -621,9 +646,9 @@
 
     .contact-container {
         display: grid;
-        grid-template-columns: 1fr 1.5fr;
+        grid-template-columns: 1fr 1.5fr 1fr;
         gap: 0;
-        max-width: 1100px;
+        max-width: 1400px;
         margin: 0 auto;
         background: white;
         border-radius: 30px;
@@ -726,6 +751,97 @@
         resize: vertical;
     }
 
+    .contact-map {
+        padding: 4rem 3rem;
+        background: linear-gradient(135deg, var(--main-color), #2d5a27);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-map::before {
+        content: '';
+        position: absolute;
+        top: -50px; 
+        right: -50px;
+        width: 200px; 
+        height: 200px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+
+    .contact-map::after {
+        content: '';
+        position: absolute;
+        bottom: -30px; 
+        left: -30px;
+        width: 150px; 
+        height: 150px;
+        background: rgba(241, 201, 59, 0.1);
+        border-radius: 50%;
+    }
+
+    .contact-map h3 {
+        font-size: 2rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+        font-weight: 700;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .map-description {
+        text-align: center;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        font-size: 1rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .map-container {
+        position: relative;
+        z-index: 2;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        transition: var(--transition);
+    }
+
+    .map-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+
+    .contact-map iframe {
+        width: 100%;
+        height: 320px;
+        border: none;
+        filter: contrast(1.1) saturate(1.2);
+    }
+
+    .map-address {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        position: relative;
+        z-index: 2;
+    }
+
+    .map-address i {
+        color: var(--accent-color);
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+
     .submit-btn {
         background: var(--main-color);
         color: white;
@@ -767,17 +883,40 @@
 
     /* Responsive */
     @media (max-width: 900px) {
-        .about-container, .contact-container, .wrapper {
+        .about-container, .contact-container {
             grid-template-columns: 1fr;
+        }
+        
+        .wrapper {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 600px;
+        }
+        
+        .wrapper .container:nth-child(5) {
+            grid-column: 1 / -1;
+            max-width: 280px;
+            margin: 0 auto;
         }
         
         .contact-container {
             max-width: 600px;
         }
         
-        .contact-info, .contact-form {
+        .contact-info, .contact-form, .contact-map {
             padding: 2.5rem;
         }
+    }
+
+    @media (max-width: 1200px) and (min-width: 901px) {
+        .contact-container {
+            grid-template-columns: 1fr;
+            max-width: 800px;
+        }
+        
+        .contact-info, .contact-form, .contact-map {
+            padding: 3rem;
+        }
+    }
         
         .hero-title {
             font-size: 3rem;
@@ -795,7 +934,7 @@
         @keyframes slide {
             100% { transform: translateX(calc(-150px * 7.5)); }
         }
-    }
+    
     
     @keyframes fadeUp {
         from { opacity: 0; transform: translateY(30px); }
@@ -837,18 +976,23 @@
         </div>
         <div class="container">
             <i class="fas fa-child"></i>
-            <span class="num" data-val="50">50+</span>
-            <span class="text">Champions</span>
+            <span class="num" data-val="50">70+</span>
+            <span class="text">Grandchildren & Dependents</span>
         </div>
         <div class="container">
             <i class="fas fa-building"></i>
-            <span class="num" data-val="30">30</span>
+            <span class="num" data-val="30">30+</span>
             <span class="text">Seniors in Center</span>
         </div>
         <div class="container">
             <i class="fas fa-hands-helping"></i>
             <span class="num" data-val="500">500+</span>
             <span class="text">Volunteers</span>
+        </div>
+        <div class="container">
+            <i class="fas fa-people-arrows"></i>
+            <span class="num" data-val="200">200+</span>
+            <span class="text">Indirectly Supported</span>
         </div>
     </div>
 </section>
@@ -864,7 +1008,7 @@
             <p>
                 Reach One Touch One Mission (ROTOM) Ethiopia is a dedicated non-profit organization
                 established in 2017 by a group of compassionate individuals committed to making a 
-                positive impact in their community. Registered under NGO number #3764, our headquarters 
+                positive impact in their community. Registered under NGO number #3764, our office
                 are located in Bishoftu, Ethiopia Kebele 05. Our core mission is to elevate the dignity 
                 and enhance the quality of life for vulnerable older adults and their dependents through holistic 
                 support and improvements in their living conditions.
@@ -900,7 +1044,7 @@
                 <img src="{% static 'images/champions.jpg' %}" alt="Our Story" loading="lazy">
             </div>
             <div class="card-content">
-                <h3>grandchildren support</h3>
+                <h3>Grandchildren Support</h3>
                 <p>We focus on empowering the younger generation through education and mentorship.</p>
             </div>
         </a>
@@ -1013,8 +1157,8 @@
             <h3>Get in Touch</h3>
             <ul>
                 <li><i class="fas fa-envelope"></i> rotomethiopia@reachone-touchone.org</li>
-                <li><i class="fas fa-phone"></i> +251 911 234 567</li>
-                <li><i class="fas fa-map-marker-alt"></i> Bishoftu, Ethiopia Kebele 05</li>
+                <li><i class="fas fa-phone"></i> +251 989707777</li>
+                <!-- <li><i class="fas fa-map-marker-alt"></i> Ethiopia, Oromiya, Bishoftu Kebele 05</li> -->
             </ul>
         </div>
         <div class="contact-form">
@@ -1039,7 +1183,7 @@
                     {{ form.email.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.phone_number.id_for_label }}">Phone Number (optional)</label>
+                    <label for="{{ form.phone_number.id_for_label }}" required="True">Phone Number (optional)</label>
                     {{ form.phone_number }}
                     {{ form.phone_number.errors }}
                 </div>
@@ -1051,10 +1195,17 @@
                 <button type="submit" class="submit-btn">Send Message</button>
             </form>
         </div>
-        <!-- <div class="contact-map">
+        <div class="contact-map">
             <h3>Find Us</h3>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.217882001048!2d38.9783073!3d8.7655604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b73004e3b9505%3A0xfdb5b82590291fba!2sReach%20One%20Touch%20One%20mission!5e0!3m2!1sen!2set!4v1758301984887!5m2!1sen!2set" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div> -->
+            <p class="map-description">Visit our center in the heart of Bishoftu</p>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.217826069276!2d38.973441745193114!3d8.765565670677391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b73004e3b9505%3A0xfdb5b82590291fba!2sReach%20One%20Touch%20One%20mission!5e0!3m2!1sen!2set!4v1766563379966!5m2!1sen!2set" width="100%" height="320" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="map-address">
+                <i class="fas fa-map-marker-alt"></i>
+                Ethiopia, Oromiya, Bishoftu Kebele 05
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1069,13 +1220,15 @@
 
     valueDisplays.forEach((valueDisplay) => {
         let startValue = 0;
+        let originalText = valueDisplay.textContent;
+        let hasPlus = originalText.includes('+');
         let endValue = parseInt(valueDisplay.getAttribute("data-val"));
         let duration = Math.floor(interval / endValue);
         let counter = setInterval(function () {
             startValue += Math.ceil(endValue / (interval / duration));
             valueDisplay.textContent = startValue;
             if (startValue >= endValue) {
-                valueDisplay.textContent = endValue + (endValue >= 100 ? '+' : '');
+                valueDisplay.textContent = endValue + (hasPlus ? '+' : '');
                 clearInterval(counter);
             }
         }, duration);

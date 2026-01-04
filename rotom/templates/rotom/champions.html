@@ -1,7 +1,7 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
 
-{% block title %}Educational Support for Grandchildren and Girls{% endblock %}
+{% block title %}Educational Support for Grandchildren and Dependents{% endblock %}
 
 {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -525,7 +525,85 @@
         transform: rotate(90deg);
     }
 
-    /* Responsive */
+    /* Dashboard Styles */
+    .dashboard-section {
+        background-color: white;
+        padding: 6rem 2rem;
+        position: relative;
+        z-index: 2;
+        border-radius: 40px 40px 0 0;
+        margin-top: -40px;
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .dashboard-card {
+        background: white;
+        padding: 2.5rem 2rem;
+        border-radius: 24px;
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+        border: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 280px;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px -12px rgba(28, 101, 27, 0.15);
+    }
+
+    .dashboard-card i {
+        font-size: 2.5rem;
+        color: var(--main-color);
+        margin-bottom: 1.5rem;
+        background: rgba(28, 101, 27, 0.1);
+        padding: 1rem;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .dashboard-card:hover i {
+        background: var(--main-color);
+        color: white;
+        transform: rotateY(360deg);
+    }
+
+    .dashboard-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--main-color);
+        margin-bottom: 0.5rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .dashboard-label {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .dashboard-description {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        text-align: center;
+    }
     @media (max-width: 1024px) {
         .services-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -561,15 +639,67 @@
 
 <section class="hero">
     <div class="hero-content">
-        <h1>Educational Support for Grandchildren and Girls</h1>
+        <h1>Educational Support for Grandchildren and Dependents</h1>
         <p>Empowering the Younger Generation Through Education and Mentorship</p>
     </div>
 </section>
 
 <div class="main-content ethiopian-bg">
-    <section class="section ethiopian-section-border">
+    <!-- Dashboard Section -->
+    <section class="section dashboard-section ethiopian-section-border"></section>
         <div class="section-header">
-            <h2>Our Educational Initiatives</h2>
+            <h2>Our Impact Dashboard</h2>
+            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
+            <p>Showcasing the measurable impact of our educational support programs</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="dashboard-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="dashboard-number" data-target="45">45</div>
+                <div class="dashboard-label">Graduates</div>
+                <div class="dashboard-description">Students who have successfully completed their education with our support</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="dashboard-number" data-target="120">120</div>
+                <div class="dashboard-label">Grandchildren Supported</div>
+                <div class="dashboard-description">Young people currently receiving educational and personal support</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="dashboard-number" data-target="15">15</div>
+                <div class="dashboard-label">University Students</div>
+                <div class="dashboard-description">Students who have progressed to higher education</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="dashboard-number" data-target="28">28</div>
+                <div class="dashboard-label">Employed Graduates</div>
+                <div class="dashboard-description">Former students now contributing to the workforce</div>
+            </div>
+            <!-- <div class="dashboard-card">
+                <div class="dashboard-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="dashboard-number" data-target="35">35</div>
+                <div class="dashboard-label">Community Volunteers</div>
+                <div class="dashboard-description">Graduates actively giving back to their communities</div>
+            </div> -->
+        </div>
+    </section>
+
+    <section class="section ethiopian-section-border"></section>
+        <div class="section-header">
+            <h2>Our Initiatives</h2>
             <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
             <p>ROTOM Ethiopia is dedicated to empowering grandchildren and girls through comprehensive educational
                 support, fostering dignity, empowerment, and community:</p>
@@ -577,9 +707,8 @@
 
         <div class="services-grid">
             <div class="service-card">
-                <h3><i class="fas fa-graduation-cap"></i> Financial Assistance</h3>
-                <p>Providing school tuition and additional support to ensure grandchildren and girls have access to
-                    quality education.</p>
+                <h3><i class="fas fa-graduation-cap"></i> School and Personal Need Support</h3>
+                <p>Providing school tuition, supplies, and personal necessities to ensure grandchildren and girls have access to quality education and proper care.</p>
             </div>
             <div class="service-card">
                 <h3><i class="fas fa-school"></i> Home and School Visits</h3>
@@ -703,12 +832,46 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Story 4 - Getnet Belay -->
+            <div class="story-card reverse">
+                <div class="story-image">
+                    <img src="{% static 'images/champions.JPG' %}" alt="Getnet's Story" loading="lazy">
+                    <div class="story-badge">
+                        <i class="fas fa-trophy"></i> Breaking the Cycle
+                    </div>
+                </div>
+                <div class="story-content">
+                    <div class="story-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <h3>Getnet Belay</h3>
+                    <span class="story-role">University Student, Grandson of Mamo Bekele</span>
+                    <p class="story-text">
+                        "Getnet Belay, the grandson of Mamo Bekele and a remarkable symbol of hope, has transformed his life through education, becoming the first in his family to attend university and breaking generational barriers. We first met him in 2017 when he was just 10 years old and in fourth grade. Since then, ROTOM has been by his side, supporting him as he passed the national exam and secured a spot at Arbaminch University, a prestigious public institution where only 8.4% of 674,000 students succeeded. We are incredibly proud of him and trust that God will guide him on this journey. ROTOM not only eases burdens but also plays a crucial role in breaking the cycle of poverty."
+                    </p>
+                    <div class="story-impact">
+                        <div class="impact-item">
+                            <span class="impact-number">7</span>
+                            <span class="impact-label">Years Supported</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-number">8.4%</span>
+                            <span class="impact-label">Success Rate</span>
+                        </div>
+                        <div class="impact-item">
+                            <span class="impact-number">1st</span>
+                            <span class="impact-label">In Family to University</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="section ethiopian-section-border corner-motif">
         <div class="section-header">
-            <h2>Celebrating Educational Milestones</h2>
+            <h2>Gallery</h2>
             <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
             <p>Explore moments from our educational programs, showcasing the joy, growth, and achievements of our
                 students.</p>
@@ -760,6 +923,7 @@
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Gallery lightbox functionality
         const galleryItems = document.querySelectorAll('.gallery-item');
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
@@ -782,6 +946,37 @@
                 lightbox.classList.remove('active');
             }
         });
+
+        // Dashboard counter animation (same as home page)
+        let valueDisplays = document.querySelectorAll(".dashboard-number");
+        let interval = 4000;
+
+        valueDisplays.forEach((valueDisplay) => {
+            let startValue = 0;
+            let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+            
+            // Check if endValue is valid
+            if (isNaN(endValue) || endValue <= 0) {
+                return;
+            }
+            
+            let duration = Math.floor(interval / endValue);
+            let counter = setInterval(function () {
+                startValue += Math.ceil(endValue / (interval / duration));
+                if (startValue >= endValue) {
+                    valueDisplay.textContent = endValue + (endValue >= 100 ? '+' : '');
+                    clearInterval(counter);
+                } else {
+                    valueDisplay.textContent = startValue;
+                }
+            }, duration);
+        });
     });
 </script>
 {% endblock %}
+<!-- NEW SERVICE CARD TO BE ADDED -->
+            <div class="service-card">
+                <h3><i class="fas fa-hands-helping"></i> Giving Back to Their Community</h3>
+                <p>Encouraging and facilitating opportunities for supported students to contribute to their communities through volunteer work and social initiatives.</p>
+            </div>
+<!-- END NEW SERVICE CARD -->

@@ -1,0 +1,14 @@
+[Unit]
+Description=gunicorn daemon for ROTOM Ethiopia
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/rotom
+ExecStart=/var/www/rotom/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/rotom/rotom.sock REACHONEETH.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

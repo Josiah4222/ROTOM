@@ -1,0 +1,265 @@
+{% extends 'dashboard/base_admin.html' %}
+{% load static %}
+
+{% block title %}Edit Newsletter - ROTOM Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-group label {
+        font-weight: 600;
+        color: #5a5c69;
+    }
+    
+    .form-control:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+    
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        border: 1px solid #e3e6f0;
+    }
+    
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .help-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    
+    .status-info {
+        padding: 1rem;
+        border-radius: 0.35rem;
+        margin-bottom: 1rem;
+    }
+    
+    .status-sent {
+        background-color: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-edit fa-fw mr-2"></i>Edit Newsletter
+        </h1>
+        <div>
+            <a href="{% url 'dashboard:preview_newsletter' newsletter.pk %}" 
+               class="btn btn-info btn-sm mr-2" target="_blank">
+                <i class="fas fa-external-link-alt fa-sm mr-1"></i>Preview
+            </a>
+            <a href="{% url 'dashboard:manage_newsletters' %}" class="btn btn-secondary btn-sm">
+                <i class="fas fa-arrow-left fa-sm mr-1"></i>Back to Newsletters
+            </a>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if newsletter.status == 'sent' %}
+    <div class="status-info status-sent">
+        <i class="fas fa-check-circle mr-2"></i>
+        <strong>Newsletter Sent:</strong> This newsletter was sent on {{ newsletter.sent_at|date:"M j, Y g:i A" }} to {{ newsletter.recipients_count }} subscribers.
+        You can still edit the content for reference, but changes won't affect the sent version.
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Newsletter Form -->
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Newsletter Details</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% if form.title.help_text %}
+                                <div class="help-text">{{ form.title.help_text }}</div>
+                            {% endif %}
+                            {% if form.title.errors %}
+                                <div class="text-danger">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}</label>
+                            {{ form.subject }}
+                            {% if form.subject.help_text %}
+                                <div class="help-text">{{ form.subject.help_text }}</div>
+                            {% endif %}
+                            {% if form.subject.errors %}
+                                <div class="text-danger">{{ form.subject.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+                            {{ form.content }}
+                            {% if form.content.help_text %}
+                                <div class="help-text">{{ form.content.help_text }}</div>
+                            {% endif %}
+                            {% if form.content.errors %}
+                                <div class="text-danger">{{ form.content.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+                            {{ form.image }}
+                            {% if form.image.help_text %}
+                                <div class="help-text">{{ form.image.help_text }}</div>
+                            {% endif %}
+                            {% if form.image.errors %}
+                                <div class="text-danger">{{ form.image.errors }}</div>
+                            {% endif %}
+                            {% if newsletter.image %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Current image:</small><br>
+                                    <img src="{{ newsletter.image.url }}" alt="Current image" style="max-width: 200px; max-height: 150px; border-radius: 4px;">
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.status.id_for_label }}">{{ form.status.label }}</label>
+                                    {{ form.status }}
+                                    {% if form.status.help_text %}
+                                        <div class="help-text">{{ form.status.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.status.errors %}
+                                        <div class="text-danger">{{ form.status.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.scheduled_for.id_for_label }}">{{ form.scheduled_for.label }}</label>
+                                    {{ form.scheduled_for }}
+                                    {% if form.scheduled_for.help_text %}
+                                        <div class="help-text">{{ form.scheduled_for.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.scheduled_for.errors %}
+                                        <div class="text-danger">{{ form.scheduled_for.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-sm mr-1"></i>Update Newsletter
+                            </button>
+                            <a href="{% url 'dashboard:manage_newsletters' %}" class="btn btn-secondary ml-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Newsletter Info -->
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-info-circle mr-1"></i>Newsletter Info
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <strong>Created:</strong> {{ newsletter.created_at|date:"M j, Y g:i A" }}
+                    </div>
+                    <div class="mb-2">
+                        <strong>Status:</strong> 
+                        <span class="badge badge-{% if newsletter.status == 'sent' %}success{% elif newsletter.status == 'scheduled' %}warning{% else %}secondary{% endif %}">
+                            {{ newsletter.get_status_display }}
+                        </span>
+                    </div>
+                    {% if newsletter.sent_at %}
+                    <div class="mb-2">
+                        <strong>Sent:</strong> {{ newsletter.sent_at|date:"M j, Y g:i A" }}
+                    </div>
+                    <div class="mb-2">
+                        <strong>Recipients:</strong> {{ newsletter.recipients_count }}
+                    </div>
+                    {% endif %}
+                    {% if newsletter.scheduled_for %}
+                    <div class="mb-3">
+                        <strong>Scheduled:</strong> {{ newsletter.scheduled_for|date:"M j, Y g:i A" }}
+                    </div>
+                    {% endif %}
+                    
+                    <hr>
+                    
+                    <h6 class="font-weight-bold">Status Options:</h6>
+                    <ul class="mb-3">
+                        <li><strong>Draft:</strong> Save without sending</li>
+                        <li><strong>Sent:</strong> Send immediately to all subscribers</li>
+                        <li><strong>Scheduled:</strong> Send at specified time</li>
+                    </ul>
+                    
+                    {% if newsletter.status != 'sent' %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        <strong>Warning:</strong> Setting status to "Sent" will immediately send the newsletter to all subscribers!
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Show/hide scheduled_for field based on status
+    document.getElementById('{{ form.status.id_for_label }}').addEventListener('change', function() {
+        const scheduledField = document.getElementById('{{ form.scheduled_for.id_for_label }}').closest('.form-group');
+        if (this.value === 'scheduled') {
+            scheduledField.style.display = 'block';
+        } else {
+            scheduledField.style.display = 'none';
+        }
+    });
+    
+    // Initial state
+    const statusField = document.getElementById('{{ form.status.id_for_label }}');
+    const scheduledField = document.getElementById('{{ form.scheduled_for.id_for_label }}').closest('.form-group');
+    if (statusField.value !== 'scheduled') {
+        scheduledField.style.display = 'none';
+    }
+</script>
+{% endblock %}

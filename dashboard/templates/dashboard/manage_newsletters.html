@@ -1,0 +1,169 @@
+{% extends 'dashboard/base_admin.html' %}
+{% load static %}
+
+{% block title %}Manage Newsletters - ROTOM Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .newsletter-card {
+        border: 1px solid #e3e6f0;
+        border-radius: 0.35rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .newsletter-card:hover {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.35rem;
+    }
+    
+    .status-draft { background-color: #f8f9fc; color: #5a5c69; border: 1px solid #d1d3e2; }
+    .status-sent { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    .status-scheduled { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    
+    .newsletter-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-newspaper fa-fw mr-2"></i>Newsletter Management
+        </h1>
+        <a href="{% url 'dashboard:create_newsletter' %}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus fa-sm mr-1"></i>Create Newsletter
+        </a>
+    </div>
+
+    <!-- Success/Error Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Newsletter Cards -->
+    <div class="row">
+        {% for newsletter in newsletters %}
+        <div class="col-lg-6 col-xl-4 mb-4">
+            <div class="newsletter-card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ newsletter.title|truncatechars:30 }}</h6>
+                    <span class="status-badge status-{{ newsletter.status }}">
+                        {{ newsletter.get_status_display }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <strong>Subject:</strong> {{ newsletter.subject|truncatechars:40 }}
+                    </div>
+                    <div class="mb-2">
+                        <strong>Created:</strong> {{ newsletter.created_at|date:"M j, Y g:i A" }}
+                    </div>
+                    {% if newsletter.sent_at %}
+                    <div class="mb-2">
+                        <strong>Sent:</strong> {{ newsletter.sent_at|date:"M j, Y g:i A" }}
+                    </div>
+                    <div class="mb-2">
+                        <strong>Recipients:</strong> {{ newsletter.recipients_count }}
+                    </div>
+                    {% endif %}
+                    {% if newsletter.scheduled_for %}
+                    <div class="mb-2">
+                        <strong>Scheduled:</strong> {{ newsletter.scheduled_for|date:"M j, Y g:i A" }}
+                    </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            {{ newsletter.content|striptags|truncatechars:100 }}
+                        </small>
+                    </div>
+                    <div class="newsletter-actions">
+                        <a href="{% url 'dashboard:newsletter_detail' newsletter.pk %}" 
+                           class="btn btn-info btn-sm">
+                            <i class="fas fa-eye fa-sm"></i> View
+                        </a>
+                        <a href="{% url 'dashboard:preview_newsletter' newsletter.pk %}" 
+                           class="btn btn-secondary btn-sm" target="_blank">
+                            <i class="fas fa-external-link-alt fa-sm"></i> Preview
+                        </a>
+                        {% if newsletter.status != 'sent' %}
+                        <a href="{% url 'dashboard:edit_newsletter' newsletter.pk %}" 
+                           class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit fa-sm"></i> Edit
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-newspaper fa-3x text-gray-300 mb-3"></i>
+                    <h5 class="text-gray-600">No newsletters created yet</h5>
+                    <p class="text-gray-500 mb-4">Create your first newsletter to engage with your subscribers.</p>
+                    <a href="{% url 'dashboard:create_newsletter' %}" class="btn btn-primary">
+                        <i class="fas fa-plus fa-sm mr-1"></i>Create Newsletter
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if newsletters.has_other_pages %}
+    <nav aria-label="Newsletter pagination">
+        <ul class="pagination justify-content-center">
+            {% if newsletters.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo; First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ newsletters.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ newsletters.number }} of {{ newsletters.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if newsletters.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ newsletters.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ newsletters.paginator.num_pages }}">Last &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

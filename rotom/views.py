@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.http import JsonResponse
-from .models import Event, Payment, PreviousEvent, InterestCategory
+from .models import Event, Payment, PreviousEvent, InterestCategory, Newsletter
 from .forms import ContactForm, FeedingRegistrationForm, SubscriberForm, VolunteerProfileForm
 from django.utils import timezone
 
@@ -133,8 +133,8 @@ def volunteer(request):
     })
 def events_view(request):
     now = timezone.now()
-    upcoming_events = Event.objects.filter(event_date__gte=now).order_by('event_date')
-    previous_photos = PreviousEvent.objects.all().order_by('-event_date')
+    upcoming_events = Event.objects.filter(event_date__gte=now).select_related().order_by('event_date')
+    previous_photos = PreviousEvent.objects.select_related().order_by('-event_date')
     return render(request, 'rotom/events.html', {
         'upcoming_events': upcoming_events,
         'previous_photos': previous_photos
@@ -341,3 +341,21 @@ def champions(request):
 
 def stories(request):
     return render(request, 'rotom/stories.html')
+
+def blog(request):
+    # Get published newsletters to display as blog posts
+    newsletters = Newsletter.objects.filter(status='sent').order_by('-created_at')[:6]
+    return render(request, 'rotom/blog.html', {'newsletters': newsletters})
+
+def blog_detail(request, post_id):
+    # Get the specific newsletter/blog post
+    from django.shortcuts import get_object_or_404
+    newsletter = get_object_or_404(Newsletter, id=post_id, status='sent')
+    
+    # Get related posts (other published newsletters, excluding current one)
+    related_posts = Newsletter.objects.filter(status='sent').exclude(id=post_id).order_by('-created_at')[:3]
+    
+    return render(request, 'rotom/blog_detail.html', {
+        'newsletter': newsletter,
+        'related_posts': related_posts
+    })

@@ -20,4 +20,6 @@ urlpatterns = [
     # path('feeding-registration/', views.feeding_registration, name='feeding_registration'),
     path('subscribe/', views.subscribe, name='subscribe'),
     path('stories/', views.stories, name='stories'),
+    path('blog/', views.blog, name='blog'),
+    path('blog/<int:post_id>/', views.blog_detail, name='blog_detail'),
 ]

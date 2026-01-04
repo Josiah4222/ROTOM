@@ -1,0 +1,222 @@
+{% extends 'dashboard/base_admin.html' %}
+{% load static %}
+
+{% block title %}Create Newsletter - ROTOM Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-group label {
+        font-weight: 600;
+        color: #5a5c69;
+    }
+    
+    .form-control:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+    
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        border: 1px solid #e3e6f0;
+    }
+    
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .preview-section {
+        background-color: #f8f9fc;
+        border: 1px solid #e3e6f0;
+        border-radius: 0.35rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .help-text {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-plus fa-fw mr-2"></i>Create Newsletter
+        </h1>
+        <a href="{% url 'dashboard:manage_newsletters' %}" class="btn btn-secondary btn-sm">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i>Back to Newsletters
+        </a>
+    </div>
+
+    <!-- Success/Error Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Newsletter Form -->
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Newsletter Details</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% if form.title.help_text %}
+                                <div class="help-text">{{ form.title.help_text }}</div>
+                            {% endif %}
+                            {% if form.title.errors %}
+                                <div class="text-danger">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}</label>
+                            {{ form.subject }}
+                            {% if form.subject.help_text %}
+                                <div class="help-text">{{ form.subject.help_text }}</div>
+                            {% endif %}
+                            {% if form.subject.errors %}
+                                <div class="text-danger">{{ form.subject.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+                            {{ form.content }}
+                            {% if form.content.help_text %}
+                                <div class="help-text">{{ form.content.help_text }}</div>
+                            {% endif %}
+                            {% if form.content.errors %}
+                                <div class="text-danger">{{ form.content.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+                            {{ form.image }}
+                            {% if form.image.help_text %}
+                                <div class="help-text">{{ form.image.help_text }}</div>
+                            {% endif %}
+                            {% if form.image.errors %}
+                                <div class="text-danger">{{ form.image.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.status.id_for_label }}">{{ form.status.label }}</label>
+                                    {{ form.status }}
+                                    {% if form.status.help_text %}
+                                        <div class="help-text">{{ form.status.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.status.errors %}
+                                        <div class="text-danger">{{ form.status.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.scheduled_for.id_for_label }}">{{ form.scheduled_for.label }}</label>
+                                    {{ form.scheduled_for }}
+                                    {% if form.scheduled_for.help_text %}
+                                        <div class="help-text">{{ form.scheduled_for.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.scheduled_for.errors %}
+                                        <div class="text-danger">{{ form.scheduled_for.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-sm mr-1"></i>Create Newsletter
+                            </button>
+                            <a href="{% url 'dashboard:manage_newsletters' %}" class="btn btn-secondary ml-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Help Card -->
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-info-circle mr-1"></i>Newsletter Tips
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6 class="font-weight-bold">Status Options:</h6>
+                    <ul class="mb-3">
+                        <li><strong>Draft:</strong> Save without sending</li>
+                        <li><strong>Sent:</strong> Send immediately to all subscribers</li>
+                        <li><strong>Scheduled:</strong> Send at specified time</li>
+                    </ul>
+                    
+                    <h6 class="font-weight-bold">HTML Tips:</h6>
+                    <ul class="mb-3">
+                        <li>Use <code>&lt;h2&gt;</code> for headings</li>
+                        <li>Use <code>&lt;p&gt;</code> for paragraphs</li>
+                        <li>Use <code>&lt;strong&gt;</code> for bold text</li>
+                        <li>Use <code>&lt;a href="..."&gt;</code> for links</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        <strong>Warning:</strong> Setting status to "Sent" will immediately send the newsletter to all subscribers!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Show/hide scheduled_for field based on status
+    document.getElementById('{{ form.status.id_for_label }}').addEventListener('change', function() {
+        const scheduledField = document.getElementById('{{ form.scheduled_for.id_for_label }}').closest('.form-group');
+        if (this.value === 'scheduled') {
+            scheduledField.style.display = 'block';
+        } else {
+            scheduledField.style.display = 'none';
+        }
+    });
+    
+    // Initial state
+    const statusField = document.getElementById('{{ form.status.id_for_label }}');
+    const scheduledField = document.getElementById('{{ form.scheduled_for.id_for_label }}').closest('.form-group');
+    if (statusField.value !== 'scheduled') {
+        scheduledField.style.display = 'none';
+    }
+</script>
+{% endblock %}

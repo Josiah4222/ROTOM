@@ -1,0 +1,758 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Blog | ROTOM Ethiopia{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+<style>
+:root {
+    --main-color: #1C651B;
+    --secondary-color: #154d14;
+    --accent-color: #F1C93B;
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    background: #fff;
+}
+
+/* Hero */
+.hero {
+    position: relative;
+    height: 55vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.hero-background {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.hero-background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+}
+
+.hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Intro */
+.intro-section {
+    padding: 5rem 2rem 3rem;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--main-color);
+    margin-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+/* Ethiopia Statistics Section */
+.stats-section {
+    background-color: #fafafa;
+    padding: 5rem 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.stat-item {
+    background: white;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: var(--transition);
+    border: 1px solid rgba(28, 101, 27, 0.08);
+}
+
+.stat-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(28, 101, 27, 0.12);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--main-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Challenges and Solutions Sections */
+.challenges-section, .solutions-section {
+    padding: 5rem 2rem;
+}
+
+.solutions-section {
+    background-color: #fafafa;
+}
+
+.simple-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.simple-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--accent-color);
+    transition: var(--transition);
+}
+
+.simple-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(28, 101, 27, 0.12);
+    border-left-color: var(--main-color);
+}
+
+.simple-item h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--main-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.simple-item h3 i {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.simple-item p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Blog Posts Section */
+.blog-section {
+    padding: 5rem 2rem;
+}
+
+.blog-posts {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.blog-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid rgba(28, 101, 27, 0.08);
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(28, 101, 27, 0.15);
+    border-color: rgba(28, 101, 27, 0.15);
+}
+
+.blog-visual {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.blog-image {
+    width: 100%;
+    height: 100%;
+}
+
+.blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.blog-card:hover .blog-image img {
+    transform: scale(1.05);
+}
+
+.blog-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+    color: white;
+    font-size: 3rem;
+}
+
+.blog-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-category {
+    display: inline-block;
+    background: rgba(28, 101, 27, 0.1);
+    color: var(--main-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    align-self: flex-start;
+}
+
+.blog-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.blog-description {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    flex: 1;
+    line-height: 1.6;
+}
+
+.blog-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.blog-stats i {
+    color: var(--accent-color);
+}
+
+.blog-button {
+    display: inline-block;
+    background: var(--main-color);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+    text-decoration: none;
+}
+
+.blog-button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+    padding: 5rem 2rem;
+    text-align: center;
+    color: white;
+}
+
+.cta-section h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.15rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: var(--transition);
+    position: relative;
+    height: 60px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.btn-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: var(--transition);
+    filter: brightness(1.1) contrast(1.1);
+    flex-shrink: 0;
+    margin-left: -15px;
+}
+
+.btn-primary:hover .btn-image {
+    transform: scale(1.05);
+    border-color: rgba(241, 201, 59, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    filter: brightness(1.2) contrast(1.2);
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: var(--main-color);
+}
+
+.btn-primary:hover {
+    background: white;
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.8);
+}
+
+.btn-outline:hover {
+    background: white;
+    color: var(--main-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .intro-section, .stats-section, .challenges-section, .solutions-section, .blog-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .blog-posts {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .simple-list {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .cta-buttons { 
+        flex-direction: column; 
+        align-items: center; 
+    }
+    
+    .btn { 
+        width: 100%; 
+        max-width: 280px; 
+        justify-content: center; 
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-background" style="background-image: url('{% static 'images/myhome.jpg' %}');"></div>
+    <div class="hero-content">
+        <h1>Our Blog</h1>
+        <p>Understanding Ethiopia's challenges and how ROTOM is making a difference in the lives of our elders</p>
+    </div>
+</section>
+
+<!-- Intro Section -->
+<section class="intro-section">
+    <h2 class="section-title">Latest Stories & Updates</h2>
+    <p class="section-subtitle">Stay updated with the latest news and developments from ROTOM Ethiopia</p>
+</section>
+
+<!-- Blog Posts Section -->
+<section class="blog-section">
+    <div class="blog-posts">
+        {% for newsletter in newsletters %}
+        <div class="blog-card">
+            <div class="blog-visual">
+                {% if newsletter.image %}
+                <div class="blog-image">
+                    <img src="{{ newsletter.image.url }}" alt="{{ newsletter.title }}" loading="lazy">
+                </div>
+                {% else %}
+                <div class="blog-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="blog-content">
+                <span class="blog-category">ROTOM Update</span>
+                <h3 class="blog-title">{{ newsletter.title }}</h3>
+                <p class="blog-description">{{ newsletter.subject }}</p>
+                <div class="blog-stats">
+                    <span><i class="fas fa-calendar"></i> {{ newsletter.created_at|date:"F Y" }}</span>
+                </div>
+                <a href="{% url 'blog_detail' newsletter.id %}" class="blog-button">Read More</a>
+            </div>
+        </div>
+        {% empty %}
+        <!-- Default content when no newsletters exist -->
+        <div class="blog-card">
+            <div class="blog-visual">
+                <div class="blog-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <div class="blog-content">
+                <span class="blog-category">Success Story</span>
+                <h3 class="blog-title">Aboye's Miraculous Recovery</h3>
+                <p class="blog-description">From bedridden and forgotten to walking and helping others - witness the incredible transformation of Gash Aboye through dedicated care and community support.</p>
+                <div class="blog-stats">
+                    <span><i class="fas fa-calendar"></i> December 2024</span>
+                </div>
+                <a href="{% url 'stories' %}" class="blog-button">Read Full Story</a>
+            </div>
+        </div>
+
+        <div class="blog-card">
+            <div class="blog-visual">
+                <div class="blog-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+            </div>
+            <div class="blog-content">
+                <span class="blog-category">Program Update</span>
+                <h3 class="blog-title">Home Renovation Program Expansion</h3>
+                <p class="blog-description">We're expanding our home renovation program to provide dignified living spaces for more seniors, transforming houses into homes filled with hope.</p>
+                <div class="blog-stats">
+                    <span><i class="fas fa-calendar"></i> November 2024</span>
+                </div>
+                <a href="#" class="blog-button">Coming Soon</a>
+            </div>
+        </div>
+
+        <div class="blog-card">
+            <div class="blog-visual">
+                <div class="blog-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+            <div class="blog-content">
+                <span class="blog-category">Community Impact</span>
+                <h3 class="blog-title">Champions Program Success</h3>
+                <p class="blog-description">Our Champions program continues to break the cycle of poverty by supporting young people's education and empowering the next generation.</p>
+                <div class="blog-stats">
+                    <span><i class="fas fa-calendar"></i> October 2024</span>
+                </div>
+                <a href="{% url 'champion' %}" class="blog-button">Learn More</a>
+            </div>
+        </div>
+
+        <div class="blog-card">
+            <div class="blog-visual">
+                <div class="blog-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+            </div>
+            <div class="blog-content">
+                <span class="blog-category">Volunteer Stories</span>
+                <h3 class="blog-title">Meet Our Dedicated Volunteers</h3>
+                <p class="blog-description">Get to know the incredible volunteers who make our work possible, dedicating their time and hearts to serving Ethiopia's elderly community.</p>
+                <div class="blog-stats">
+                    <span><i class="fas fa-calendar"></i> September 2024</span>
+                </div>
+                <a href="{% url 'volunteer' %}" class="blog-button">Join Our Team</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Ethiopia Statistics Section -->
+<section class="stats-section">
+    <div class="intro-section">
+        <h2 class="section-title">Ethiopia at a Glance</h2>
+        <p class="section-subtitle">Understanding the demographic landscape that shapes our mission</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-number">135M</span>
+            <span class="stat-label">Total Population</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">5.3%</span>
+            <span class="stat-label">Over Age 60</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">71</span>
+            <span class="stat-label">Women Life Expectancy</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">65</span>
+            <span class="stat-label">Men Life Expectancy</span>
+        </div>
+    </div>
+</section>
+
+<!-- Key Challenges Section -->
+<section class="challenges-section">
+    <div class="intro-section">
+        <h2 class="section-title">Key Challenges Facing Elders</h2>
+        <p class="section-subtitle">Understanding the critical issues that affect elderly people in Ethiopia</p>
+    </div>
+
+    <div class="simple-list">
+        <div class="simple-item">
+            <h3><i class="fas fa-coins"></i> Poverty & Inflation</h3>
+            <p>Struggling to meet basic needs such as food, shelter, and clothing due to rising costs and limited income sources.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-heartbeat"></i> Limited Healthcare Access</h3>
+            <p>Limited access to essential medical services, increasing vulnerability to illness and disease without proper treatment.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-piggy-bank"></i> No Pension System</h3>
+            <p>Financial insecurity in old age for those engaging in informal work with no retirement benefits or social security.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-baby"></i> Caregiving Burden</h3>
+            <p>Serving as primary caregivers for grandchildren without adequate income, sustaining the cycle of poverty across generations.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-user-friends"></i> Social Isolation</h3>
+            <p>Facing social isolation and feelings of loneliness, leading to mental health challenges and decreased quality of life.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-home"></i> Homelessness Risk</h3>
+            <p>Homelessness often caused by rural-to-urban migration for low-wage jobs, leading to living on the streets in old age.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ROTOM Solutions Section -->
+<section class="solutions-section">
+    <div class="intro-section">
+        <h2 class="section-title">How ROTOM Addresses These Challenges</h2>
+        <p class="section-subtitle">Our comprehensive approach to supporting Ethiopia's elderly community</p>
+    </div>
+
+    <div class="simple-list">
+        <div class="simple-item">
+            <h3><i class="fas fa-building"></i> Center-Based Care</h3>
+            <p>Comprehensive daily care, meals, medical support, and social activities for 30+ seniors in our dedicated facility.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-house-user"></i> Home-Based Support</h3>
+            <p>Regular home visits, food assistance, medical supplies, and home improvements for 120+ elders in the community.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-graduation-cap"></i> Educational Programs</h3>
+            <p>School support, supplies, uniforms, and mentorship programs affecting 200+ grandchildren and young people.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-stethoscope"></i> Healthcare Services</h3>
+            <p>Medical checkups, medications, therapy services, and emergency healthcare interventions for vulnerable seniors.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-hands-helping"></i> Volunteer Training</h3>
+            <p>Training programs, materials, and coordination for 500+ volunteers who extend our reach into the community.</p>
+        </div>
+
+        <div class="simple-item">
+            <h3><i class="fas fa-tools"></i> Infrastructure Development</h3>
+            <p>Facility expansion, equipment upgrades, and technology improvements to serve more elders effectively.</p>
+        </div>
+    </div>
+</section>
+
+<!-- More Content Coming Soon -->
+<section class="blog-section">
+    <div class="empty-state">
+        <i class="fas fa-newspaper"></i>
+        <h3>More Stories Coming Soon</h3>
+        <p>Stay tuned for more inspiring stories, program updates, and insights from our mission. We'll be sharing regular updates about the incredible work happening at ROTOM Ethiopia.</p>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <h2>Be Part of Our Story</h2>
+    <p>Help us continue transforming lives and building a better future for Ethiopia's elders.</p>
+    <div class="cta-buttons">
+        <a href="{% url 'donate' %}" class="btn btn-primary">
+            <img src="{% static 'images/muday.jpg' %}" alt="Donate" class="btn-image">
+            Donate
+        </a>
+        <a href="{% url 'volunteer' %}" class="btn btn-outline"><i class="fas fa-hands-helping"></i> Volunteer</a>
+    </div>
+</section>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Simple scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.stat-item, .simple-item, .blog-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(40px)';
+        card.style.transition = 'all 0.7s ease-out';
+        observer.observe(card);
+    });
+});
+</script>
+{% endblock %}

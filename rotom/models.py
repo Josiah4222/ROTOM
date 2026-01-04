@@ -49,12 +49,35 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+class Newsletter(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('sent', 'Sent'),
+        ('scheduled', 'Scheduled'),
+    ]
+    
+    title = models.CharField(max_length=200)
+    subject = models.CharField(max_length=200)
+    content = models.TextField(help_text="Newsletter content (HTML supported)")
+    image = models.ImageField(upload_to='blog_images/', blank=True, null=True, help_text="Optional image for blog post")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    created_at = models.DateTimeField(auto_now_add=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    scheduled_for = models.DateTimeField(null=True, blank=True)
+    recipients_count = models.PositiveIntegerField(default=0)
+    
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        ordering = ['-created_at']
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    event_date = models.DateTimeField()
+    event_date = models.DateTimeField(db_index=True)
     image = models.ImageField(upload_to='event_images/')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return self.title
@@ -74,10 +97,10 @@ class PreviousEvent(models.Model):
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
-    email = models.EmailField()
+    email = models.EmailField(db_index=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return f"{self.name} - {self.email}"
@@ -88,13 +111,13 @@ class Contact(models.Model):
         
 class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    tx_ref = models.CharField(max_length=100, unique=True)
-    status = models.CharField(max_length=20, default='pending')
-    email = models.EmailField()
+    tx_ref = models.CharField(max_length=100, unique=True, db_index=True)
+    status = models.CharField(max_length=20, default='pending', db_index=True)
+    email = models.EmailField(db_index=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -127,10 +150,3 @@ class FeedingRegistration(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.get_meal_type_display()} at {self.get_location_display()}"
-
-class Subscriber(models.Model):
-    email = models.EmailField(unique=True)
-    subscribed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.email

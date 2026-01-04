@@ -127,25 +127,77 @@
 
 /* Donate Button */
 .donate-btn {
-    background: #1C651B;
+    background: linear-gradient(135deg, #1C651B, #2d5a27);
     color: white !important;
-    padding: 0.6rem 1.5rem !important;
-    border-radius: 25px;
+    padding: 0.4rem 1.5rem 0.4rem 4rem !important;
+    border-radius: 35px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(28, 101, 27, 0.25);
+    box-shadow: 0 3px 12px rgba(28, 101, 27, 0.3);
     font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 160px;
+    height: 45px;
+}
+
+.donate-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background: url("{% static 'images/muday.jpg' %}") center/cover;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.6);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.donate-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
 }
 
 .donate-btn:hover {
-    background: #154d14;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(28, 101, 27, 0.3);
+    background: linear-gradient(135deg, #154d14, #1C651B);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(28, 101, 27, 0.5);
+    padding-left: 4.2rem !important;
 }
 
-.donate-btn i {
-    margin-right: 5px;
+.donate-btn:hover::before {
+    transform: translateY(-50%) scale(1.2);
+    border-color: rgba(241, 201, 59, 0.9);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    filter: brightness(1.1) contrast(1.1);
+}
+
+.donate-btn:hover::after {
+    transform: translateX(100%);
+}
+
+.donate-btn span {
+    position: relative;
+    z-index: 2;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 /* Mobile Toggle */
@@ -242,7 +294,20 @@
     .donate-btn {
         margin-top: 1rem;
         text-align: center !important;
-        padding: 0.9rem 1.2rem !important;
+        padding: 0.6rem 1.2rem 0.6rem 4rem !important;
+        justify-content: center;
+        min-width: auto;
+        height: 42px;
+    }
+    
+    .donate-btn::before {
+        left: 3px;
+        width: 42px;
+        height: 42px;
+    }
+    
+    .donate-btn:hover {
+        padding-left: 4.1rem !important;
     }
 }
 
@@ -339,9 +404,10 @@
         <li><a href="{% url 'home' %}">Home</a></li>
         <li><a href="{% url 'ourstory' %}">About Us</a></li>
         <li><a href="{% url 'stories' %}">Stories</a></li>
+        <li><a href="{% url 'blog' %}">Blog</a></li>
         <li><a href="{% url 'take_action' %}">Take Action</a></li>
         <li><a href="{% url 'events' %}">Events</a></li>
-        <li><a href="{% url 'donate' %}" class="donate-btn"><i class="fas fa-heart"></i> Donate</a></li>
+        <li><a href="{% url 'donate' %}" class="donate-btn"><span>Donate</span></a></li>
     </ul>
     
     <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">

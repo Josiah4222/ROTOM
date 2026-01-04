@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ newsletter.subject }} - Newsletter Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        
+        .newsletter-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1C651B;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1C651B;
+            margin-bottom: 10px;
+        }
+        
+        .subject {
+            font-size: 20px;
+            color: #333;
+            margin: 0;
+        }
+        
+        .content {
+            margin-bottom: 30px;
+        }
+        
+        .content h1, .content h2, .content h3 {
+            color: #1C651B;
+        }
+        
+        .content p {
+            margin-bottom: 15px;
+        }
+        
+        .content a {
+            color: #1C651B;
+            text-decoration: none;
+        }
+        
+        .content a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .preview-banner {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .newsletter-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-banner">
+        <strong>PREVIEW MODE</strong> - This is how your newsletter will appear to subscribers
+    </div>
+    
+    <div class="newsletter-container">
+        <div class="header">
+            <div class="logo">ROTOM Ethiopia</div>
+            <h1 class="subject">{{ newsletter.subject }}</h1>
+        </div>
+        
+        <div class="content">
+            {{ newsletter.content|safe }}
+        </div>
+        
+        <div class="footer">
+            <p>
+                <strong>ROTOM Ethiopia</strong><br>
+                Reach One Touch One Mission<br>
+                Supporting Ethiopian Elders with Dignity and Care
+            </p>
+            <p>
+                You received this email because you subscribed to our newsletter.<br>
+                <a href="#">Unsubscribe</a> | <a href="#">Update Preferences</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
