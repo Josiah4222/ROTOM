@@ -8,9 +8,23 @@
     <p class="page-subtitle">View feeding program registrations</p>
 </div>
 
+<!-- Search -->
+<form method="get" class="mb-4">
+    <div class="input-group" style="max-width: 400px;">
+        <input type="text" name="search" class="form-control" placeholder="Search by name, email or phone..." value="{{ search }}">
+        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+        {% if search %}
+        <a href="{% url 'dashboard:manage_registrations' %}" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+    </div>
+</form>
+
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-utensils me-2"></i>All Registrations ({{ registrations.count }})</span>
+        <span><i class="fas fa-utensils me-2"></i>
+            {% if search %}Results for "{{ search }}"{% else %}All Registrations{% endif %}
+            ({{ registrations.paginator.count }})
+        </span>
     </div>
     <div class="card-body p-0">
         {% if registrations %}
@@ -46,10 +60,35 @@
                 </tbody>
             </table>
         </div>
+
+        {% if registrations.has_other_pages %}
+        <div class="d-flex justify-content-center py-3">
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    {% if registrations.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?search={{ search }}&page={{ registrations.previous_page_number }}">&laquo;</a>
+                    </li>
+                    {% endif %}
+                    {% for num in registrations.paginator.page_range %}
+                    <li class="page-item {% if registrations.number == num %}active{% endif %}">
+                        <a class="page-link" href="?search={{ search }}&page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if registrations.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?search={{ search }}&page={{ registrations.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+
         {% else %}
         <div class="empty-state">
             <i class="fas fa-utensils"></i>
-            <p>No meal registrations yet</p>
+            <p>No meal registrations{% if search %} matching "{{ search }}"{% endif %}</p>
         </div>
         {% endif %}
     </div>

@@ -4,412 +4,13 @@
 {% block title %}Home-Based Senior Support{% endblock %}
 
 {% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
-<style>
-    :root {
-        --main-color: #1C651B;
-        --secondary-color: #154d14;
-        --accent-color: #F1C93B;
-        --text-color: #1f2937;
-        --text-muted: #6b7280;
-        --background-light: #f9fafb;
-        --card-bg: #ffffff;
-        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: var(--text-color);
-        background-color: var(--background-light);
-        line-height: 1.7;
-    }
-
-    /* Hero section */
-    .hero {
-        position: relative;
-        min-height: 80vh;
-        width: 100%;
-        padding: 5rem 2rem;
-        margin-top: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url('{% static "images/volun.jpg" %}') no-repeat center center/cover;
-        background-attachment: fixed;
-    }
-
-    .hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
-        backdrop-filter: blur(2px);
-    }
-
-    .hero-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        color: white;
-        animation: fadeUp 1s ease-out;
-    }
-
-    .hero h1 {
-        font-size: clamp(3rem, 5vw, 4.5rem);
-        margin-bottom: 1.5rem;
-        font-weight: 800;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        letter-spacing: -1px;
-    }
-
-    .hero p {
-        font-size: clamp(1.2rem, 2vw, 1.6rem);
-        max-width: 900px;
-        margin: 0 auto;
-        opacity: 0.95;
-        font-weight: 300;
-    }
-
-    /* Main Content */
-    .main-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 5rem 3rem;
-    }
-
-    /* Section Styles */
-    .section {
-        margin-bottom: 8rem;
-        position: relative;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-    
-    /* Ethiopian Cultural Decorative Border */
-    .ethiopian-section-border {
-        position: relative;
-        padding-top: 2rem;
-    }
-    
-    .ethiopian-section-border::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 200px;
-        height: 20px;
-        background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
-        background-repeat: repeat-x;
-    }
-    
-    /* Ethiopian Woven Pattern Background */
-    .ethiopian-bg {
-        background-color: #fafafa;
-        background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
-    }
-    
-    /* Decorative Corner Motif */
-    .corner-motif {
-        position: relative;
-    }
-    
-    .corner-motif::before,
-    .corner-motif::after {
-        content: '◆';
-        position: absolute;
-        font-size: 1.5rem;
-        color: var(--accent-color);
-        opacity: 0.4;
-    }
-    
-    .corner-motif::before {
-        top: 1rem;
-        left: 1rem;
-    }
-    
-    .corner-motif::after {
-        bottom: 1rem;
-        right: 1rem;
-    }
-
-    .section-header h2 {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        margin-bottom: 1rem;
-        position: relative;
-        display: inline-block;
-        font-weight: 700;
-    }
-
-    .section-header h2::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
-        background: var(--accent-color);
-        margin: 15px auto 0;
-        border-radius: 2px;
-    }
-
-    .section-header p {
-        font-size: 1.15rem;
-        color: var(--text-muted);
-        max-width: 800px;
-        margin: 0 auto;
-        line-height: 1.7;
-    }
-
-    /* Services Grid */
-    .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2.5rem;
-        margin-top: 4rem;
-        align-items: stretch;
-    }
-
-    .service-card {
-        background: white;
-        border-radius: 20px;
-        padding: 3rem;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 250px;
-    }
-
-    .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: rgba(28, 101, 27, 0.1);
-    }
-
-    .service-card h3 {
-        font-size: 1.4rem;
-        color: var(--main-color);
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        font-weight: 600;
-    }
-
-    .service-card h3 i {
-        font-size: 1.8rem;
-        color: var(--main-color);
-        background: rgba(28, 101, 27, 0.1);
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: var(--transition);
-    }
-
-    .service-card:hover h3 i {
-        background: var(--main-color);
-        color: white;
-        transform: rotate(360deg);
-    }
-
-    .service-card p {
-        color: var(--text-muted);
-        font-size: 1rem;
-        line-height: 1.7;
-        flex-grow: 1;
-    }
-
-    /* Before/After Gallery */
-    .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 3rem;
-        margin-top: 4rem;
-    }
-
-    .gallery-item {
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
-        background: var(--background-light);
-        cursor: pointer;
-        aspect-ratio: 16/10;
-    }
-
-    .gallery-item:hover {
-        transform: scale(1.02);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .gallery-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s ease;
-    }
-
-    .gallery-item:hover img {
-        transform: scale(1.1);
-    }
-
-    .gallery-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 2rem;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
-        color: white;
-        transform: translateY(20px);
-        opacity: 0;
-        transition: var(--transition);
-    }
-
-    .gallery-item:hover .gallery-caption {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .gallery-caption h3 {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-        color: var(--accent-color);
-        font-weight: 600;
-    }
-
-    .gallery-caption p {
-        font-size: 0.95rem;
-        opacity: 0.95;
-        line-height: 1.5;
-    }
-
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Lightbox Styles */
-    .lightbox {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        backdrop-filter: blur(5px);
-    }
-
-    .lightbox.active {
-        display: flex;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .lightbox-img {
-        max-width: 95%;
-        max-height: 85vh;
-        border-radius: 12px;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-        transform: scale(0.9);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .lightbox.active .lightbox-img {
-        transform: scale(1);
-    }
-
-    .lightbox-close {
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-        color: white;
-        font-size: 3rem;
-        cursor: pointer;
-        transition: var(--transition);
-        line-height: 1;
-        z-index: 1001;
-    }
-
-    .lightbox-close:hover {
-        color: var(--accent-color);
-        transform: rotate(90deg);
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-        .services-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 900px) {
-        .hero h1 {
-            font-size: 3rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-
-        .services-grid,
-        .gallery-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .main-content {
-            padding: 3rem 1.5rem;
-        }
-
-        .hero {
-            padding: 3rem 1.5rem;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/programs.css' %}">
 {% endblock %}
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<section class="hero">
+<section class="hero" style="background-image: url('{% static 'images/homehome.jpg' %}');">
     <div class="hero-content">
         <h1>Home-Based Senior Support</h1>
         <p>Creating a Caring and Supportive Home Environment for Our Seniors</p>
@@ -440,7 +41,7 @@
                 <p>Providing monthly grocery support to ensure access to essential resources for older adults.</p>
             </div>
             <div class="service-card">
-                <h3><i class="fas fa-book"></i>  Educational Empowernment for grand children</h3>
+                <h3><i class="fas fa-book"></i> Educational Empowernment for grand children</h3>
                 <p>Reducing the burden on older caregivers by supplying educational resources to empower the next
                     generation.</p>
             </div>
@@ -450,7 +51,8 @@
             </div>
             <div class="service-card">
                 <h3><i class="fas fa-monument"></i> Burial ceremony</h3>
-                <p>Providing a dignified burial ceremony based on the religion they follow, ensuring respectful final rites for our elders.</p>
+                <p>Providing a dignified burial ceremony based on the religion they follow, ensuring respectful final
+                    rites for our elders.</p>
             </div>
             <div class="service-card">
                 <h3><i class="fas fa-bullhorn"></i> Awareness Raising</h3>
@@ -461,46 +63,36 @@
 
     <section class="section ethiopian-section-border corner-motif">
         <div class="section-header Ren">
-            <h2>House Rebuiding & Renovation </h2>
+            <h2>House Rebuiding & Renovation</h2>
             <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
-            <p>Discover the impact of our home renovation program, improving living conditions for seniors through
+            <p style="color: #6b7280; max-width: 650px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.7;">Discover the impact of our home renovation program, improving living conditions for seniors through
                 thoughtful upgrades and repairs.</p>
         </div>
 
-        <div class="gallery-grid">
-            <div class="gallery-item" data-img="{% static 'images/jemanesh.jpg' %}">
-                <img src="{% static 'images/jemanesh.jpg' %}" alt="Before Jemanesh's Home Renovation">
-                <div class="gallery-caption">
-                    <h3>Before Renovation</h3>
-                    <p>Jemanesh's home before our intervention, with worn-out walls and inadequate roofing, making daily
-                        life challenging.</p>
+        {% if renovations %}
+        <div class="renovation-grid">
+            {% for r in renovations %}
+            <div class="renovation-card">
+                <div class="renovation-images">
+                    <div class="reno-img-wrap" onclick="openRenoLightbox('{{ r.before_image.url }}')">
+                        <img src="{{ r.before_image.url }}" alt="Before">
+                        <span class="reno-label before">Before</span>
+                    </div>
+                    <div class="reno-divider"><i class="fas fa-arrow-right"></i></div>
+                    <div class="reno-img-wrap" onclick="openRenoLightbox('{{ r.after_image.url }}')">
+                        <img src="{{ r.after_image.url }}" alt="After">
+                        <span class="reno-label after">After</span>
+                    </div>
+                </div>
+                <div class="renovation-info">
+                    <h3>{{ r.name }}</h3>
+                    {% if r.description %}<p>{{ r.description }}</p>{% endif %}
                 </div>
             </div>
-            <div class="gallery-item" data-img="{% static 'images/jemaneshafter.jpg' %}">
-                <img src="{% static 'images/jemaneshafter.jpg' %}" alt="After Jemanesh's Home Renovation">
-                <div class="gallery-caption">
-                    <h3>After Renovation</h3>
-                    <p>Jemanesh's home transformed with sturdy roofing, reinforced walls, and a safer, more comfortable
-                        living environment.</p>
-                </div>
-            </div>
-            <div class="gallery-item" data-img="{% static 'images/before.jpg' %}">
-                <img src="{% static 'images/before.jpg' %}" alt="Before Home Renovation">
-                <div class="gallery-caption">
-                    <h3>Before Renovation</h3>
-                    <p>An older adult's home with structural issues and poor living conditions before ROTOM's renovation
-                        support.</p>
-                </div>
-            </div>
-            <div class="gallery-item" data-img="{% static 'images/after.jpg' %}">
-                <img src="{% static 'images/after.jpg' %}" alt="After Home Renovation">
-                <div class="gallery-caption">
-                    <h3>After Renovation</h3>
-                    <p>A revitalized home with improved safety, insulation, and comfort, enhancing the senior's quality
-                        of life.</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        {% else %}
+        {% endif %}
     </section>
 </div>
 
@@ -510,34 +102,30 @@
     <img class="lightbox-img" id="lightbox-img" src="" alt="Lightbox Image">
 </div>
 
+<!-- Renovation Lightbox -->
+<div class="reno-lightbox" id="renoLightbox" onclick="closeRenoLightbox()">
+    <span class="reno-lightbox-close">&times;</span>
+    <img src="" alt="" id="renoLightboxImg">
+</div>
+
 {% include 'rotom/footer.html' %}
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/homebased.js' %}" defer></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxClose = document.getElementById('lightbox-close');
-
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const imgSrc = item.getAttribute('data-img');
-                lightboxImg.src = imgSrc;
-                lightbox.classList.add('active');
-            });
-        });
-
-        lightboxClose.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-            }
-        });
-    });
+function openRenoLightbox(url) {
+    const lb = document.getElementById('renoLightbox');
+    document.getElementById('renoLightboxImg').src = url;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeRenoLightbox() {
+    document.getElementById('renoLightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeRenoLightbox();
+});
 </script>
 {% endblock %}

@@ -75,7 +75,7 @@ def subscribe(request):
                 send_mail(
                     subject='Welcome to ROTOM Ethiopia Newsletter!',
                     message=f'Thank you for subscribing, {subscriber.email}! Stay tuned for updates.',
-                    from_email='noreply@rotomethiopia.org',
+                    from_email='rotomethiopia@reachone-touchone.org',
                     recipient_list=[subscriber.email],
                     fail_silently=False,
                 )
@@ -100,13 +100,23 @@ def achievements(request):
     return render(request, 'rotom/achievements.html')
 
 def centerbased(request):
-    return render(request, 'rotom/centerbased.html')
+    from rotom.models import CenterPhoto
+    center_photos = CenterPhoto.objects.filter(is_active=True).order_by('order', 'title')
+    return render(request, 'rotom/centerbased.html', {'center_photos': center_photos})
 
 def homebased(request):
-    return render(request, 'rotom/homebased.html')
+    from .models import HouseRenovation
+    renovations = HouseRenovation.objects.all()
+    return render(request, 'rotom/homebased.html', {'renovations': renovations})
 
 def ourstory(request):
-    return render(request, 'rotom/ourstory.html')
+    from rotom.models import Milestone, TeamMember
+    milestones = Milestone.objects.filter(is_active=True).order_by('order', 'year')
+    team_members = TeamMember.objects.filter(is_active=True).order_by('order', 'name')
+    return render(request, 'rotom/ourstory.html', {
+        'milestones': milestones,
+        'team_members': team_members
+    })
 
 def ourplan(request):
     return render(request, 'rotom/ourplan.html')
@@ -118,11 +128,12 @@ def volunteer(request):
         if form.is_valid():
             volunteer = form.save()
             # Optionally save M2M fields if handled separately, but ModelForm does it
-            messages.success(request, 'Thank you for registering as a volunteer! We will contact you soon.')
-            return redirect('home')
+            messages.success(request, 'You have been registered! Our team will contact you soon.')
+            return redirect('volunteer')  # Redirect to same page to show success message
         else:
             # Log errors for debugging
             logger.warning(f"Volunteer form errors: {form.errors}")
+            messages.error(request, 'Please correct the errors below to complete your registration.')
     else:
         form = VolunteerProfileForm()
     
@@ -153,8 +164,12 @@ def event_detail(request, event_id):
     })
 
 # rotom/views.py (updated donate function to pass tx_ref in return_url)
+# rotom/views.py (updated donate function to pass tx_ref in return_url)
 @rate_limit('donate', limit=10, period=300)  # 10 donations per 5 minutes
 def donate(request):
+    from rotom.models import DonationPackage
+    packages = DonationPackage.objects.filter(is_active=True).order_by('order')
+    
     if request.method == 'POST':
         amount = request.POST.get('amount')
         email = request.POST.get('email')
@@ -189,7 +204,7 @@ def donate(request):
             return redirect('donate')
 
         # Validate phone number (if provided)
-        if phone_number and not (phone_number.startswith('09') or phone_number.startswith('07')) or len(phone_number) != 10:
+        if phone_number and (not (phone_number.startswith('09') or phone_number.startswith('07')) or len(phone_number) != 10):
             messages.error(request, 'Phone number must be 10 digits starting with 09 or 07.')
             logger.warning(f"Invalid phone number: {phone_number}")
             return redirect('donate')
@@ -215,17 +230,17 @@ def donate(request):
             'Content-Type': 'application/json'
         }
         data = {
-            'amount': str(amount),  # Chapa expects amount as string
+            'amount': str(amount),
             'currency': 'ETB',
             'email': email,
             'first_name': first_name,
             'last_name': last_name,
             'phone_number': phone_number,
             'tx_ref': tx_ref,
-            'callback_url': request.build_absolute_uri('/payment/callback/'),
-            'return_url': request.build_absolute_uri(f'/payment/success/?tx_ref={tx_ref}'),  # Pass tx_ref in return_url
+            'callback_url': request.build_absolute_uri(reverse('payment_callback')),
+            'return_url': request.build_absolute_uri(reverse('payment_success') + f'?tx_ref={tx_ref}'),
             'customization': {
-                'title': 'ROTOM Donation',  # 13 characters
+                'title': 'ROTOM Donation',
                 'description': 'Support our seniors in Ethiopia'
             }
         }
@@ -253,35 +268,49 @@ def donate(request):
             logger.error(f"Chapa request exception: {str(e)}")
             return redirect('donate')
 
-    return render(request, 'rotom/donation.html')
+    return render(request, 'rotom/donation.html', {'packages': packages})
 
 def payment_callback(request):
     tx_ref = request.GET.get('tx_ref')
     status = request.GET.get('status')
 
-    if tx_ref and status:
+    logger.info(f"Payment callback received: tx_ref={tx_ref}, status={status}")
+
+    if tx_ref:
         try:
             payment = Payment.objects.get(tx_ref=tx_ref)
-            if status == 'success':
-                # Verify transaction with Chapa
+            
+            # Verify transaction with Chapa API
+            try:
                 url = f'https://api.chapa.co/v1/transaction/verify/{tx_ref}'
                 headers = {'Authorization': f'Bearer {settings.CHAPA_SECRET_KEY}'}
                 response = requests.get(url, headers=headers)
                 response_data = response.json()
                 logger.info(f"Chapa verify response: {response_data}")
 
-                if response_data.get('status') == 'success':
+                # Check the actual transaction status from Chapa
+                chapa_status = response_data.get('data', {}).get('status', '').lower()
+                
+                if chapa_status == 'success':
                     payment.status = 'success'
                     payment.save()
-                else:
+                    logger.info(f"Payment {tx_ref} marked as success")
+                elif 'failed' in chapa_status or 'cancel' in chapa_status:
+                    # Handles: 'failed', 'cancelled', 'canceled', 'failed/cancelled', etc.
                     payment.status = 'failed'
                     payment.save()
-            else:
-                payment.status = 'failed'
-                payment.save()
+                    logger.warning(f"Payment {tx_ref} marked as failed (Chapa status: {chapa_status})")
+                else:
+                    # Keep as pending if status is unclear
+                    logger.warning(f"Payment {tx_ref} has unclear status: {chapa_status}")
+                    
+            except Exception as e:
+                logger.error(f"Error verifying payment with Chapa: {str(e)}")
+                
         except Payment.DoesNotExist:
             logger.error(f"Payment not found for tx_ref: {tx_ref}")
-            pass
+        except Exception as e:
+            logger.error(f"Error in payment callback: {str(e)}")
 
     return redirect('payment_success')
 
@@ -311,11 +340,45 @@ def take_action(request):
 
 def payment_success(request):
     tx_ref = request.GET.get('tx_ref')
+    
+    if not tx_ref:
+        return render(request, 'rotom/payment_success.html', {'status': 'unknown'})
+    
     try:
         payment = Payment.objects.get(tx_ref=tx_ref)
-        context = {'tx_ref': tx_ref, 'status': payment.status}
+        
+        # If payment is still pending, try to verify it with Chapa
+        if payment.status == 'pending':
+            try:
+                url = f'https://api.chapa.co/v1/transaction/verify/{tx_ref}'
+                headers = {'Authorization': f'Bearer {settings.CHAPA_SECRET_KEY}'}
+                response = requests.get(url, headers=headers)
+                response_data = response.json()
+                logger.info(f"Payment success page - Chapa verify response: {response_data}")
+                
+                # Check the actual transaction status from Chapa
+                chapa_status = response_data.get('data', {}).get('status', '').lower()
+                
+                if chapa_status == 'success':
+                    payment.status = 'success'
+                    payment.save()
+                    logger.info(f"Payment {tx_ref} verified and marked as success")
+                elif 'failed' in chapa_status or 'cancel' in chapa_status:
+                    # Handles: 'failed', 'cancelled', 'canceled', 'failed/cancelled', etc.
+                    payment.status = 'failed'
+                    payment.save()
+                    logger.warning(f"Payment {tx_ref} marked as failed (Chapa status: {chapa_status})")
+                else:
+                    logger.warning(f"Payment {tx_ref} has unclear status: {chapa_status}")
+                    
+            except Exception as e:
+                logger.error(f"Error verifying payment on success page: {str(e)}")
+        
+        context = {'tx_ref': tx_ref, 'status': payment.status, 'amount': payment.amount}
     except Payment.DoesNotExist:
+        logger.error(f"Payment not found for tx_ref: {tx_ref}")
         context = {'tx_ref': tx_ref, 'status': 'unknown'}
+    
     return render(request, 'rotom/payment_success.html', context)
 
 
@@ -336,26 +399,34 @@ def feeding_registration(request):
 
 
 def champions(request):
-    context = {}
+    from rotom.models import Champion, GalleryImage
+    champions = Champion.objects.filter(is_active=True).order_by('order', '-created_at')
+    gallery_images = GalleryImage.objects.filter(is_active=True).order_by('order', '-created_at')
+    context = {
+        'champions': champions,
+        'gallery_images': gallery_images
+    }
     return render(request, 'rotom/champions.html', context)
 
 def stories(request):
-    return render(request, 'rotom/stories.html')
+    from rotom.models import Story
+    stories = Story.objects.filter(published=True).order_by('order', '-created_at')
+    return render(request, 'rotom/stories.html', {'stories': stories})
 
 def blog(request):
-    # Get published newsletters to display as blog posts
-    newsletters = Newsletter.objects.filter(status='sent').order_by('-created_at')[:6]
+    from .models import BlogPost
+    from django.core.paginator import Paginator
+    posts = BlogPost.objects.filter(published=True).order_by('-created_at')
+    paginator = Paginator(posts, 6)
+    newsletters = paginator.get_page(request.GET.get('page'))
     return render(request, 'rotom/blog.html', {'newsletters': newsletters})
 
 def blog_detail(request, post_id):
-    # Get the specific newsletter/blog post
     from django.shortcuts import get_object_or_404
-    newsletter = get_object_or_404(Newsletter, id=post_id, status='sent')
-    
-    # Get related posts (other published newsletters, excluding current one)
-    related_posts = Newsletter.objects.filter(status='sent').exclude(id=post_id).order_by('-created_at')[:3]
-    
+    from .models import BlogPost
+    post = get_object_or_404(BlogPost, id=post_id, published=True)
+    related_posts = BlogPost.objects.filter(published=True).exclude(id=post_id).order_by('-created_at')[:3]
     return render(request, 'rotom/blog_detail.html', {
-        'newsletter': newsletter,
+        'newsletter': post,
         'related_posts': related_posts
     })

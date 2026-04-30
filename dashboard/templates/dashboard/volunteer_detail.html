@@ -23,31 +23,31 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="text-muted small">First Name</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.first_name }}</p>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.first_name }}</p>
                     </div>
                     <div class="col-md-6">
                         <label class="text-muted small">Last Name</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.last_name }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="text-muted small">Email</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.email }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="text-muted small">Phone</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.phone }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="text-muted small">Date of Birth</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.date_of_birth|date:"F d, Y" }}</p>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.last_name }}</p>
                     </div>
                     <div class="col-md-6">
                         <label class="text-muted small">Gender</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.get_gender_display }}</p>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.get_gender_display }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Age</label>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.age }} years</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Phone Number</label>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.phone_number }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted small">Address</label>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.get_address_display }}</p>
                     </div>
                     <div class="col-12">
-                        <label class="text-muted small">Address</label>
-                        <p class="mb-0 fw-semibold">{{ volunteer.address }}</p>
+                        <label class="text-muted small">Education Level</label>
+                        <p class="mb-0 fw-semibold text-dark">{{ volunteer.get_education_level_display }}</p>
                     </div>
                 </div>
             </div>
@@ -57,22 +57,31 @@
     <div class="col-lg-4">
         <div class="card mb-4">
             <div class="card-header">
-                <i class="fas fa-graduation-cap me-2"></i>Education
+                <i class="fas fa-clock me-2"></i>Availability
             </div>
             <div class="card-body">
-                <span class="badge badge-success" style="font-size: 1rem; padding: 0.5rem 1rem;">
-                    {{ volunteer.get_education_level_display|title }}
-                </span>
+                <label class="text-muted small">Days Available</label>
+                <div class="mb-3">
+                    {% if volunteer.days_available.all %}
+                        {% for day in volunteer.days_available.all %}
+                        <span class="badge me-1" style="background-color: #1C651B; color: white; padding: 0.35rem 0.65rem;">{{ day.name }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-dark mb-0">Not specified</p>
+                    {% endif %}
+                </div>
+                <label class="text-muted small">Preferred Time</label>
+                <p class="mb-0 fw-semibold text-dark">{{ volunteer.get_times_available_display }}</p>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-clock me-2"></i>Registration Info
+                <i class="fas fa-calendar me-2"></i>Registration Info
             </div>
             <div class="card-body">
                 <label class="text-muted small">Registered On</label>
-                <p class="mb-0 fw-semibold">{{ volunteer.created_at|date:"F d, Y" }}</p>
+                <p class="mb-0 fw-semibold text-dark">{{ volunteer.created_at|date:"F d, Y" }}</p>
             </div>
         </div>
     </div>

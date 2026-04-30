@@ -4,737 +4,13 @@
 {% block title %}Take Action - ROTOM Ethiopia{% endblock %}
 
 {% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
-<style>
-    :root {
-        --main-color: #1C651B;
-        --secondary-color: #154d14;
-        --accent-color: #F1C93B;
-        --text-color: #1f2937;
-        --text-muted: #6b7280;
-        --background-light: #f9fafb;
-        --card-bg: #ffffff;
-        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: var(--text-color);
-        background-color: var(--background-light);
-        line-height: 1.7;
-    }
-
-    /* Hero section */
-    .take-action-hero {
-        position: relative;
-        min-height: 60vh;
-        width: 100%;
-        padding: 4rem 2rem;
-        margin-top: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url("{% static 'images/myhome.jpg' %}") no-repeat center center/cover;
-        background-attachment: fixed;
-    }
-
-    .take-action-hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
-        backdrop-filter: blur(2px);
-    }
-
-    .take-action-hero-content {
-        max-width: 900px;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        color: white;
-        animation: fadeUp 1s ease-out;
-    }
-
-    .take-action-hero-content h1 {
-        font-size: clamp(3rem, 5vw, 4.5rem);
-        margin-bottom: 1.5rem;
-        font-weight: 800;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .take-action-hero-content p {
-        font-size: clamp(1.1rem, 2vw, 1.4rem);
-        max-width: 800px;
-        margin: 0 auto 2.5rem;
-        opacity: 0.95;
-        font-weight: 300;
-    }
-
-    .action-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.5rem;
-    }
-
-    .action-btn {
-        display: inline-block;
-        padding: 1rem 2.5rem;
-        background: var(--accent-color);
-        color: var(--main-color);
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(241, 201, 59, 0.3);
-    }
-
-    .action-btn:hover {
-        background: white;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
-    }
-
-    .action-btn.secondary {
-        background: transparent;
-        border: 2px solid white;
-        color: white;
-        box-shadow: none;
-    }
-
-    .action-btn.secondary:hover {
-        background: white;
-        color: var(--main-color);
-    }
-
-    /* Form styles */
-    .feeding-form-section {
-        max-width: 1300px;
-        margin: -4rem auto 4rem;
-        padding: 0;
-        background: white;
-        border-radius: 20px;
-        box-shadow: var(--shadow-lg);
-        position: relative;
-        z-index: 3;
-        overflow: hidden;
-    }
-
-    .feeding-form-container {
-        display: grid;
-        grid-template-columns: 1fr 1.5fr;
-        gap: 0;
-        min-height: 280px;
-    }
-
-    .feeding-form-image {
-        background: url("{% static 'images/centerbased.jpg' %}") center/cover;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .feeding-form-image::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.8), rgba(0, 0, 0, 0.6));
-    }
-
-    .image-content {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        color: white;
-        padding: 1.2rem 1.8rem;
-    }
-
-    .image-content h4 {
-        font-size: 1.4rem;
-        margin-bottom: 0.8rem;
-        font-weight: 700;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .image-content p {
-        font-size: 0.95rem;
-        opacity: 0.95;
-        line-height: 1.5;
-        max-width: 380px;
-    }
-
-    .feeding-form-content {
-        padding: 1rem 2rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .feeding-form-content h3 {
-        text-align: center;
-        color: var(--main-color);
-        margin-bottom: 0.2rem;
-        font-size: 1.4rem;
-        font-weight: 700;
-    }
-
-    .feeding-form-content > p {
-        text-align: center;
-        margin: 0 auto 0.6rem;
-        color: var(--text-muted);
-        max-width: 450px;
-        font-size: 0.85rem;
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-
-    .form-grid .form-group {
-        margin-bottom: 0.6rem;
-    }
-
-    .form-group.full-width {
-        grid-column: 1 / -1;
-    }
-
-    .form-group {
-        margin-bottom: 0.8rem;
-    }
-
-    .form-group label {
-        display: block;
-        font-size: 0.85rem;
-        color: var(--text-color);
-        margin-bottom: 0.3rem;
-        font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        padding: 0.7rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        color: var(--text-color);
-        background: #f9fafb;
-        transition: var(--transition);
-        font-family: inherit;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: var(--main-color);
-        background: white;
-        box-shadow: 0 0 0 3px rgba(28, 101, 27, 0.1);
-    }
-
-    .form-group textarea {
-        resize: vertical;
-        min-height: 60px;
-    }
-
-    button.btn[type="submit"] {
-        width: 100%;
-        max-width: 200px;
-        display: block;
-        margin: 0.8rem auto 0;
-        padding: 0.7rem;
-        background: var(--main-color);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        box-shadow: 0 4px 10px rgba(28, 101, 27, 0.2);
-    }
-
-    button.btn[type="submit"]:hover {
-        background: var(--secondary-color);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(28, 101, 27, 0.3);
-    }
-
-    /* Give section enhanced styles */
-    .give-section-enhanced {
-        background: var(--background-light);
-        padding: 6rem 2rem;
-    }
-
-    .give-container {
-        max-width: 1300px;
-        margin: 0 auto;
-    }
-
-    .give-intro {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-
-    .give-intro h2 {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        margin-bottom: 1rem;
-        font-weight: 700;
-        position: relative;
-    }
-
-    .give-intro h2::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
-        background: var(--accent-color);
-        margin: 15px auto 0;
-        border-radius: 2px;
-    }
-
-    .give-intro p {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        max-width: 800px;
-        margin: 0 auto;
-        line-height: 1.7;
-    }
-
-    .give-cards-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-
-    .give-card-enhanced {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-lg);
-        transition: var(--transition);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        min-height: 400px;
-    }
-
-    .give-card-enhanced:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 25px 50px -12px rgba(28, 101, 27, 0.2);
-    }
-
-    .give-card-enhanced:nth-child(even) {
-        direction: rtl;
-    }
-
-    .give-card-enhanced:nth-child(even) > * {
-        direction: ltr;
-    }
-
-    .give-card-image {
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .give-card-image::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.7), rgba(0, 0, 0, 0.5));
-    }
-
-    .image-overlay-content {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        color: white;
-        padding: 2rem;
-    }
-
-    .image-overlay-content i {
-        font-size: 3rem;
-        color: var(--accent-color);
-        margin-bottom: 1rem;
-        background: rgba(255,255,255,0.1);
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        backdrop-filter: blur(10px);
-    }
-
-    .image-overlay-content h4 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .image-overlay-content p {
-        font-size: 1rem;
-        opacity: 0.95;
-        line-height: 1.6;
-    }
-
-    .give-card-content {
-        padding: 3rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .give-card-content h3 {
-        font-size: 2rem;
-        color: var(--main-color);
-        margin-bottom: 1.5rem;
-        font-weight: 700;
-    }
-
-    .give-card-content p {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        margin-bottom: 2rem;
-        line-height: 1.7;
-    }
-
-    .give-card-content ul {
-        list-style: none;
-        padding: 0;
-        margin-bottom: 2.5rem;
-        background: #f9fafb;
-        padding: 2rem;
-        border-radius: 12px;
-    }
-
-    .give-card-content li {
-        margin-bottom: 1rem;
-        color: var(--text-color);
-        font-size: 1rem;
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        line-height: 1.6;
-    }
-
-    .give-card-content li::before {
-        content: '\f00c';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        color: var(--accent-color);
-        font-size: 0.9rem;
-        margin-top: 2px;
-    }
-
-    .give-card-content .btn {
-        background: var(--main-color);
-        color: white;
-        padding: 1rem 2.5rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 50px;
-        align-self: flex-start;
-        text-decoration: none;
-        transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(28, 101, 27, 0.3);
-    }
-
-    .give-card-content .btn:hover {
-        background: var(--secondary-color);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(28, 101, 27, 0.4);
-    }
-    .action-section {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 6rem 2rem;
-    }
-
-    .action-section:nth-child(even) {
-        background: var(--background-light);
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        margin-bottom: 3rem;
-        text-align: center;
-        font-weight: 700;
-        position: relative;
-    }
-
-    .section-title::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
-        background: var(--accent-color);
-        margin: 15px auto 0;
-        border-radius: 2px;
-    }
-
-    .action-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2.5rem;
-    }
-
-    .action-card {
-        background: white;
-        border-radius: 20px;
-        padding: 2.5rem;
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    .action-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: rgba(28, 101, 27, 0.1);
-    }
-
-    .action-icon {
-        font-size: 3rem;
-        color: var(--main-color);
-        margin-bottom: 1.5rem;
-        text-align: center;
-        background: rgba(28, 101, 27, 0.1);
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-        transition: var(--transition);
-    }
-
-    .action-card:hover .action-icon {
-        background: var(--main-color);
-        color: white;
-        transform: rotateY(180deg);
-    }
-
-    .action-card h3 {
-        font-size: 1.6rem;
-        color: var(--main-color);
-        margin-bottom: 1rem;
-        text-align: center;
-        font-weight: 700;
-    }
-
-    .action-card p {
-        font-size: 1rem;
-        color: var(--text-muted);
-        margin-bottom: 1.5rem;
-        line-height: 1.7;
-        flex-grow: 1;
-        text-align: center;
-    }
-
-    .action-card ul {
-        list-style: none;
-        padding: 0;
-        margin-bottom: 2rem;
-        flex-grow: 1;
-        background: #f9fafb;
-        padding: 1.5rem;
-        border-radius: 12px;
-    }
-
-    .action-card li {
-        margin-bottom: 0.8rem;
-        color: var(--text-color);
-        font-size: 1rem;
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .action-card li::before {
-        content: '\f00c';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        color: var(--accent-color);
-    }
-
-    .action-card .btn {
-        background: white;
-        color: var(--main-color);
-        padding: 0.9rem 2rem;
-        font-size: 1rem;
-        font-weight: 600;
-        border-radius: 50px;
-        align-self: center;
-        margin-top: auto;
-        text-decoration: none;
-        transition: var(--transition);
-        border: 2px solid var(--main-color);
-        width: 100%;
-        text-align: center;
-    }
-
-    .action-card .btn:hover {
-        background: var(--main-color);
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(28, 101, 27, 0.2);
-    }
-
-    /* Visit section details */
-    .visit-details {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        margin-top: 1.5rem;
-        background: #f9fafb;
-        border-radius: 12px;
-        padding: 1.5rem;
-    }
-
-    .visit-location,
-    .visit-hours {
-        flex: 1;
-        min-width: 280px;
-    }
-
-    .visit-details h4 {
-        color: var(--main-color);
-        margin-bottom: 1rem;
-        font-size: 1.3rem;
-        font-weight: 600;
-    }
-
-    .visit-details p,
-    .visit-details ul {
-        color: var(--text-muted);
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-
-    .visit-details li {
-        margin-bottom: 0.5rem;
-        padding-left: 0;
-    }
-
-    .visit-details li::before {
-        content: none;
-    }
-
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 900px) {
-        .take-action-hero {
-            padding: 2rem 1rem;
-        }
-
-        .take-action-hero-content h1 {
-            font-size: 3rem;
-        }
-
-        .feeding-form-section {
-            margin-top: -2rem;
-        }
-
-        .feeding-form-container {
-            grid-template-columns: 1fr;
-        }
-
-        .feeding-form-image {
-            min-height: 250px;
-        }
-
-        .feeding-form-content {
-            padding: 1.5rem;
-        }
-
-        .form-grid {
-            grid-template-columns: 1fr;
-            gap: 0;
-        }
-
-        .give-card-enhanced {
-            grid-template-columns: 1fr;
-            direction: ltr !important;
-        }
-
-        .give-card-image {
-            min-height: 250px;
-        }
-
-        .give-card-content {
-            padding: 2rem;
-        }
-
-        .give-section-enhanced {
-            padding: 4rem 1rem;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .action-buttons {
-            flex-direction: column;
-        }
-
-        .action-btn {
-            width: 100%;
-        }
-
-        .action-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .visit-details {
-            flex-direction: column;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/take_action.css' %}">
 {% endblock %}
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<header class="take-action-hero">
+<header class="take-action-hero" style="background-image: url('{% static 'images/takeaction.jpg' %}');">
     <div class="take-action-hero-content">
         <h1>Take Action</h1>
         <p>Your involvement makes a real difference in the lives of older persons and their dependents. Discover how you
@@ -752,21 +28,24 @@
     <div class="give-container">
         <div class="give-intro">
             <h2>Give</h2>
-            <p>Your generous contributions help us provide essential support to elders and their families. Every donation, whether items or financial support, makes a meaningful difference in their lives.</p>
+            <p>Your generous contributions help us provide essential support to elders and their families. Every
+                donation, whether items or financial support, makes a meaningful difference in their lives.</p>
         </div>
-        
+
         <div class="give-cards-container">
             <div class="give-card-enhanced">
                 <div class="give-card-image" style="background-image: url('{% static 'images/our gifts.JPG' %}');">
                     <div class="image-overlay-content">
                         <i class="fas fa-gift"></i>
                         <h4>Essential Items</h4>
-                        <p>Your donated items directly reach those who need them most, bringing comfort and dignity to our elders.</p>
+                        <p>Your donated items directly reach those who need them most, bringing comfort and dignity to
+                            our elders.</p>
                     </div>
                 </div>
                 <div class="give-card-content">
                     <h3>Donate Items</h3>
-                    <p>Your generous donations help support our programs and the elders in our care. We are currently accepting:</p>
+                    <p>Your generous donations help support our programs and the elders in our care. We are currently
+                        accepting:</p>
                     <ul>
                         <li>Non-perishable food items</li>
                         <li>Clothing for elders (clean and gently used)</li>
@@ -784,12 +63,14 @@
                     <div class="image-overlay-content">
                         <i class="fas fa-hands-helping"></i>
                         <h4>Financial Impact</h4>
-                        <p>Monetary support allows us to expand our reach and provide comprehensive care to more elders in need.</p>
+                        <p>Monetary support allows us to expand our reach and provide comprehensive care to more elders
+                            in need.</p>
                     </div>
                 </div>
                 <div class="give-card-content">
                     <h3>Financial Support</h3>
-                    <p>Monetary donations allow us to purchase specific items, maintain our center, and expand our services. Every contribution, big or small, makes a significant impact.</p>
+                    <p>Monetary donations allow us to purchase specific items, maintain our center, and expand our
+                        services. Every contribution, big or small, makes a significant impact.</p>
                     <ul>
                         <li>General donations for operational support</li>
                         <li>Sponsor an elder program</li>
@@ -808,15 +89,17 @@
 <!-- Standalone Feeding Form Section -->
 <section id="feeding-form-section" class="feeding-form-section">
     <div class="feeding-form-container">
-        <div class="feeding-form-image">
+        <div class="feeding-form-image" style="background-image: url('{% static 'images/service1.jpg' %}');">
             <div class="image-content">
                 <h4><i class="fas fa-utensils"></i> Nourishing Lives</h4>
-                <p>Every meal you provide brings comfort, nutrition, and joy to our elders. Your generosity helps us ensure no elder goes hungry.</p>
+                <p>Every meal you provide brings comfort, nutrition, and joy to our elders. Your generosity helps us
+                    ensure no elder goes hungry.</p>
             </div>
         </div>
         <div class="feeding-form-content">
             <h3>Register to Feed Elders</h3>
-            <p>Provide a meal for our elders and bring joy to their day. Select a meal type and schedule a time to contribute.</p>
+            <p>Provide a meal for our elders and bring joy to their day. Select a meal type and schedule a time to
+                contribute.</p>
 
             <!-- Display Django messages (success/errors from view) -->
             {% if messages %}
@@ -929,7 +212,20 @@
                 <div class="visit-location">
                     <h4>Location</h4>
                     <p>Bishoftu, Ethiopia Kebele 05</p>
-                    <p>(Near [Landmark if applicable])</p>
+                    <div style="margin-top: 1rem; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.12); border: 2px solid rgba(28, 101, 27, 0.1);">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.217826069276!2d38.973441745193114!3d8.765565670677391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b73004e3b9505%3A0xfdb5b82590291fba!2sReach%20One%20Touch%20One%20mission!5e1!3m2!1sen!2set!4v1766563379966!5m2!1sen!2set"
+                            width="100%" 
+                            height="280" 
+                            style="border:0; display:block;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/jQz52y2dUhW5E9qy8" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:0.4rem; color: #1C651B; font-weight:600; text-decoration:none; margin-top:0.75rem; font-size:0.9rem;">
+                        <i class="fas fa-external-link-alt"></i> Open in Google Maps
+                    </a>
                 </div>
                 <div class="visit-hours">
                     <h4>Visiting Hours</h4>
@@ -942,7 +238,9 @@
                     <p><i class="fas fa-phone"></i> +251 911 234 567</p>
                 </div>
             </div>
-            <a href="tel:+251911234567" class="btn">Call to Schedule</a>
+            <a href="tel:+251911234567" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1.25rem; font-size:0.875rem; border-radius:50px; background: var(--primary-color, #1C651B); color:white; text-decoration:none; font-weight:600; width:fit-content;">
+                <i class="fas fa-phone"></i> Call to Schedule
+            </a>
         </div>
     </div>
 </section>

@@ -1,0 +1,181 @@
+{% extends 'dashboard/base_admin.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ title }}</h2>
+        <a href="{% url 'dashboard:manage_stories' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Stories
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Basic Information -->
+                <h4 class="mb-3">Basic Information</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">{{ form.name.label }}</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                        <div class="text-danger">{{ form.name.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">{{ form.name.help_text }}</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">{{ form.tag.label }}</label>
+                        {{ form.tag }}
+                        {% if form.tag.errors %}
+                        <div class="text-danger">{{ form.tag.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">{{ form.tag.help_text }}</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ form.title.label }}</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                    <div class="text-danger">{{ form.title.errors }}</div>
+                    {% endif %}
+                    <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">{{ form.date_info.label }}</label>
+                        {{ form.date_info }}
+                        {% if form.date_info.errors %}
+                        <div class="text-danger">{{ form.date_info.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">{{ form.date_info.help_text }}</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">{{ form.location_info.label }}</label>
+                        {{ form.location_info }}
+                        {% if form.location_info.errors %}
+                        <div class="text-danger">{{ form.location_info.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">{{ form.location_info.help_text }}</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ form.content.label }}</label>
+                    {{ form.content }}
+                    {% if form.content.errors %}
+                    <div class="text-danger">{{ form.content.errors }}</div>
+                    {% endif %}
+                    <small class="form-text text-muted">{{ form.content.help_text }}</small>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Images -->
+                <h4 class="mb-3">Images</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ form.image_1.label }}</label>
+                        {{ form.image_1 }}
+                        {% if story.image_1 %}
+                        <img src="{{ story.image_1.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
+                        {% endif %}
+                        {% if form.image_1.errors %}
+                        <div class="text-danger">{{ form.image_1.errors }}</div>
+                        {% endif %}
+                        <input type="text" name="image_1_label" class="form-control mt-2" placeholder="Image 1 Label" value="{{ form.image_1_label.value|default:'Before' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ form.image_2.label }}</label>
+                        {{ form.image_2 }}
+                        {% if story.image_2 %}
+                        <img src="{{ story.image_2.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
+                        {% endif %}
+                        {% if form.image_2.errors %}
+                        <div class="text-danger">{{ form.image_2.errors }}</div>
+                        {% endif %}
+                        <input type="text" name="image_2_label" class="form-control mt-2" placeholder="Image 2 Label" value="{{ form.image_2_label.value|default:'After' }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ form.image_3.label }}</label>
+                        {{ form.image_3 }}
+                        {% if story.image_3 %}
+                        <img src="{{ story.image_3.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
+                        {% endif %}
+                        {% if form.image_3.errors %}
+                        <div class="text-danger">{{ form.image_3.errors }}</div>
+                        {% endif %}
+                        <input type="text" name="image_3_label" class="form-control mt-2" placeholder="Image 3 Label" value="{{ form.image_3_label.value|default:'At Center' }}">
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Statistics -->
+                <h4 class="mb-3">Statistics</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Statistic 1</label>
+                        <input type="text" name="stat_1_number" class="form-control mb-2" placeholder="Number" value="{{ form.stat_1_number.value }}">
+                        <input type="text" name="stat_1_text" class="form-control" placeholder="Text" value="{{ form.stat_1_text.value }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Statistic 2</label>
+                        <input type="text" name="stat_2_number" class="form-control mb-2" placeholder="Number" value="{{ form.stat_2_number.value }}">
+                        <input type="text" name="stat_2_text" class="form-control" placeholder="Text" value="{{ form.stat_2_text.value }}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Statistic 3</label>
+                        <input type="text" name="stat_3_number" class="form-control mb-2" placeholder="Number" value="{{ form.stat_3_number.value }}">
+                        <input type="text" name="stat_3_text" class="form-control" placeholder="Text" value="{{ form.stat_3_text.value }}">
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Display Settings -->
+                <h4 class="mb-3">Display Settings</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ form.order.label }}</label>
+                        {{ form.order }}
+                        {% if form.order.errors %}
+                        <div class="text-danger">{{ form.order.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">{{ form.order.help_text }}</small>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ form.layout.label }}</label>
+                        {{ form.layout }}
+                        {% if form.layout.errors %}
+                        <div class="text-danger">{{ form.layout.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-check mt-4">
+                            {{ form.published }}
+                            <label class="form-check-label" for="{{ form.published.id_for_label }}">
+                                {{ form.published.label }}
+                            </label>
+                        </div>
+                        <small class="form-text text-muted">{{ form.published.help_text }}</small>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Story
+                    </button>
+                    <a href="{% url 'dashboard:manage_stories' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

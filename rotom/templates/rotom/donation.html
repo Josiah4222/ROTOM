@@ -4,445 +4,9 @@
 {% block title %}Donate - ROTOM Ethiopia{% endblock %}
 
 {% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
-<style>
-    :root {
-        --main-color: #1C651B;
-        --secondary-color: #154d14;
-        --accent-color: #F1C93B;
-        --text-color: #1f2937;
-        --text-muted: #6b7280;
-        --background-light: #f9fafb;
-        --card-bg: #ffffff;
-        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: var(--text-color);
-        background-color: var(--background-light);
-        line-height: 1.7;
-    }
-
-    /* Hero section */
-    .hero {
-        position: relative;
-        min-height: 60vh;
-        width: 100%;
-        padding: 4rem 2rem;
-        margin-top: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url('{% static "images/myindex.jpg" %}') no-repeat center center/cover;
-        background-attachment: fixed;
-    }
-
-    .hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
-        backdrop-filter: blur(2px);
-    }
-
-    .hero-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        color: white;
-        animation: fadeUp 1s ease-out;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(3rem, 5vw, 4.5rem);
-        margin-bottom: 1.5rem;
-        font-weight: 800;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        letter-spacing: -1px;
-    }
-
-    .hero-content p {
-        font-size: clamp(1.2rem, 2vw, 1.6rem);
-        max-width: 900px;
-        margin: 0 auto 2.5rem;
-        opacity: 0.95;
-        font-weight: 300;
-        line-height: 1.6;
-    }
-
-    /* Section styles */
-    .section {
-        padding: 6rem 3rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .section-title {
-        text-align: center;
-        margin-bottom: 4rem;
-        font-size: 2.5rem;
-        color: var(--main-color);
-        font-weight: 700;
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
-
-    .section-title::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
-        background: var(--accent-color);
-        margin: 15px auto 0;
-        border-radius: 2px;
-    }
-
-    .donation-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .wrapper {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2.5rem;
-        margin-bottom: 4rem;
-    }
-
-    .container {
-        background: white;
-        border-radius: 20px;
-        padding: 2.5rem;
-        text-align: center;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        cursor: pointer;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-height: 350px;
-    }
-
-    .container:hover,
-    .container.selected {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border: 2px solid var(--main-color);
-    }
-
-    .container.selected::after {
-        content: '\f00c';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: var(--main-color);
-        color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem;
-    }
-
-    .container h3 {
-        font-size: 1.3rem;
-        color: var(--text-color);
-        margin-bottom: 1rem;
-        font-weight: 600;
-    }
-
-    .donation-amount {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        font-weight: 700;
-        margin: 1rem 0;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .container p {
-        color: var(--text-muted);
-        font-size: 1rem;
-        line-height: 1.7;
-        margin-bottom: 1.5rem;
-        flex-grow: 1;
-    }
-
-    .impact-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        background: var(--background-light);
-        padding: 1.5rem;
-        border-radius: 12px;
-    }
-
-    .impact-list li {
-        padding: 0.5rem 0;
-        display: flex;
-        align-items: flex-start;
-        color: var(--text-color);
-        font-size: 0.95rem;
-        gap: 0.8rem;
-    }
-
-    .impact-list li i {
-        color: var(--main-color);
-        font-size: 1.1rem;
-        margin-top: 0.2rem;
-    }
-
-    .custom-donation {
-        background: white;
-        border-radius: 20px;
-        padding: 3rem;
-        margin: 4rem auto;
-        box-shadow: var(--shadow-lg);
-        text-align: center;
-        max-width: 700px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .custom-donation h2 {
-        font-size: 2rem;
-        color: var(--main-color);
-        margin-bottom: 0.5rem;
-        font-weight: 700;
-    }
-
-    .custom-donation p {
-        color: var(--text-muted);
-        font-size: 1.1rem;
-        margin-bottom: 2.5rem;
-    }
-
-    .amount-input {
-        width: 100%;
-        padding: 1rem 1.5rem;
-        font-size: 1.1rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        margin-bottom: 1rem;
-        transition: var(--transition);
-        font-family: inherit;
-        background: var(--background-light);
-    }
-
-    .amount-input:focus {
-        border-color: var(--main-color);
-        outline: none;
-        background: white;
-        box-shadow: 0 0 0 4px rgba(28, 101, 27, 0.1);
-    }
-
-    .impact-preview {
-        background: #ecfdf5;
-        padding: 1.5rem;
-        border-radius: 12px;
-        margin: 1.5rem auto;
-        border: 1px solid #d1fae5;
-        display: none;
-        text-align: left;
-    }
-
-    .impact-preview.visible {
-        display: block;
-        animation: fadeIn 0.4s ease;
-    }
-
-    .impact-preview h4 {
-        color: var(--main-color);
-        font-size: 1.2rem;
-        margin-bottom: 0.8rem;
-        font-weight: 600;
-    }
-
-    .donate-button {
-        background: var(--main-color);
-        color: white;
-        padding: 1rem 3rem;
-        border: none;
-        border-radius: 50px;
-        font-size: 1.2rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 1rem;
-        box-shadow: var(--shadow-md);
-        width: 100%;
-    }
-
-    .donate-button:hover {
-        background: var(--secondary-color);
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .impact-section {
-        background: white;
-        border-radius: 20px;
-        padding: 3rem;
-        box-shadow: var(--shadow-sm);
-    }
-
-    .impact-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2.5rem;
-    }
-
-    .impact-card {
-        text-align: center;
-        padding: 1.5rem;
-    }
-
-    .impact-card i {
-        width: 70px;
-        height: 70px;
-        background: rgba(241, 201, 59, 0.15);
-        color: var(--accent-color);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        font-size: 2rem;
-        transition: var(--transition);
-    }
-
-    .impact-card:hover i {
-        transform: rotateY(180deg);
-        background: var(--accent-color);
-        color: white;
-    }
-
-    .impact-card h3 {
-        font-size: 1.3rem;
-        color: var(--main-color);
-        margin-bottom: 0.8rem;
-        font-weight: 600;
-    }
-
-    .impact-card p {
-        color: var(--text-muted);
-        line-height: 1.6;
-        font-size: 1rem;
-    }
-
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .alert {
-        background-color: #fef2f2;
-        color: #991b1b;
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 1.5rem auto;
-        max-width: 600px;
-        text-align: center;
-        font-size: 1rem;
-        border: 1px solid #fee2e2;
-    }
-
-    /* Loading spinner overlay */
-    .loading-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .loading-overlay.active {
-        display: flex;
-    }
-
-    .spinner {
-        width: 60px;
-        height: 60px;
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top-color: var(--accent-color);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    .loading-text {
-        color: white;
-        margin-top: 1.5rem;
-        font-size: 1.2rem;
-        font-weight: 500;
-    }
-
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .section {
-            padding: 4rem 1.5rem;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-        }
-
-        .wrapper {
-            grid-template-columns: 1fr;
-        }
-
-        .custom-donation {
-            padding: 2rem;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/donation.css' %}">
 {% endblock %}
+
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
@@ -453,13 +17,13 @@
     <p class="loading-text">Processing your donation...</p>
 </div>
 
-<header class="hero">
+<section class="hero" style="background-image: url('{% static 'images/helpingothers.jpg' %}');">
     <div class="hero-content">
         <h1>Support Our Seniors and Youth</h1>
         <p>Your contribution ensures a caring and supportive environment where seniors can live with dignity and
             fulfillment, while empowering the next generation through education. Every gift matters!</p>
     </div>
-</header>
+</section>
 
 <section class="section">
     <h2 class="section-title">Choose Your Impact</h2>
@@ -471,64 +35,73 @@
         {% endfor %}
         {% endif %}
         <div class="wrapper">
-            <div class="container" onclick="selectAmount(1800)">
-                <h3>Home Care Support</h3>
-                <div class="donation-amount">1,800 ETB</div>
-                <p>Supports a senior living at home for one month</p>
+            {% for package in packages %}
+            <div class="container" onclick="selectAmount({{ package.amount }})">
+                <h3>{{ package.title }}</h3>
+                <div class="donation-amount">{{ package.amount|floatformat:0 }} ETB</div>
+                <p>{{ package.description }}</p>
                 <ul class="impact-list">
-                    <li><i class="fas fa-check-circle"></i> Essential food commodities</li>
-                    <li><i class="fas fa-check-circle"></i> Essential hygiene items</li>
-                    <li><i class="fas fa-check-circle"></i> Social outings and lunches</li>
+                    {% for feature in package.get_features_list %}
+                    <li><i class="fas fa-check-circle"></i> {{ feature }}</li>
+                    {% endfor %}
                 </ul>
             </div>
-            <div class="container" onclick="selectAmount(4000)">
-                <h3>Care Center Support</h3>
-                <div class="donation-amount">4,000 ETB</div>
-                <p>Provides one month of care for a senior in our center</p>
-                <ul class="impact-list">
-                    <li><i class="fas fa-check-circle"></i> Nutritious meals three times a day</li>
-                    <li><i class="fas fa-check-circle"></i> Hygiene supplies</li>
-                    <li><i class="fas fa-check-circle"></i> Essential healthcare support</li>
-                </ul>
-            </div>
-            <div class="container" onclick="selectAmount(4400)">
-                <h3>Annual Senior Support</h3>
-                <div class="donation-amount">4,400 ETB</div>
-                <p>Provides clothing and healthcare for a senior for one year</p>
-                <ul class="impact-list">
-                    <li><i class="fas fa-check-circle"></i> Essential clothing</li>
-                    <li><i class="fas fa-check-circle"></i> Necessary healthcare support</li>
-                </ul>
-            </div>
-            <div class="container" onclick="selectAmount(7350)">
-                <h3>Education Support</h3>
-                <div class="donation-amount">7,350 ETB</div>
-                <p>Empowers a child’s education for one year</p>
-                <ul class="impact-list">
-                    <li><i class="fas fa-check-circle"></i> School fees (primary/secondary)</li>
-                    <li><i class="fas fa-check-circle"></i> Uniforms and school supplies</li>
-                    <li><i class="fas fa-check-circle"></i> Hygiene care for female students</li>
-                </ul>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="custom-donation">
-            <h2>Custom Donation Amount</h2>
-            <p>Choose your own amount to support our cause (minimum 50 ETB)</p>
-            <form method="POST" id="donationForm">
-                {% csrf_token %}
-                <input type="number" id="customAmount" name="amount" class="amount-input"
-                    placeholder="Enter amount in ETB" min="50" oninput="updateImpactPreview(this.value)" required>
-                <input type="email" name="email" class="amount-input" placeholder="Enter your email" required>
-                <input type="text" name="first_name" class="amount-input" placeholder="First Name" required>
-                <input type="text" name="last_name" class="amount-input" placeholder="Last Name" required>
-                <input type="text" name="phone_number" class="amount-input" placeholder="Phone Number (optional)">
-                <div id="impactPreview" class="impact-preview">
-                    <h4>Your Impact:</h4>
-                    <p id="impactText"></p>
+            <div class="feeding-form-container">
+                <div class="feeding-form-image" style="background-image: url('{% static 'images/doante.jpg' %}');">
+                    <div class="image-content">
+                        <h4><i class="fas fa-heart"></i> Transform Lives</h4>
+                        <p>Your generous donation provides essential care, dignity, and hope to seniors while empowering the next generation through education.</p>
+                    </div>
                 </div>
-                <button type="submit" class="donate-button">Donate Now</button>
-            </form>
+                <div class="feeding-form-content">
+                    <h3>Make Your Donation</h3>
+                    <p>Support our seniors and youth with your contribution (minimum 50 ETB)</p>
+
+                    <form method="POST" id="donationForm">
+                        {% csrf_token %}
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="customAmount">Donation Amount (ETB) *</label>
+                                <input type="number" id="customAmount" name="amount" 
+                                    placeholder="Enter amount (min 50 ETB)" min="50" 
+                                    oninput="updateImpactPreview(this.value)" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="first_name">First Name *</label>
+                                <input type="text" name="first_name" placeholder="First Name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="last_name">Last Name *</label>
+                                <input type="text" name="last_name" placeholder="Last Name" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="email">Email Address *</label>
+                                <input type="email" name="email" placeholder="your.email@example.com" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="phone_number">Phone Number (Optional)</label>
+                                <input type="text" name="phone_number" placeholder="e.g., 0912345678">
+                            </div>
+                        </div>
+
+                        <div id="impactPreview" class="impact-preview">
+                            <p id="impactText"></p>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-heart"></i> Donate Now
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -566,128 +139,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    function selectAmount(amount) {
-        document.querySelectorAll('.container').forEach(card => {
-            card.classList.remove('selected');
-        });
-        event.currentTarget.classList.add('selected');
-        document.getElementById('customAmount').value = amount;
-        updateImpactPreview(amount);
-    }
-
-    function updateImpactPreview(amount) {
-        const preview = document.getElementById('impactPreview');
-        const impactText = document.getElementById('impactText');
-        if (amount < 50) {
-            preview.classList.remove('visible');
-            return;
-        }
-
-        let impact = '';
-        if (amount == 50 || amount == 100) {
-            impact = `Your donation of ${amount} ETB will help our organization a lot, contributing to essential services for seniors and education for children.`;
-        } else {
-            // Define programs and their costs
-            const programs = [
-                {
-                    name: "Seniors Living at Home",
-                    items: [
-                        { name: "Essential food commodities", cost: 1300, unit: "month" },
-                        { name: "Essential hygiene items", cost: 200, unit: "month" },
-                        { name: "Social outings and lunches", cost: 300, unit: "month" },
-                        { name: "Necessary healthcare support", cost: 1400, unit: "year" },
-                        { name: "Necessary clothing", cost: 3000, unit: "year" }
-                    ]
-                },
-                {
-                    name: "Seniors in Care Center",
-                    items: [
-                        { name: "Nutritious meals three times a day", cost: 3000, unit: "month" },
-                        { name: "Hygiene supplies", cost: 500, unit: "month" },
-                        { name: "Essential healthcare support", cost: 500, unit: "month" },
-                        { name: "Essential clothing", cost: 3000, unit: "year" }
-                    ]
-                },
-                {
-                    name: "Education Support",
-                    items: [
-                        { name: "School fees (primary/secondary)", cost: 2000, unit: "year" },
-                        { name: "School fees (college)", cost: 1400, unit: "month" },
-                        { name: "Uniforms and school supplies", cost: 5500, unit: "year" },
-                        { name: "Hygiene care for female students", cost: 150, unit: "month" }
-                    ]
-                }
-            ];
-
-            // Calculate maximum impact for each program
-            let maxImpact = { program: null, count: 0, items: [] };
-            programs.forEach(program => {
-                let totalCount = 0;
-                let programItems = [];
-                program.items.forEach(item => {
-                    const count = Math.floor(amount / item.cost);
-                    if (count > 0) {
-                        totalCount += count;
-                        programItems.push({
-                            name: item.name,
-                            count: count,
-                            unit: item.unit,
-                            people: item.name.includes("student") ? "student" : "senior"
-                        });
-                    }
-                });
-                if (totalCount > maxImpact.count && programItems.length > 0) {
-                    maxImpact = {
-                        program: program.name,
-                        count: totalCount,
-                        items: programItems
-                    };
-                }
-            });
-
-            // Generate impact text for the selected program
-            if (maxImpact.program) {
-                impact = `Your donation of ${amount} ETB will support ${maxImpact.program}:`;
-                impact += `<ul class="impact-list">`;
-                maxImpact.items.forEach(item => {
-                    impact += `<li><i class="fas fa-check-circle"></i> ${item.name} for ${item.count} ${item.people}${item.count > 1 ? 's' : ''} for ${item.count} ${item.unit}${item.count > 1 ? 's' : ''}</li>`;
-                });
-                impact += `</ul>`;
-            } else {
-                impact = `Your donation of ${amount} ETB will help our organization provide essential services for seniors and education for children.`;
-            }
-        }
-
-        impactText.innerHTML = impact;
-        preview.classList.add('visible');
-    }
-
-    document.getElementById('donationForm').addEventListener('submit', function (event) {
-        const email = document.querySelector('input[name="email"]').value;
-        const phone = document.querySelector('input[name="phone_number"]').value;
-        const amount = document.querySelector('input[name="amount"]').value;
-
-        if (!email.includes('@') || !email.includes('.')) {
-            event.preventDefault();
-            alert('Please enter a valid email address.');
-            return;
-        }
-
-        if (phone && (!phone.startsWith('09') && !phone.startsWith('07') || phone.length !== 10)) {
-            event.preventDefault();
-            alert('Phone number must be 10 digits starting with 09 or 07.');
-            return;
-        }
-
-        if (amount < 50) {
-            event.preventDefault();
-            alert('Minimum donation amount is 50 ETB.');
-            return;
-        }
-
-        // Show loading spinner
-        document.getElementById('loadingOverlay').classList.add('active');
-    });
-</script>
+<script src="{% static 'js/donation.js' %}" defer></script>
 {% endblock %}

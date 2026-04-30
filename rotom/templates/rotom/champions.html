@@ -4,640 +4,77 @@
 {% block title %}Educational Support for Grandchildren and Dependents{% endblock %}
 
 {% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/champions.css' %}">
 <style>
-    :root {
-        --main-color: #1C651B;
-        --secondary-color: #154d14;
-        --accent-color: #F1C93B;
-        --text-color: #1f2937;
-        --text-muted: #6b7280;
-        --background-light: #f9fafb;
-        --card-bg: #ffffff;
-        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: var(--text-color);
-        background-color: var(--background-light);
-        line-height: 1.7;
-    }
-
-    /* Hero section */
-    .hero {
-        position: relative;
-        min-height: 80vh;
-        width: 100%;
-        padding: 5rem 2rem;
-        margin-top: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url('{% static "images/champions.JPG" %}') no-repeat center center/cover;
-        background-attachment: fixed;
-    }
-
-    .hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
-        backdrop-filter: blur(2px);
-    }
-
-    .hero-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        color: white;
-        animation: fadeUp 1s ease-out;
-    }
-
-    .hero h1 {
-        font-size: clamp(3rem, 5vw, 4.5rem);
-        margin-bottom: 1.5rem;
-        font-weight: 800;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        letter-spacing: -1px;
-    }
-
-    .hero p {
-        font-size: clamp(1.2rem, 2vw, 1.6rem);
-        max-width: 900px;
-        margin: 0 auto;
-        opacity: 0.95;
-        font-weight: 300;
-    }
-
-    /* Main Content */
-    .main-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 5rem 3rem;
-    }
-
-    /* Section Styles */
-    .section {
-        margin-bottom: 8rem;
-        position: relative;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 4rem;
-    }
-    
-    /* Ethiopian Cultural Decorative Border */
-    .ethiopian-section-border {
-        position: relative;
-        padding-top: 2rem;
-    }
-    
-    .ethiopian-section-border::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 200px;
-        height: 20px;
-        background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
-        background-repeat: repeat-x;
-    }
-    
-    /* Ethiopian Woven Pattern Background */
-    .ethiopian-bg {
-        background-color: #fafafa;
-        background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
-    }
-    
-    /* Decorative Corner Motif */
-    .corner-motif {
-        position: relative;
-    }
-    
-    .corner-motif::before,
-    .corner-motif::after {
-        content: '◆';
-        position: absolute;
-        font-size: 1.5rem;
-        color: var(--accent-color);
-        opacity: 0.4;
-    }
-    
-    .corner-motif::before {
-        top: 1rem;
-        left: 1rem;
-    }
-    
-    .corner-motif::after {
-        bottom: 1rem;
-        right: 1rem;
-    }
-
-    .section-header h2 {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        margin-bottom: 1rem;
-        position: relative;
-        display: inline-block;
-        font-weight: 700;
-    }
-
-    .section-header h2::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
-        background: var(--accent-color);
-        margin: 15px auto 0;
-        border-radius: 2px;
-    }
-
-    .section-header p {
-        font-size: 1.15rem;
-        color: var(--text-muted);
-        max-width: 800px;
-        margin: 0 auto;
-        line-height: 1.7;
-    }
-
-    /* Services Grid */
-    .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2.5rem;
-        margin-top: 4rem;
-        align-items: stretch;
-    }
-
-    .service-card {
-        background: white;
-        border-radius: 20px;
-        padding: 3rem;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 250px;
-    }
-
-    .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: rgba(28, 101, 27, 0.1);
-    }
-
-    .service-card h3 {
-        font-size: 1.4rem;
-        color: var(--main-color);
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        font-weight: 600;
-    }
-
-    .service-card h3 i {
-        font-size: 1.8rem;
-        color: var(--main-color);
-        background: rgba(28, 101, 27, 0.1);
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: var(--transition);
-    }
-
-    .service-card:hover h3 i {
-        background: var(--main-color);
-        color: white;
-        transform: rotate(360deg);
-    }
-
-    .service-card p {
-        color: var(--text-muted);
-        font-size: 1rem;
-        line-height: 1.7;
-        flex-grow: 1;
-    }
-
-    /* Gallery Grid */
-    .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 3rem;
-        margin-top: 4rem;
-    }
-
-    .gallery-item {
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
-        background: var(--background-light);
-        cursor: pointer;
-        aspect-ratio: 16/10;
-    }
-
-    .gallery-item:hover {
-        transform: scale(1.02);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .gallery-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s ease;
-    }
-
-    .gallery-item:hover img {
-        transform: scale(1.1);
-    }
-
-    .gallery-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 2rem;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
-        color: white;
-        transform: translateY(20px);
-        opacity: 0;
-        transition: var(--transition);
-    }
-
-    .gallery-item:hover .gallery-caption {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .gallery-caption h3 {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-        color: var(--accent-color);
-        font-weight: 600;
-    }
-
-    .gallery-caption p {
-        font-size: 0.95rem;
-        opacity: 0.95;
-        line-height: 1.5;
-    }
-
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Stories Section */
-    .stories-container {
-        display: flex;
-        flex-direction: column;
-        gap: 4rem;
-        margin-top: 3rem;
-    }
-
-    .story-card {
-        display: grid;
-        grid-template-columns: 1fr 1.2fr;
-        gap: 3rem;
-        background: white;
-        border-radius: 24px;
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
-    }
-
-    .story-card:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-5px);
-    }
-
-    .story-card.reverse {
-        direction: rtl;
-    }
-
-    .story-card.reverse > * {
-        direction: ltr;
-    }
-
-    .story-image {
-        position: relative;
-        min-height: 350px;
-        overflow: hidden;
-    }
-
-    .story-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s ease;
-    }
-
-    .story-card:hover .story-image img {
-        transform: scale(1.05);
-    }
-
-    .story-badge {
-        position: absolute;
-        top: 1.5rem;
-        left: 1.5rem;
-        background: var(--accent-color);
-        color: var(--main-color);
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .story-card.reverse .story-badge {
-        left: auto;
-        right: 1.5rem;
-    }
-
-    .story-content {
-        padding: 3rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .story-quote {
-        color: var(--accent-color);
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        opacity: 0.6;
-    }
-
-    .story-content h3 {
-        font-size: 1.8rem;
-        color: var(--main-color);
-        margin-bottom: 0.3rem;
-        font-weight: 700;
-    }
-
-    .story-role {
-        color: var(--text-muted);
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-        display: block;
-    }
-
-    .story-text {
-        font-size: 1.1rem;
-        color: var(--text-color);
-        line-height: 1.8;
-        font-style: italic;
-        margin-bottom: 2rem;
-    }
-
-    .story-impact {
-        display: flex;
-        gap: 2rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.08);
-    }
-
-    .impact-item {
-        text-align: center;
-    }
-
-    .impact-number {
-        display: block;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--main-color);
-    }
-
-    .impact-label {
-        font-size: 0.85rem;
-        color: var(--text-muted);
-    }
-
-    @media (max-width: 900px) {
-        .story-card,
-        .story-card.reverse {
-            grid-template-columns: 1fr;
-            direction: ltr;
-        }
-
-        .story-image {
-            min-height: 250px;
-        }
-
-        .story-content {
-            padding: 2rem;
-        }
-
-        .story-card.reverse .story-badge {
-            left: 1.5rem;
-            right: auto;
-        }
-    }
-
-    /* Lightbox Styles */
-    .lightbox {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        backdrop-filter: blur(5px);
-    }
-
-    .lightbox.active {
-        display: flex;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .lightbox-img {
-        max-width: 95%;
-        max-height: 85vh;
-        border-radius: 12px;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-        transform: scale(0.9);
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .lightbox.active .lightbox-img {
-        transform: scale(1);
-    }
-
-    .lightbox-close {
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-        color: white;
-        font-size: 3rem;
-        cursor: pointer;
-        transition: var(--transition);
-        line-height: 1;
-        z-index: 1001;
-    }
-
-    .lightbox-close:hover {
-        color: var(--accent-color);
-        transform: rotate(90deg);
-    }
-
-    /* Dashboard Styles */
-    .dashboard-section {
-        background-color: white;
-        padding: 6rem 2rem;
-        position: relative;
-        z-index: 2;
-        border-radius: 40px 40px 0 0;
-        margin-top: -40px;
-    }
-
-    .dashboard-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .dashboard-card {
-        background: white;
-        padding: 2.5rem 2rem;
-        border-radius: 24px;
-        text-align: center;
-        box-shadow: var(--shadow-lg);
-        transition: var(--transition);
-        border: 1px solid rgba(0,0,0,0.05);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 280px;
-    }
-
-    .dashboard-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 25px 50px -12px rgba(28, 101, 27, 0.15);
-    }
-
-    .dashboard-card i {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        margin-bottom: 1.5rem;
-        background: rgba(28, 101, 27, 0.1);
-        padding: 1rem;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition);
-    }
-
-    .dashboard-card:hover i {
-        background: var(--main-color);
-        color: white;
-        transform: rotateY(360deg);
-    }
-
-    .dashboard-number {
-        font-size: 3rem;
-        font-weight: 800;
-        color: var(--main-color);
-        margin-bottom: 0.5rem;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .dashboard-label {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        font-weight: 500;
-        margin-bottom: 1rem;
-    }
-
-    .dashboard-description {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        line-height: 1.5;
-        text-align: center;
-    }
-    @media (max-width: 1024px) {
-        .services-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 900px) {
-        .hero h1 {
-            font-size: 3rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-
-        .services-grid,
-        .gallery-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .main-content {
-            padding: 3rem 1.5rem;
-        }
-
-        .hero {
-            padding: 3rem 1.5rem;
-        }
-    }
+/* Stories-style image grid for Meklit's card */
+.story-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 0.5rem;
+}
+
+.story-images .image-wrapper:nth-child(3) {
+    grid-column: 1 / -1;
+}
+
+.image-wrapper {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.image-wrapper:hover img {
+    transform: scale(1.06);
+}
+
+.image-hover {
+    position: absolute;
+    inset: 0;
+    background: rgba(28, 101, 27, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.image-wrapper:hover .image-hover {
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .story-images {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .story-images .image-wrapper:nth-child(3) {
+        grid-column: 1;
+    }
+    .image-wrapper img {
+        height: 220px;
+    }
+}
 </style>
 {% endblock %}
+
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<section class="hero">
+<section class="hero" style="background-image: url('{% static 'images/girls5.jpg' %}');">
     <div class="hero-content">
         <h1>Educational Support for Grandchildren and Dependents</h1>
         <p>Empowering the Younger Generation Through Education and Mentorship</p>
@@ -647,46 +84,47 @@
 <div class="main-content ethiopian-bg">
     <!-- Dashboard Section -->
     <section class="section dashboard-section ethiopian-section-border"></section>
-        <div class="section-header">
-            <h2>Our Impact Dashboard</h2>
-            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
-            <p>Showcasing the measurable impact of our educational support programs</p>
-        </div>
+    <div class="section-header">
+        <h2>Our Impact Dashboard</h2>
+        <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
+        <p>Showcasing the measurable impact of our educational support programs</p>
+    </div>
 
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="dashboard-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="dashboard-number" data-target="45">45</div>
-                <div class="dashboard-label">Graduates</div>
-                <div class="dashboard-description">Students who have successfully completed their education with our support</div>
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <div class="dashboard-icon">
+                <i class="fas fa-graduation-cap"></i>
             </div>
-            <div class="dashboard-card">
-                <div class="dashboard-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="dashboard-number" data-target="120">120</div>
-                <div class="dashboard-label">Grandchildren Supported</div>
-                <div class="dashboard-description">Young people currently receiving educational and personal support</div>
+            <div class="dashboard-number" data-target="45">45</div>
+            <div class="dashboard-label">Graduates</div>
+            <div class="dashboard-description">Students who have successfully completed their education with our support
             </div>
-            <div class="dashboard-card">
-                <div class="dashboard-icon">
-                    <i class="fas fa-university"></i>
-                </div>
-                <div class="dashboard-number" data-target="15">15</div>
-                <div class="dashboard-label">University Students</div>
-                <div class="dashboard-description">Students who have progressed to higher education</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="dashboard-icon">
+                <i class="fas fa-users"></i>
             </div>
-            <div class="dashboard-card">
-                <div class="dashboard-icon">
-                    <i class="fas fa-briefcase"></i>
-                </div>
-                <div class="dashboard-number" data-target="28">28</div>
-                <div class="dashboard-label">Employed Graduates</div>
-                <div class="dashboard-description">Former students now contributing to the workforce</div>
+            <div class="dashboard-number" data-target="120">120</div>
+            <div class="dashboard-label">Grandchildren Supported</div>
+            <div class="dashboard-description">Young people currently receiving educational and personal support</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="dashboard-icon">
+                <i class="fas fa-university"></i>
             </div>
-            <!-- <div class="dashboard-card">
+            <div class="dashboard-number" data-target="15">15</div>
+            <div class="dashboard-label">University Students</div>
+            <div class="dashboard-description">Students who have progressed to higher education</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="dashboard-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="dashboard-number" data-target="28">28</div>
+            <div class="dashboard-label">Employed Graduates</div>
+            <div class="dashboard-description">Former students now contributing to the workforce</div>
+        </div>
+        <!-- <div class="dashboard-card">
                 <div class="dashboard-icon">
                     <i class="fas fa-heart"></i>
                 </div>
@@ -694,37 +132,38 @@
                 <div class="dashboard-label">Community Volunteers</div>
                 <div class="dashboard-description">Graduates actively giving back to their communities</div>
             </div> -->
-        </div>
+    </div>
     </section>
 
     <section class="section ethiopian-section-border"></section>
-        <div class="section-header">
-            <h2>Our Initiatives</h2>
-            <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
-            <p>ROTOM Ethiopia is dedicated to empowering grandchildren and girls through comprehensive educational
-                support, fostering dignity, empowerment, and community:</p>
-        </div>
+    <div class="section-header">
+        <h2>Our Initiatives</h2>
+        <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
+        <p>ROTOM Ethiopia is dedicated to empowering grandchildren and girls through comprehensive educational
+            support, fostering dignity, empowerment, and community:</p>
+    </div>
 
-        <div class="services-grid">
-            <div class="service-card">
-                <h3><i class="fas fa-graduation-cap"></i> School and Personal Need Support</h3>
-                <p>Providing school tuition, supplies, and personal necessities to ensure grandchildren and girls have access to quality education and proper care.</p>
-            </div>
-            <div class="service-card">
-                <h3><i class="fas fa-school"></i> Home and School Visits</h3>
-                <p>Conducting regular follow-ups to monitor student progress and provide necessary assistance for
-                    academic success.</p>
-            </div>
-            <div class="service-card">
-                <h3><i class="fas fa-chalkboard-teacher"></i> Personal Mentorship</h3>
-                <p>Assigning mentors to challenge and inspire students, supporting their personal growth and
-                    development.</p>
-            </div>
-            <div class="service-card">
-                <h3><i class="fas fa-book-open"></i> Training and Nurturing Initiatives</h3>
-                <p>Offering training programs to enhance students’ skills and prepare them for a successful future.</p>
-            </div>
+    <div class="services-grid">
+        <div class="service-card">
+            <h3><i class="fas fa-graduation-cap"></i> School and Personal Need Support</h3>
+            <p>Providing school tuition, supplies, and personal necessities to ensure grandchildren and girls have
+                access to quality education and proper care.</p>
         </div>
+        <div class="service-card">
+            <h3><i class="fas fa-school"></i> Home and School Visits</h3>
+            <p>Conducting regular follow-ups to monitor student progress and provide necessary assistance for
+                academic success.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-chalkboard-teacher"></i> Personal Mentorship</h3>
+            <p>Assigning mentors to challenge and inspire students, supporting their personal growth and
+                development.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-book-open"></i> Training and Nurturing Initiatives</h3>
+            <p>Offering training programs to enhance students’ skills and prepare them for a successful future.</p>
+        </div>
+    </div>
     </section>
 
     <!-- Success Stories Section -->
@@ -736,10 +175,14 @@
         </div>
 
         <div class="stories-container">
-            <!-- Story 1 -->
-            <div class="story-card">
+            {% for champion in champions %}
+            <div class="story-card {% if champion.layout == 'reverse' %}reverse{% endif %}">
                 <div class="story-image">
-                    <img src="{% static 'images/champions.jpg' %}" alt="Meron's Story" loading="lazy">
+                    {% if champion.image.name|slice:":7" == "images/" %}
+                    <img src="{% static champion.image.name %}" alt="{{ champion.name }}" loading="lazy">
+                    {% else %}
+                    <img src="{{ champion.image.url }}" alt="{{ champion.name }}" loading="lazy">
+                    {% endif %}
                     <div class="story-badge">
                         <i class="fas fa-star"></i> Success Story
                     </div>
@@ -748,124 +191,26 @@
                     <div class="story-quote">
                         <i class="fas fa-quote-left"></i>
                     </div>
-                    <h3>Meron Tadesse</h3>
-                    <span class="story-role">University Student, Age 19</span>
+                    <h3>{{ champion.name }}</h3>
+                    <span class="story-role">{{ champion.role }}</span>
                     <p class="story-text">
-                        "When my grandmother became too ill to work, I thought my dreams of education were over. 
-                        ROTOM Ethiopia not only paid for my school fees but gave me a mentor who believed in me. 
-                        Today, I'm studying nursing at university. I want to give back to my community just like 
-                        ROTOM gave to me."
+                        {{ champion.quote|linebreaksbr }}
                     </p>
                     <div class="story-impact">
                         <div class="impact-item">
-                            <span class="impact-number">5</span>
+                            <span class="impact-number">{{ champion.years_supported }}</span>
                             <span class="impact-label">Years Supported</span>
                         </div>
                         <div class="impact-item">
-                            <span class="impact-number">1st</span>
-                            <span class="impact-label">In Family to University</span>
+                            <span class="impact-number">{{ champion.achievement|slice:":10" }}</span>
+                            <span class="impact-label">{{ champion.achievement|slice:"10:" }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Story 2 -->
-            <div class="story-card reverse">
-                <div class="story-image">
-                    <img src="{% static 'images/centerbased.jpg' %}" alt="Dawit's Story" loading="lazy">
-                    <div class="story-badge">
-                        <i class="fas fa-star"></i> Success Story
-                    </div>
-                </div>
-                <div class="story-content">
-                    <div class="story-quote">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <h3>Dawit Bekele</h3>
-                    <span class="story-role">High School Graduate, Age 17</span>
-                    <p class="story-text">
-                        "Living with my elderly grandfather, I had to choose between helping him and going to school. 
-                        ROTOM's home visits and support meant I could do both. My mentor taught me time management 
-                        and encouraged me when things got hard. I just graduated top of my class!"
-                    </p>
-                    <div class="story-impact">
-                        <div class="impact-item">
-                            <span class="impact-number">3</span>
-                            <span class="impact-label">Years Supported</span>
-                        </div>
-                        <div class="impact-item">
-                            <span class="impact-number">Top 5%</span>
-                            <span class="impact-label">Class Ranking</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Story 3 -->
-            <div class="story-card">
-                <div class="story-image">
-                    <img src="{% static 'images/homebased.jpg' %}" alt="Hana's Story" loading="lazy">
-                    <div class="story-badge">
-                        <i class="fas fa-star"></i> Success Story
-                    </div>
-                </div>
-                <div class="story-content">
-                    <div class="story-quote">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <h3>Hana Girma</h3>
-                    <span class="story-role">Vocational Training Graduate, Age 20</span>
-                    <p class="story-text">
-                        "As a girl from a poor family, many said education wasn't for me. ROTOM's training program 
-                        taught me tailoring skills and gave me confidence. Now I run my own small business and 
-                        support my grandmother who raised me. Education changed everything."
-                    </p>
-                    <div class="story-impact">
-                        <div class="impact-item">
-                            <span class="impact-number">4</span>
-                            <span class="impact-label">Years Supported</span>
-                        </div>
-                        <div class="impact-item">
-                            <span class="impact-number">Own</span>
-                            <span class="impact-label">Business Started</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Story 4 - Getnet Belay -->
-            <div class="story-card reverse">
-                <div class="story-image">
-                    <img src="{% static 'images/champions.JPG' %}" alt="Getnet's Story" loading="lazy">
-                    <div class="story-badge">
-                        <i class="fas fa-trophy"></i> Breaking the Cycle
-                    </div>
-                </div>
-                <div class="story-content">
-                    <div class="story-quote">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <h3>Getnet Belay</h3>
-                    <span class="story-role">University Student, Grandson of Mamo Bekele</span>
-                    <p class="story-text">
-                        "Getnet Belay, the grandson of Mamo Bekele and a remarkable symbol of hope, has transformed his life through education, becoming the first in his family to attend university and breaking generational barriers. We first met him in 2017 when he was just 10 years old and in fourth grade. Since then, ROTOM has been by his side, supporting him as he passed the national exam and secured a spot at Arbaminch University, a prestigious public institution where only 8.4% of 674,000 students succeeded. We are incredibly proud of him and trust that God will guide him on this journey. ROTOM not only eases burdens but also plays a crucial role in breaking the cycle of poverty."
-                    </p>
-                    <div class="story-impact">
-                        <div class="impact-item">
-                            <span class="impact-number">7</span>
-                            <span class="impact-label">Years Supported</span>
-                        </div>
-                        <div class="impact-item">
-                            <span class="impact-number">8.4%</span>
-                            <span class="impact-label">Success Rate</span>
-                        </div>
-                        <div class="impact-item">
-                            <span class="impact-number">1st</span>
-                            <span class="impact-label">In Family to University</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+            <p class="text-center">No champion stories available at the moment.</p>
+            {% endfor %}
         </div>
     </section>
 
@@ -878,35 +223,21 @@
         </div>
 
         <div class="gallery-grid">
-            <div class="gallery-item" data-img="{% static 'images/mentorship-session.jpg' %}">
-                <img src="{% static 'images/mentorship-session.jpg' %}" alt="Mentorship Session">
+            {% for gallery_image in gallery_images %}
+            <div class="gallery-item" data-img="{% if gallery_image.image.name|slice:':7' == 'images/' %}{% static gallery_image.image.name %}{% else %}{{ gallery_image.image.url }}{% endif %}">
+                {% if gallery_image.image.name|slice:":7" == "images/" %}
+                <img src="{% static gallery_image.image.name %}" alt="{{ gallery_image.title }}" loading="lazy">
+                {% else %}
+                <img src="{{ gallery_image.image.url }}" alt="{{ gallery_image.title }}" loading="lazy">
+                {% endif %}
                 <div class="gallery-caption">
-                    <h3>Mentorship Session</h3>
-                    <p>Students engage with dedicated mentors, gaining inspiration and guidance for their academic and
-                        personal growth.</p>
+                    <h3>{{ gallery_image.title }}</h3>
+                    <p>{{ gallery_image.caption }}</p>
                 </div>
             </div>
-            <div class="gallery-item" data-img="{% static 'images/training-workshop.jpg' %}">
-                <img src="{% static 'images/training-workshop.jpg' %}" alt="Training Workshop">
-                <div class="gallery-caption">
-                    <h3>Training Workshop</h3>
-                    <p>A skills-building workshop empowering girls with tools for a successful future.</p>
-                </div>
-            </div>
-            <div class="gallery-item" data-img="{% static 'images/school-visit.jpg' %}">
-                <img src="{% static 'images/school-visit.jpg' %}" alt="School Visit">
-                <div class="gallery-caption">
-                    <h3>School Visit</h3>
-                    <p>ROTOM staff conducting a follow-up visit to monitor student progress and provide support.</p>
-                </div>
-            </div>
-            <div class="gallery-item" data-img="{% static 'images/student-achievement.jpg' %}">
-                <img src="{% static 'images/student-achievement.jpg' %}" alt="Student Achievement Celebration">
-                <div class="gallery-caption">
-                    <h3>Student Achievement Celebration</h3>
-                    <p>Celebrating the academic successes and milestones of our supported students.</p>
-                </div>
-            </div>
+            {% empty %}
+            <p class="text-center">No gallery images available at the moment.</p>
+            {% endfor %}
         </div>
     </section>
 </div>
@@ -921,62 +252,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Gallery lightbox functionality
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxClose = document.getElementById('lightbox-close');
-
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const imgSrc = item.getAttribute('data-img');
-                lightboxImg.src = imgSrc;
-                lightbox.classList.add('active');
-            });
-        });
-
-        lightboxClose.addEventListener('click', () => {
-            lightbox.classList.remove('active');
-        });
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-            }
-        });
-
-        // Dashboard counter animation (same as home page)
-        let valueDisplays = document.querySelectorAll(".dashboard-number");
-        let interval = 4000;
-
-        valueDisplays.forEach((valueDisplay) => {
-            let startValue = 0;
-            let endValue = parseInt(valueDisplay.getAttribute("data-val"));
-            
-            // Check if endValue is valid
-            if (isNaN(endValue) || endValue <= 0) {
-                return;
-            }
-            
-            let duration = Math.floor(interval / endValue);
-            let counter = setInterval(function () {
-                startValue += Math.ceil(endValue / (interval / duration));
-                if (startValue >= endValue) {
-                    valueDisplay.textContent = endValue + (endValue >= 100 ? '+' : '');
-                    clearInterval(counter);
-                } else {
-                    valueDisplay.textContent = startValue;
-                }
-            }, duration);
-        });
-    });
-</script>
+<script src="{% static 'js/champions.js' %}" defer></script>
 {% endblock %}
-<!-- NEW SERVICE CARD TO BE ADDED -->
-            <div class="service-card">
-                <h3><i class="fas fa-hands-helping"></i> Giving Back to Their Community</h3>
-                <p>Encouraging and facilitating opportunities for supported students to contribute to their communities through volunteer work and social initiatives.</p>
-            </div>
-<!-- END NEW SERVICE CARD -->

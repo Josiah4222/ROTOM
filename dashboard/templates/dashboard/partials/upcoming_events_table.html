@@ -1,0 +1,35 @@
+{% load static %}
+{% if upcoming_events %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in upcoming_events %}
+            <tr>
+                <td><strong>{{ event.title }}</strong></td>
+                <td>{{ event.event_date|date:"M d, Y" }}</td>
+                <td>
+                    <a href="{% url 'dashboard:edit_event' event.pk %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'dashboard:delete_event' event.pk %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this event?')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state">
+    <i class="fas fa-calendar-alt"></i>
+    <p>No upcoming events{% if search %} matching "{{ search }}"{% endif %}</p>
+</div>
+{% endif %}

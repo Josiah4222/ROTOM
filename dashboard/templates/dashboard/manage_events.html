@@ -18,87 +18,65 @@
     </div>
 </div>
 
+<!-- Live Search -->
+<div class="mb-4">
+    <div class="input-group" style="max-width: 400px;">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search events..." value="{{ search }}" autocomplete="off">
+        <button class="btn btn-outline-secondary" type="button" id="clearBtn" style="{% if not search %}display:none{% endif %}" onclick="clearSearch()">Clear</button>
+    </div>
+</div>
+
 <div class="row g-4">
+    <!-- Upcoming Events -->
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-calendar-alt me-2"></i>Upcoming Events
             </div>
-            <div class="card-body p-0">
-                {% if upcoming_events %}
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for event in upcoming_events %}
-                            <tr>
-                                <td><strong>{{ event.title }}</strong></td>
-                                <td>{{ event.event_date|date:"M d, Y" }}</td>
-                                <td>
-                                    <a href="{% url 'dashboard:edit_event' event.pk %}" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-calendar-alt"></i>
-                    <p>No upcoming events</p>
-                </div>
-                {% endif %}
+            <div class="card-body p-0" id="upcomingTable">
+                {% include 'dashboard/partials/upcoming_events_table.html' %}
             </div>
         </div>
     </div>
 
+    <!-- Past Events -->
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-history me-2"></i>Past Events
             </div>
-            <div class="card-body p-0">
-                {% if past_events %}
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for event in past_events %}
-                            <tr>
-                                <td><strong>{{ event.title }}</strong></td>
-                                <td>{{ event.event_date|date:"M d, Y" }}</td>
-                                <td>
-                                    <a href="{% url 'dashboard:edit_previous_event' event.pk %}" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="empty-state">
-                    <i class="fas fa-history"></i>
-                    <p>No past events</p>
-                </div>
-                {% endif %}
+            <div class="card-body p-0" id="pastTable">
+                {% include 'dashboard/partials/past_events_table.html' %}
             </div>
         </div>
     </div>
 </div>
+
+<script>
+let searchTimer;
+
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearBtn').style.display = 'none';
+    fetchResults('');
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    const q = this.value;
+    document.getElementById('clearBtn').style.display = q ? 'block' : 'none';
+    searchTimer = setTimeout(() => fetchResults(q), 350);
+});
+
+function fetchResults(q) {
+    fetch(`?search=${encodeURIComponent(q)}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('upcomingTable').innerHTML = data.upcoming_html;
+        document.getElementById('pastTable').innerHTML = data.past_html;
+    });
+}
+</script>
 {% endblock %}

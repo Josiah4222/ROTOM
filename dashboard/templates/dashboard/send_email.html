@@ -1,0 +1,51 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block title %}Send Email to Subscribers{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title">Send Email</h1>
+        <p class="page-subtitle">Send a message to all <strong>{{ subscriber_count }}</strong> subscriber{{ subscriber_count|pluralize }}</p>
+    </div>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div class="card" style="max-width: 700px;">
+    <div class="card-body">
+        {% if subscriber_count == 0 %}
+        <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <p>No subscribers yet. Share your website so people can subscribe!</p>
+        </div>
+        {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Subject</label>
+                <input type="text" name="subject" class="form-control" placeholder="Email subject..." required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Message</label>
+                <textarea name="message" class="form-control" rows="10"
+                    placeholder="Write your message here...&#10;&#10;No HTML needed - just write naturally." required></textarea>
+                <small class="text-muted">This will be sent as plain text to all {{ subscriber_count }} subscribers.</small>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Send this email to {{ subscriber_count }} subscriber{{ subscriber_count|pluralize }}?')">
+                    <i class="fas fa-paper-plane me-1"></i> Send to {{ subscriber_count }} Subscriber{{ subscriber_count|pluralize }}
+                </button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

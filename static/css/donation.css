@@ -1,0 +1,434 @@
+/* Donation Page Styles */
+
+:root {
+    --main-color: #1C651B;
+    --secondary-color: #154d14;
+    --accent-color: #F1C93B;
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+    --background-light: #f9fafb;
+    --card-bg: #ffffff;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Hero section */
+.hero {
+    position: relative;
+    min-height: 60vh;
+    width: 100%;
+    padding: 4rem 2rem;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
+    backdrop-filter: blur(2px);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    animation: fadeUp 1s ease-out;
+}
+
+/* Section styles */
+.section {
+    padding: 6rem 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+    font-size: 2.5rem;
+    color: var(--main-color);
+    font-weight: 700;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.donation-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+}
+
+.container:hover,
+.container.selected {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--main-color);
+}
+
+.container.selected::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--main-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.donation-amount {
+    font-size: 2.5rem;
+    color: var(--main-color);
+    font-weight: 700;
+    margin: 1rem 0;
+}
+
+.impact-list {
+    list-style: none;
+    padding: 1.5rem;
+    margin: 0;
+    text-align: left;
+    background: var(--background-light);
+    border-radius: 12px;
+}
+
+.impact-list li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.impact-list li i {
+    color: var(--main-color);
+}
+
+.custom-donation {
+    max-width: 1300px;
+    margin: -4rem auto 4rem;
+    padding: 0;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+}
+
+.feeding-form-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 0;
+    min-height: 280px;
+}
+
+.feeding-form-image {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feeding-form-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(28, 101, 27, 0.8), rgba(0, 0, 0, 0.6));
+}
+
+.image-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 1.2rem 1.8rem;
+}
+
+.image-content h4 {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+.image-content p {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    line-height: 1.5;
+    max-width: 380px;
+}
+
+.feeding-form-content {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.feeding-form-content h3 {
+    text-align: center;
+    color: var(--main-color);
+    margin-bottom: 0.2rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.feeding-form-content > p {
+    text-align: center;
+    margin: 0 auto 0.6rem;
+    color: var(--text-muted);
+    max-width: 450px;
+    font-size: 0.85rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    margin-bottom: 0.8rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.7rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: #f9fafb;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--main-color);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(28, 101, 27, 0.1);
+}
+
+.impact-preview {
+    background: #f0fdf4;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin: 0.8rem 0;
+    border-left: 3px solid var(--main-color);
+    display: none;
+}
+
+.impact-preview.visible {
+    display: block;
+}
+
+.impact-preview p {
+    color: var(--main-color);
+    font-size: 0.85rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.submit-btn {
+    width: 100%;
+    background: var(--main-color);
+    color: white;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(28, 101, 27, 0.3);
+}
+
+.submit-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+    color: white;
+    box-shadow: 0 8px 20px rgba(28, 101, 27, 0.4);
+}
+
+/* Impact details */
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem;
+}
+
+.impact-card {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.impact-card i {
+    width: 70px;
+    height: 70px;
+    background: rgba(241, 201, 59, 0.15);
+    color: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    transition: var(--transition);
+}
+
+.impact-card:hover i {
+    transform: rotateY(180deg);
+    background: var(--accent-color);
+    color: white;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+    .custom-donation {
+        margin-top: -2rem;
+    }
+
+    .feeding-form-container {
+        grid-template-columns: 1fr;
+    }
+
+    .feeding-form-image {
+        min-height: 250px;
+    }
+
+    .feeding-form-content {
+        padding: 1.5rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 4rem 1.5rem;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .feeding-form-image {
+        min-height: 200px;
+    }
+}

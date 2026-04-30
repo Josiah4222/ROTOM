@@ -1,0 +1,49 @@
+{% extends 'dashboard/base_admin.html' %}
+{% block title %}House Renovations{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title">House Renovations</h1>
+        <p class="page-subtitle">{{ renovations|length }} renovation{{ renovations|length|pluralize }}</p>
+    </div>
+    <a href="{% url 'dashboard:create_renovation' %}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i> Add Renovation
+    </a>
+</div>
+
+<div class="row g-3">
+    {% for r in renovations %}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-home me-2"></i>{{ r.name }}</span>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'dashboard:edit_renovation' r.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a href="{% url 'dashboard:delete_renovation' r.pk %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this renovation?')">Delete</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-6 text-center">
+                        <p class="text-muted mb-1" style="font-size:0.8rem;">BEFORE</p>
+                        <img src="{{ r.before_image.url }}" style="width:100%; height:140px; object-fit:cover; border-radius:8px;">
+                    </div>
+                    <div class="col-6 text-center">
+                        <p class="text-muted mb-1" style="font-size:0.8rem;">AFTER</p>
+                        <img src="{{ r.after_image.url }}" style="width:100%; height:140px; object-fit:cover; border-radius:8px;">
+                    </div>
+                </div>
+                {% if r.description %}
+                <p class="mt-2 mb-0" style="font-size:0.85rem; color:#6b7280;">{{ r.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="card"><div class="card-body text-center text-muted py-5">No renovations yet. <a href="{% url 'dashboard:create_renovation' %}">Add one</a>.</div></div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

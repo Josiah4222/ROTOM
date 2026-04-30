@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from .models import (
     VolunteerProfile, Day, InterestCategory, Contact, 
-    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter
+    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto
 )
 
 # Inline for VolunteerProfile
@@ -17,14 +17,14 @@ class DayInline(admin.TabularInline):
 # Admin class for VolunteerProfile
 @admin.register(VolunteerProfile)
 class VolunteerProfileAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'age', 'phone_number', 'education_level', 'created_at')
-    list_filter = ('education_level', 'times_available', 'created_at')
-    search_fields = ('first_name', 'last_name', 'phone_number', 'email')
+    list_display = ('full_name', 'gender', 'age', 'address', 'phone_number', 'education_level', 'days_list', 'created_at')
+    list_filter = ('gender', 'address', 'education_level', 'times_available', 'created_at')
+    search_fields = ('first_name', 'last_name', 'phone_number')
     readonly_fields = ('created_at',)
     filter_horizontal = ('days_available', 'interests')
     fieldsets = (
         ('Personal Information', {
-            'fields': ('first_name', 'last_name', 'age', 'phone_number', 'education_level')
+            'fields': ('first_name', 'last_name', 'gender', 'age', 'phone_number', 'address', 'education_level')
         }),
         ('Availability', {
             'fields': ('days_available', 'times_available')
@@ -41,6 +41,13 @@ class VolunteerProfileAdmin(admin.ModelAdmin):
     def full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
     full_name.short_description = 'Full Name'
+    
+    def days_list(self, obj):
+        days = obj.days_available.all()
+        if days:
+            return ", ".join([day.name for day in days])
+        return "Not specified"
+    days_list.short_description = 'Days Available'
 
 # Admin class for Day
 @admin.register(Day)
@@ -131,6 +138,15 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('tx_ref', 'email', 'first_name', 'last_name', 'phone_number')
     readonly_fields = ('created_at', 'updated_at', 'tx_ref')
+    
+    # Show only successful payments by default
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        # If no status filter is applied, show only successful payments
+        if not request.GET.get('status'):
+            return qs.filter(status='success')
+        return qs
+    
     fieldsets = (
         ('Payment Information', {
             'fields': ('tx_ref', 'amount', 'status')
@@ -179,15 +195,20 @@ class SubscriberAdmin(admin.ModelAdmin):
     list_filter = ('subscribed_at',)
     search_fields = ('email',)
     readonly_fields = ('subscribed_at',)
-    fieldsets = (
-        ('Subscriber Information', {
-            'fields': ('email',)
-        }),
-        ('Metadata', {
-            'fields': ('subscribed_at',),
-            'classes': ('collapse',)
-        })
-    )
+    actions = ['export_emails']
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['total_subscribers'] = Subscriber.objects.count()
+        return super().changelist_view(request, extra_context=extra_context)
+
+    def export_emails(self, request, queryset):
+        from django.http import HttpResponse
+        emails = '\n'.join(queryset.values_list('email', flat=True))
+        response = HttpResponse(emails, content_type='text/plain')
+        response['Content-Disposition'] = 'attachment; filename="subscribers.txt"'
+        return response
+    export_emails.short_description = 'Export selected emails as .txt'
 
 # Admin class for Newsletter
 @admin.register(Newsletter)
@@ -251,6 +272,175 @@ class NewsletterAdmin(admin.ModelAdmin):
         if 'status' in form.base_fields:
             form.base_fields['status'].help_text = 'Set to "Sent" to publish on blog page, "Draft" to keep private. This will NOT send emails - only controls blog visibility.'
         return form
+
+@admin.register(HouseRenovation)
+class HouseRenovationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created_at')
+    search_fields = ('name', 'description')
+    readonly_fields = ('created_at',)
+
+@admin.register(Story)
+class StoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'title', 'tag', 'order', 'layout', 'published', 'created_at')
+    list_filter = ('published', 'layout', 'created_at')
+    search_fields = ('name', 'title', 'tag', 'content')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'published')
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'title', 'tag', 'date_info', 'location_info')
+        }),
+        ('Story Content', {
+            'fields': ('content',)
+        }),
+        ('Images', {
+            'fields': (
+                ('image_1', 'image_1_label'),
+                ('image_2', 'image_2_label'),
+                ('image_3', 'image_3_label')
+            )
+        }),
+        ('Statistics', {
+            'fields': (
+                ('stat_1_number', 'stat_1_text'),
+                ('stat_2_number', 'stat_2_text'),
+                ('stat_3_number', 'stat_3_text')
+            )
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'layout', 'published')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+@admin.register(DonationPackage)
+class DonationPackageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'amount', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title', 'description', 'features')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Package Information', {
+            'fields': ('title', 'amount', 'description')
+        }),
+        ('Features', {
+            'fields': ('features',)
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+@admin.register(Champion)
+class ChampionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'role', 'years_supported', 'order', 'layout', 'is_active', 'created_at')
+    list_filter = ('is_active', 'layout', 'created_at')
+    search_fields = ('name', 'role', 'quote')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Champion Information', {
+            'fields': ('name', 'role', 'quote', 'image')
+        }),
+        ('Impact', {
+            'fields': ('years_supported', 'achievement')
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'layout', 'is_active')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title', 'caption')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Image Information', {
+            'fields': ('title', 'caption', 'image')
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+@admin.register(Milestone)
+class MilestoneAdmin(admin.ModelAdmin):
+    list_display = ('year', 'title', 'position', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'position', 'created_at')
+    search_fields = ('year', 'title', 'description')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Milestone Information', {
+            'fields': ('year', 'title', 'description', 'image')
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'position', 'is_active')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'position', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name', 'position')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Team Member Information', {
+            'fields': ('name', 'position', 'image')
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+@admin.register(CenterPhoto)
+class CenterPhotoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title', 'description')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Photo Information', {
+            'fields': ('title', 'description', 'image')
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active')
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
 
 # Optional: Custom admin site header
 admin.site.site_header = 'REACH ONE ETH Administration'

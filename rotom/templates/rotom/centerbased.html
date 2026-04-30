@@ -4,372 +4,13 @@
 {% block title %}Center-Based Senior Support{% endblock %}
 
 {% block extra_css %}
-<style>
-    :root {
-        --main-color: #1C651B;
-        --secondary-color: #154d14;
-        --accent-color: #F1C93B;
-        --text-color: #1f2937;
-        --text-muted: #6b7280;
-        --background-light: #f9fafb;
-        --card-bg: #ffffff;
-        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        color: var(--text-color);
-        background-color: var(--background-light);
-        line-height: 1.7;
-        overflow-x: hidden;
-    }
-
-    /* Hero section */
-    .hero {
-        position: relative;
-        min-height: 80vh;
-        width: 100%;
-        padding: 5rem 2rem;
-        margin-top: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url("{% static 'images/centerbased.jpg' %}") center/cover no-repeat;
-        background-attachment: fixed;
-    }
-
-    .hero::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
-        backdrop-filter: blur(2px);
-    }
-
-    .hero-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        color: white;
-        animation: fadeUp 1s ease-out;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(3rem, 5vw, 4.5rem);
-        margin-bottom: 1.5rem;
-        font-weight: 800;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        letter-spacing: -1px;
-        color: white;
-    }
-
-    .hero-content p {
-        font-size: clamp(1.2rem, 2vw, 1.6rem);
-        max-width: 900px;
-        margin: 0 auto 2.5rem;
-        opacity: 0.95;
-        font-weight: 300;
-        line-height: 1.6;
-    }
-
-    /* Section Styles */
-    .section {
-        padding: 6rem 3rem;
-        position: relative;
-    }
-
-    .section-title {
-        text-align: center;
-        margin-bottom: 4rem;
-        font-size: 2.5rem;
-        color: var(--main-color);
-        font-weight: 700;
-        position: relative;
-        display: inline-block;
-        width: 100%;
-    }
-    
-    /* Ethiopian Cultural Decorative Border */
-    .ethiopian-section-border {
-        position: relative;
-        padding-top: 2rem;
-    }
-    
-    .ethiopian-section-border::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 200px;
-        height: 20px;
-        background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 L10 0 L20 10 L10 20 Z' fill='%231C651B' opacity='0.15'/%3E%3Cpath d='M20 10 L30 0 L40 10 L30 20 Z' fill='%23F1C93B' opacity='0.2'/%3E%3C/svg%3E");
-        background-repeat: repeat-x;
-    }
-    
-    /* Ethiopian Woven Pattern Background */
-    .ethiopian-bg {
-        background-color: #fafafa;
-        background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L40 40 L0 80 M80 0 L40 40 L80 80' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%231C651B' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
-    }
-    
-    /* Decorative Corner Motif */
-    .corner-motif {
-        position: relative;
-    }
-    
-    .corner-motif::before,
-    .corner-motif::after {
-        content: '◆';
-        position: absolute;
-        font-size: 1.5rem;
-        color: var(--accent-color);
-        opacity: 0.4;
-    }
-    
-    .corner-motif::before {
-        top: 1rem;
-        left: 1rem;
-    }
-    
-    .corner-motif::after {
-        bottom: 1rem;
-        right: 1rem;
-    }
-
-    .section-title::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
-        background: var(--accent-color);
-        margin: 15px auto 0;
-        border-radius: 2px;
-    }
-
-    /* Services section */
-    .wrapper {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2.5rem;
-        max-width: 1400px;
-        margin: 0 auto;
-        align-items: stretch;
-    }
-
-    .container {
-        background: white;
-        border-radius: 20px;
-        padding: 2.5rem;
-        text-align: center;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 280px;
-    }
-
-    .container:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-        border-color: rgba(28, 101, 27, 0.1);
-    }
-
-    .container i {
-        font-size: 2.5rem;
-        color: var(--main-color);
-        margin-bottom: 1.5rem;
-        background: rgba(28, 101, 27, 0.1);
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-inline: auto;
-        transition: var(--transition);
-    }
-
-    .container:hover i {
-        background: var(--main-color);
-        color: white;
-        transform: rotateY(180deg);
-    }
-
-    .text {
-        font-size: 1.4rem;
-        color: var(--main-color);
-        font-weight: 600;
-        margin-bottom: 0.8rem;
-        display: block;
-    }
-
-    .container p {
-        font-size: 1rem;
-        color: var(--text-muted);
-        line-height: 1.6;
-    }
-
-    /* Gallery section */
-    .gallery-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 3rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .card {
-        position: relative;
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
-    }
-
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .card-image {
-        position: relative;
-        width: 100%;
-        height: 280px;
-        overflow: hidden;
-    }
-
-    .card-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.6s ease;
-    }
-
-    .card:hover .card-image img {
-        transform: scale(1.1);
-    }
-
-    .card-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(28, 101, 27, 0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: var(--transition);
-    }
-
-    .card:hover .card-overlay {
-        opacity: 1;
-    }
-
-    .card-overlay h3 {
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 600;
-        transform: translateY(20px);
-        transition: var(--transition);
-    }
-
-    .card:hover .card-overlay h3 {
-        transform: translateY(0);
-    }
-
-    .card-content {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .card-content h3 {
-        font-size: 1.4rem;
-        color: var(--main-color);
-        margin-bottom: 0.8rem;
-        font-weight: 600;
-    }
-
-    .card-content p {
-        color: var(--text-muted);
-        line-height: 1.6;
-        font-size: 1rem;
-    }
-
-    .btn {
-        display: inline-block;
-        padding: 1rem 2.5rem;
-        background: var(--accent-color);
-        color: var(--text-color);
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: var(--transition);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        background: white;
-    }
-
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @media (max-width: 1024px) {
-
-        .wrapper,
-        .gallery-cards {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 768px) {
-
-        .wrapper,
-        .gallery-cards {
-            grid-template-columns: 1fr;
-        }
-
-        .section {
-            padding: 4rem 1.5rem;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/programs.css' %}">
 {% endblock %}
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<header class="hero">
+<header class="hero" style="background-image: linear-gradient(rgba(28, 101, 27, 0.7), rgba(0, 0, 0, 0.5)), url('{% static 'images/centerbased.jpg' %}'); background-size: cover; background-position: center;">
     <div class="hero-content">
         <h1>Center-Based Senior Support</h1>
         <p>Providing Comprehensive Care in a Dedicated Space</p>
@@ -419,7 +60,8 @@
         <div class="container">
             <i class="fas fa-seedling"></i>
             <span class="text">Live Stock & Gardening</span>
-            <p>Engaging seniors in agricultural activities and livestock care for therapeutic and productive purposes.</p>
+            <p>Engaging seniors in agricultural activities and livestock care for therapeutic and productive purposes.
+            </p>
         </div>
         <div class="container">
             <i class="fas fa-palette"></i>
@@ -434,59 +76,80 @@
     <h2 class="section-title">Our Center with Photos</h2>
     <div class="gold-accent"></div>
     <div class="gallery-cards">
+        {% for photo in center_photos %}
         <div class="card">
-            <div class="card-image">
-                <img src="{% static 'images/dining.jpg' %}" alt="Dining Room">
-                <div class="card-overlay">
-                    <h3>Dining Room</h3>
+            <div class="card-image clickable-image" style="cursor: pointer;">
+                {% if photo.image %}
+                    {% if photo.image.name|slice:":7" == "images/" %}
+                        <img src="{% static photo.image.name %}" alt="{{ photo.title }}" data-full-img="{% static photo.image.name %}">
+                    {% else %}
+                        <img src="{{ photo.image.url }}" alt="{{ photo.title }}" data-full-img="{{ photo.image.url }}">
+                    {% endif %}
+                {% endif %}
+                <div class="card-overlay" style="pointer-events: none;">
+                    <h3>{{ photo.title }}</h3>
                 </div>
             </div>
             <div class="card-content">
-                <h3>Dining Room</h3>
-                <p>A comfortable space for seniors to enjoy meals together.</p>
+                <h3>{{ photo.title }}</h3>
+                <p>{{ photo.description }}</p>
             </div>
         </div>
-        <div class="card">
-            <div class="card-image">
-                <img src="{% static 'images/centerbased.jpg' %}" alt="Elders Room">
-                <div class="card-overlay">
-                    <h3>Elders Room</h3>
-                </div>
-            </div>
-            <div class="card-content">
-                <h3>Elders Room</h3>
-                <p>Cozy and well-maintained rooms for rest and relaxation.</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <img src="{% static 'images/kitchen.jpg' %}" alt="Center Kitchen">
-                <div class="card-overlay">
-                    <h3>Center Kitchen</h3>
-                </div>
-            </div>
-            <div class="card-content">
-                <h3>Center Kitchen</h3>
-                <p>A modern kitchen preparing nutritious meals daily.</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <img src="{% static 'images/common.jpg' %}" alt="Common Area">
-                <div class="card-overlay">
-                    <h3>Common Area</h3>
-                </div>
-            </div>
-            <div class="card-content">
-                <h3>Common Area</h3>
-                <p>A vibrant space for social activities and community bonding.</p>
-            </div>
-        </div>
+        {% empty %}
+        <p class="text-center">No center photos available at the moment.</p>
+        {% endfor %}
     </div>
 </section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="Lightbox Image">
+</div>
+
 {% include 'rotom/footer.html' %}
 {% endblock %}
 
 {% block extra_js %}
-<!-- No JavaScript needed -->
+<script>
+// Lightbox functionality
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.querySelector('.lightbox-close');
+
+// Add click event to all clickable card images
+document.querySelectorAll('.clickable-image').forEach(cardImage => {
+    cardImage.addEventListener('click', function() {
+        const img = this.querySelector('img');
+        if (img) {
+            lightbox.style.display = 'flex';
+            lightboxImg.src = img.getAttribute('data-full-img') || img.src;
+            lightboxImg.alt = img.alt;
+            document.body.style.overflow = 'hidden';
+        }
+    });
+});
+
+// Close lightbox
+lightboxClose.addEventListener('click', function() {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
+
+// Close on outside click
+lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+</script>
 {% endblock %}

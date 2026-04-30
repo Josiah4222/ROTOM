@@ -8,7 +8,7 @@
 
 <!-- Hero Section -->
 <section class="hero">
-    <div class="hero-background" style="background-image: url('{% get_static_prefix %}images/graduates.jpg');"></div>
+    <div class="hero-background" style="background-image: url('{% get_static_prefix %}images/ourstoryhero.png');"></div>
     <div class="hero-content">
         <h1>Our Story & Achievements</h1>
         <p>Discover the journey of ROTOM Ethiopia and celebrate our milestones in empowering seniors and communities.
@@ -23,35 +23,24 @@
     <div class="gold-accent"></div>
     <p class="section-subtitle">A path through ROTOM Ethiopia’s milestones.</p>
     <div class="timeline-container">
+        {% for milestone in milestones %}
         <div class="timeline-event">
-            <div class="timeline-content left">
-                <time datetime="2017">2017</time>
-                <h3>Our Beginning</h3>
-                <p>Reach One Touch One Mission (ROTOM) Ethiopia was founded with a passion for positive change through
-                    acts of kindness. Officially registered as a non-profit charitable organization (Civil Society
-                    Organization Certificate #3764), our headquarters is in Bishoftu, Ethiopia.</p>
-                <img src="{% static 'images/volunteers.jpg' %}" alt="ROTOM Founding">
+            <div class="timeline-content {{ milestone.position }}">
+                <time datetime="{{ milestone.year }}">{{ milestone.year }}</time>
+                <h3>{{ milestone.title }}</h3>
+                <p>{{ milestone.description }}</p>
+                {% if milestone.image %}
+                    {% if milestone.image.name|slice:":7" == "images/" %}
+                        <img src="{% static milestone.image.name %}" alt="{{ milestone.title }}">
+                    {% else %}
+                        <img src="{{ milestone.image.url }}" alt="{{ milestone.title }}">
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
-        <div class="timeline-event">
-            <div class="timeline-content right">
-                <time datetime="2018">2018</time>
-                <h3>Expanding Our Reach</h3>
-                <p>We expanded our efforts by renting a facility near Ziquala behind Gold Mark Hotel. This allowed us to
-                    introduce two additional programs: 24/7 care for 10 seniors without homes and educational support
-                    for 35 young girls pursuing higher education.</p>
-                <img src="{% static 'images/parking.jpg' %}" alt="ROTOM Facility">
-            </div>
-        </div>
-        <div class="timeline-event">
-            <div class="timeline-content left">
-                <time datetime="2023">2023</time>
-                <h3>New Chapter</h3>
-                <p>In January 2023, we secured a new location provided by the Bishoftu city administration, allowing us
-                    to continue our vital work with seniors, as well as their grandchildren and other beneficiaries.</p>
-                <img src="{% static 'images/jemaneshafter.jpg' %}" alt="New ROTOM Location">
-            </div>
-        </div>
+        {% empty %}
+        <p class="text-center">No milestones available at the moment.</p>
+        {% endfor %}
     </div>
 </section>
 
@@ -65,21 +54,30 @@
             <img src="{% static 'images/centerbased.jpg' %}" alt="Extending Our Reach">
             <div class="achievement-info">
                 <h3>Extending Our Reach</h3>
-                <p>Since 2017, ROTOM Ethiopia has positively impacted the lives of 150+ vulnerable Ethiopians, expanding our reach and providing essential support to those in need. We serve 120+ elders through our home-based program and 30+ seniors in our center-based care, creating a comprehensive support network for our community's most vulnerable members.</p>
+                <p>Since 2017, ROTOM Ethiopia has positively impacted the lives of 150+ vulnerable Ethiopians, expanding
+                    our reach and providing essential support to those in need. We serve 120+ elders through our
+                    home-based program and 30+ seniors in our center-based care, creating a comprehensive support
+                    network for our community's most vulnerable members.</p>
             </div>
         </div>
         <div class="achievement-card">
             <img src="{% static 'images/homebased.jpg' %}" alt="Rescuing Elders from Homelessness">
             <div class="achievement-info">
                 <h3>Rescuing Elders from Homelessness</h3>
-                <p>We have provided safety, warmth, and security to 30+ formerly homeless seniors in our center-based program, creating a nurturing environment where they can thrive. Our comprehensive care includes daily meals, medical attention, social activities, and most importantly, a loving community that restores their dignity and hope.</p>
+                <p>We have provided safety, warmth, and security to 30+ formerly homeless seniors in our center-based
+                    program, creating a nurturing environment where they can thrive. Our comprehensive care includes
+                    daily meals, medical attention, social activities, and most importantly, a loving community that
+                    restores their dignity and hope.</p>
             </div>
         </div>
         <div class="achievement-card">
             <img src="{% static 'images/champions.jpg' %}" alt="Empowering Future Generations">
             <div class="achievement-info">
                 <h3>Empowering Future Generations</h3>
-                <p>Through our integrated support approach, we have indirectly supported 200+ grandchildren and dependents of the seniors we serve. By providing educational support, school supplies, and mentorship programs, we are breaking the cycle of poverty and empowering the next generation to build bright futures for themselves and their families.</p>
+                <p>Through our integrated support approach, we have indirectly supported 200+ grandchildren and
+                    dependents of the seniors we serve. By providing educational support, school supplies, and
+                    mentorship programs, we are breaking the cycle of poverty and empowering the next generation to
+                    build bright futures for themselves and their families.</p>
             </div>
         </div>
     </div>
@@ -91,37 +89,31 @@
     <div class="gold-accent"></div>
     <p class="section-subtitle">The passionate individuals driving our mission forward.</p>
     <div class="team-grid">
+        {% for member in team_members %}
         <div class="team-member">
-            <img src="{% static 'images/hawi.jpg' %}" alt="Hawi Belete">
+            {% if member.image %}
+                {% if member.image.name|slice:":7" == "images/" %}
+                    <img src="{% static member.image.name %}" alt="{{ member.name }}">
+                {% else %}
+                    <img src="{{ member.image.url }}" alt="{{ member.name }}">
+                {% endif %}
+            {% endif %}
             <div class="team-member-info">
-                <h3>Hawi Belete</h3>
-                <p>Director</p>
+                <h3>{{ member.name }}</h3>
+                <p>{{ member.position }}</p>
             </div>
         </div>
-        <div class="team-member">
-            <img src="{% static 'images/buzepro.jpg' %}" alt="Bizunesh Alemayehu">
-            <div class="team-member-info">
-                <h3>Bizunesh Alemayehu</h3>
-                <p>Social Worker</p>
-            </div>
-        </div>
-        <div class="team-member">
-            <img src="{% static 'images/tg.jpg' %}" alt="Tigi Shambel">
-            <div class="team-member-info">
-                <h3>Tigi Shambel</h3>
-                <p>Program Assistant</p>
-            </div>
-        </div>
-        <div class="team-member">
-            <img src="{% static 'images/muse.jpg' %}" alt="Muse Etana">
-            <div class="team-member-info">
-                <h3>Muse Etana</h3>
-                <p>Nurse</p>
-            </div>
-        </div>
-        
+        {% empty %}
+        <p class="text-center">No team members available at the moment.</p>
+        {% endfor %}
     </div>
 </section>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
 
 {% include 'rotom/footer.html' %}
 
@@ -389,10 +381,18 @@
 
     .timeline-content img {
         width: 100%;
+        height: 250px;
         border-radius: 12px;
         object-fit: cover;
         box-shadow: var(--shadow-sm);
+        cursor: pointer;
+        transition: transform 0.3s ease;
     }
+
+    .timeline-content img:hover {
+        transform: scale(1.02);
+    }
+
 
     /* Achievements Section */
     .achievements {
@@ -484,7 +484,7 @@
         height: 160px;
         border-radius: 50%;
         object-fit: cover;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         transition: var(--transition);
         margin-bottom: 1rem;
     }
@@ -519,6 +519,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
         }
+
         .team-member img {
             width: 130px;
             height: 130px;
@@ -572,6 +573,69 @@
             height: 60vh;
         }
     }
+
+    /* Modal Styles */
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 900px;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: zoomIn 0.3s;
+    }
+
+
+
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .close-modal:hover,
+    .close-modal:focus {
+        color: var(--accent-color);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    @keyframes zoomIn {
+        from {
+            transform: scale(0)
+        }
+
+        to {
+            transform: scale(1)
+        }
+    }
+
+    @media only screen and (max-width: 700px) {
+        .modal-content {
+            width: 100%;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -600,6 +664,42 @@
                 behavior: 'smooth'
             });
         });
+    });
+
+    // Modal Image Functionality
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const closeBtn = document.getElementsByClassName("close-modal")[0];
+
+    // Add click event to all timeline images
+    document.querySelectorAll('.timeline-content img').forEach(img => {
+        img.addEventListener('click', function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+        });
+    });
+
+    // Close functionality
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    // Close on outside click
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (event) {
+        if (event.key === "Escape" && modal.style.display === "block") {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
     });
 </script>
 {% endblock %}

@@ -6,8 +6,10 @@ from .models import Contact, FeedingRegistration, Subscriber, VolunteerProfile, 
 class VolunteerProfileForm(forms.ModelForm):
     class Meta:
         model = VolunteerProfile
-        fields = ['first_name', 'last_name', 'age', 'phone_number', 'education_level', 'days_available', 'times_available', 'interests']
+        fields = ['first_name', 'last_name', 'gender', 'age', 'phone_number', 'address', 'education_level', 'days_available', 'times_available', 'interests']
         widgets = {
+            'gender': forms.RadioSelect(),
+            'address': forms.Select(),
             'days_available': forms.CheckboxSelectMultiple(),  # Allow multiple selections
             'times_available': forms.RadioSelect(),
             'interests': forms.CheckboxSelectMultiple(),

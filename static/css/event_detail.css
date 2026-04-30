@@ -1,0 +1,550 @@
+/* Event Detail Page - Modern Design */
+
+:root {
+    --main-color: #1C651B;
+    --secondary-color: #154d14;
+    --accent-color: #F1C93B;
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9fafb;
+}
+
+/* Event Hero */
+.event-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 500px;
+    overflow: hidden;
+    margin-top: -100px;
+    padding-top: 100px;
+}
+
+.event-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(28, 101, 27, 0.8));
+}
+
+.event-hero-content {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    padding: 0 2rem;
+}
+
+.event-date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-color);
+    color: var(--main-color);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(241, 201, 59, 0.4);
+}
+
+.event-hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Content Wrapper */
+.event-content-wrapper {
+    max-width: 1400px;
+    margin: -3rem auto 4rem;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 3rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Main Content */
+.event-main {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    transition: gap 0.3s ease;
+}
+
+.back-link:hover {
+    gap: 0.8rem;
+}
+
+.event-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+    border-radius: 15px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.meta-item i {
+    font-size: 1.5rem;
+    color: var(--main-color);
+}
+
+.meta-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: block;
+}
+
+.meta-value {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.event-description {
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+.event-description p {
+    margin-bottom: 1rem;
+}
+
+.event-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background: var(--main-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(28, 101, 27, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.btn-outline:hover {
+    background: var(--main-color);
+    color: white;
+}
+
+/* Sidebar */
+.event-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.sidebar-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Story Card Preview - CLEAN PROFESSIONAL DESIGN */
+.story-card-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/16;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.story-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+.story-bg-image {
+    position: absolute;
+    width: 100%;
+    height: 65%;
+    top: 0;
+    object-fit: cover;
+}
+
+.story-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.95) 65%,
+        white 75%
+    );
+}
+
+.story-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 2rem;
+    z-index: 2;
+}
+
+/* Logo at Top */
+.story-logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    margin-bottom: auto;
+}
+
+/* Badge */
+.story-badge {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    background: white;
+    color: var(--main-color);
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Title at Bottom */
+.story-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-color);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    margin-top: auto;
+}
+
+/* Date */
+.story-date {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--main-color);
+    margin-bottom: 1.5rem;
+}
+
+.story-date i {
+    font-size: 1.1rem;
+}
+
+/* CTA Button */
+.story-cta {
+    background: var(--main-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(28, 101, 27, 0.25);
+}
+    
+/* Download Button */
+.download-story-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(28, 101, 27, 0.3);
+}
+
+.download-story-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(28, 101, 27, 0.4);
+}
+
+/* Share Divider */
+.share-divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+    color: var(--text-muted);
+}
+
+.share-divider::before,
+.share-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.share-divider::before {
+    left: 0;
+}
+
+.share-divider::after {
+    right: 0;
+}
+
+.share-divider span {
+    background: white;
+    padding: 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Share Buttons */
+.share-buttons {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.share-btn {
+    aspect-ratio: 1;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    color: white !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    padding: 1.2rem;
+    min-height: 70px;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 10;
+}
+
+.share-btn svg {
+    width: 32px !important;
+    height: 32px !important;
+    color: white !important;
+    fill: white !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.share-btn.facebook {
+    background: #1877f2 !important;
+}
+
+.share-btn.facebook:hover {
+    background: #0d65d9 !important;
+}
+
+.share-btn.whatsapp {
+    background: #25d366 !important;
+}
+
+.share-btn.whatsapp:hover {
+    background: #1ebd57 !important;
+}
+
+.share-btn.telegram {
+    background: #0088cc !important;
+}
+
+.share-btn.telegram:hover {
+    background: #0077b3 !important;
+}
+
+.share-btn.copy-link {
+    background: #6b7280 !important;
+}
+
+.share-btn.copy-link:hover {
+    background: #4b5563 !important;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.share-btn:active {
+    transform: translateY(-1px);
+}
+
+.copy-notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--main-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.copy-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Other Events */
+.other-event {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.other-event:hover {
+    background: #f9fafb;
+    transform: translateX(5px);
+}
+
+.other-event-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.other-event-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.other-event-info span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .event-content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .event-sidebar {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .event-main {
+        padding: 2rem 1.5rem;
+    }
+
+    .event-hero {
+        height: 50vh;
+        min-height: 400px;
+    }
+
+    .story-title {
+        font-size: 1.8rem;
+    }
+
+    .story-logo {
+        font-size: 1.5rem;
+    }
+}

@@ -64,6 +64,17 @@
         {% endfor %}
     {% endif %}
 
+    <!-- Search -->
+    <form method="get" class="mb-4">
+        <div class="input-group" style="max-width: 400px;">
+            <input type="text" name="search" class="form-control" placeholder="Search by title or subject..." value="{{ search }}">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+            {% if search %}
+            <a href="{% url 'dashboard:manage_newsletters' %}" class="btn btn-outline-secondary">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+
     <!-- Newsletter Cards -->
     <div class="row">
         {% for newsletter in newsletters %}
@@ -141,25 +152,17 @@
         <ul class="pagination justify-content-center">
             {% if newsletters.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1">&laquo; First</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ newsletters.previous_page_number }}">Previous</a>
+                    <a class="page-link" href="?search={{ search }}&page={{ newsletters.previous_page_number }}">&laquo;</a>
                 </li>
             {% endif %}
-
-            <li class="page-item active">
-                <span class="page-link">
-                    Page {{ newsletters.number }} of {{ newsletters.paginator.num_pages }}
-                </span>
+            {% for num in newsletters.paginator.page_range %}
+            <li class="page-item {% if newsletters.number == num %}active{% endif %}">
+                <a class="page-link" href="?search={{ search }}&page={{ num }}">{{ num }}</a>
             </li>
-
+            {% endfor %}
             {% if newsletters.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ newsletters.next_page_number }}">Next</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ newsletters.paginator.num_pages }}">Last &raquo;</a>
+                    <a class="page-link" href="?search={{ search }}&page={{ newsletters.next_page_number }}">&raquo;</a>
                 </li>
             {% endif %}
         </ul>
