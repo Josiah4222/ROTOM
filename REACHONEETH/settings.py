@@ -111,7 +111,7 @@ MEDIA_URL = '/rotom/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if not DEBUG:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Chapa
 CHAPA_SECRET_KEY = config('CHAPA_SECRET_KEY', default='')
