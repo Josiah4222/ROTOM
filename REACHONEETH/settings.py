@@ -156,7 +156,7 @@ else:
     SECURE_HSTS_PRELOAD = True
     
     # WhiteNoise for static files in production
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
     # Fix auth redirect URLs for /rotom/ prefix
     LOGIN_REDIRECT_URL = '/rotom/dashboard/admin-dashboard/'
