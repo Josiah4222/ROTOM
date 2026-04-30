@@ -89,9 +89,9 @@ AUTH_PASSWORD_VALIDATORS = [
 PAYPAL_RECEIVER_EMAIL = config('PAYPAL_RECEIVER_EMAIL', default='')
 PAYPAL_TEST = config('PAYPAL_TEST', default=True, cast=bool)
 
-LOGIN_REDIRECT_URL = '/dashboard/admin-dashboard/'
-LOGIN_URL = '/dashboard/login/'
-LOGOUT_REDIRECT_URL = '/dashboard/login/'
+LOGIN_REDIRECT_URL = '/rotom/dashboard/admin-dashboard/'
+LOGIN_URL = '/rotom/dashboard/login/'
+LOGOUT_REDIRECT_URL = '/rotom/dashboard/login/'
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -110,11 +110,13 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Production path prefix (when hosted under /rotom/ on shared server)
+# Production path prefix (hosted under /rotom/ on shared server)
+FORCE_SCRIPT_NAME = '/rotom'
+STATIC_URL = '/rotom/static/'
+MEDIA_URL = '/rotom/media/'
+
 if not DEBUG:
-    FORCE_SCRIPT_NAME = '/rotom'
-    STATIC_URL = '/rotom/static/'
-    MEDIA_URL = '/rotom/media/'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Chapa
 CHAPA_SECRET_KEY = config('CHAPA_SECRET_KEY', default='')
