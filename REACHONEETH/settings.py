@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'rotom.middleware.ScriptNameMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,6 +113,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Path prefix for sub-path hosting
 FORCE_SCRIPT_NAME = config('FORCE_SCRIPT_NAME', default='')
+if FORCE_SCRIPT_NAME:
+    USE_X_FORWARDED_HOST = True
 
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
