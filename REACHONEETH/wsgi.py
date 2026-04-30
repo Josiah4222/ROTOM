@@ -1,25 +1,17 @@
 """
 WSGI config for REACHONEETH project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'REACHONEETH.settings')
 
-application = get_wsgi_application()
-
-# Wrap application to inject SCRIPT_NAME into WSGI environ
-_application = application
+_application = get_wsgi_application()
 
 def application(environ, start_response):
-    script_name = os.environ.get('SCRIPT_NAME', '')
+    from django.conf import settings
+    script_name = getattr(settings, 'FORCE_SCRIPT_NAME', '') or ''
     if script_name:
         environ['SCRIPT_NAME'] = script_name
         path_info = environ.get('PATH_INFO', '')
