@@ -110,6 +110,9 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/rotom/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Path prefix for sub-path hosting
+FORCE_SCRIPT_NAME = config('FORCE_SCRIPT_NAME', default='')
+
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
