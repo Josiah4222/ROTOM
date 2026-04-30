@@ -10,3 +10,11 @@ class ScriptNameMiddleware:
         if script_name:
             request.META['SCRIPT_NAME'] = script_name
         return self.get_response(request)
+
+
+def script_name_context(request):
+    """Makes SCRIPT_NAME available in all templates as {{ SCRIPT_NAME }}."""
+    from django.conf import settings
+    return {
+        'SCRIPT_NAME': getattr(settings, 'FORCE_SCRIPT_NAME', ''),
+    }

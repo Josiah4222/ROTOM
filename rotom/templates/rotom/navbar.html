@@ -5,7 +5,7 @@
 
 <!-- Navbar -->
 <nav class="navbar" id="mainNavbar">
-    <a href="{% url 'home' %}" class="navbar-brand">
+    <a href="{{ SCRIPT_NAME }}/" class="navbar-brand">
         <img src="{% static 'images/logo.png' %}" alt="ROTOM Logo">
         <div class="brand-text">
             <span class="brand-name">ROTOM Ethiopia</span>
@@ -14,13 +14,13 @@
     </a>
 
     <ul class="navbar-nav">
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'ourstory' %}">About Us</a></li>
-        <li><a href="{% url 'stories' %}">Stories</a></li>
-        <li><a href="{% url 'blog' %}">Blog</a></li>
-        <li><a href="{% url 'take_action' %}">Take Action</a></li>
-        <li><a href="{% url 'events' %}">Events</a></li>
-        <li><a href="{% url 'donate' %}" class="donate-btn"><span>Donate</span></a></li>
+        <li><a href="{{ SCRIPT_NAME }}/">Home</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'ourstory' %}">About Us</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'stories' %}">Stories</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'blog' %}">Blog</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'take_action' %}">Take Action</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'events' %}">Events</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'donate' %}" class="donate-btn"><span>Donate</span></a></li>
     </ul>
 
     <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
