@@ -1,0 +1,19 @@
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rotom-django
+    env_file:
+      - .env.production
+    volumes:
+      # Persist SQLite database
+      - ./db.sqlite3:/app/db.sqlite3
+      # Serve static and media via the existing nginx container
+      - /var/www/rotom/staticfiles:/var/www/rotom/staticfiles
+      - /var/www/rotom/media:/var/www/rotom/media
+    ports:
+      # Bind to host so existing nginx can reach it at 172.17.0.1:8000
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+    network_mode: bridge
