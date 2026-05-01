@@ -81,9 +81,9 @@
             <div class="card-image clickable-image" style="cursor: pointer;">
                 {% if photo.image %}
                     {% if photo.image.name|slice:":7" == "images/" %}
-                        <img src="{% static photo.image.name %}" alt="{{ photo.title }}" data-full-img="{% static photo.image.name %}">
+                        <img src="{% static photo.image.name %}" alt="{{ photo.title }}" loading="lazy" data-full-img="{% static photo.image.name %}">
                     {% else %}
-                        <img src="{{ photo.image.url }}" alt="{{ photo.title }}" data-full-img="{{ photo.image.url }}">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.title }}" loading="lazy" data-full-img="{{ photo.image.url }}">
                     {% endif %}
                 {% endif %}
                 <div class="card-overlay" style="pointer-events: none;">

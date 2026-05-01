@@ -75,12 +75,12 @@
             <div class="renovation-card">
                 <div class="renovation-images">
                     <div class="reno-img-wrap" onclick="openRenoLightbox('{{ r.before_image.url }}')">
-                        <img src="{{ r.before_image.url }}" alt="Before">
+                        <img src="{{ r.before_image.url }}" alt="Before" loading="lazy">
                         <span class="reno-label before">Before</span>
                     </div>
                     <div class="reno-divider"><i class="fas fa-arrow-right"></i></div>
                     <div class="reno-img-wrap" onclick="openRenoLightbox('{{ r.after_image.url }}')">
-                        <img src="{{ r.after_image.url }}" alt="After">
+                        <img src="{{ r.after_image.url }}" alt="After" loading="lazy">
                         <span class="reno-label after">After</span>
                     </div>
                 </div>

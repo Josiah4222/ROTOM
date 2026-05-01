@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.gzip.GZipMiddleware',  # Add gzip compression
     'rotom.middleware.ScriptNameMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,6 +120,9 @@ if FORCE_SCRIPT_NAME:
 
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+    
+    # Browser caching for static files
+    WHITENOISE_MAX_AGE = 31536000  # 1 year
 
 # Chapa
 CHAPA_SECRET_KEY = config('CHAPA_SECRET_KEY', default='')
