@@ -27,8 +27,8 @@ RUN mkdir -p /var/www/rotom/staticfiles /var/www/rotom/media
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Run as non-root user for security
-RUN useradd -m appuser && chown -R appuser:appuser /app /var/www/rotom
+# Run as non-root user for security (UID 1000 matches host volume ownership)
+RUN useradd -u 1000 -m appuser && chown -R appuser:appuser /app /var/www/rotom
 USER appuser
 
 # Expose port
