@@ -113,20 +113,21 @@
 .action-btn {
     display: inline-block;
     padding: 1rem 2.5rem;
-    background: var(--accent-color);
+    background: white;
     color: var(--main-color);
     text-decoration: none;
     border-radius: 50px;
     font-weight: 600;
     font-size: 1.1rem;
     transition: var(--transition);
-    box-shadow: 0 4px 15px rgba(241, 201, 59, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
     position: relative;
     z-index: 3;
 }
 
 .action-btn:hover {
-    background: white;
+    background: var(--accent-color);
+    color: var(--main-color);
     transform: translateY(-3px);
 }
 
