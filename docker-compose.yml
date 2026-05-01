@@ -14,6 +14,6 @@ services:
       - /var/www/rotom/media:/var/www/rotom/media
     ports:
       # Bind to host so existing nginx can reach it at 172.17.0.1:8000
-      - "127.0.0.1:8000:8000"
+      - "0.0.0.0:8000:8000"
     restart: unless-stopped
     network_mode: bridge
