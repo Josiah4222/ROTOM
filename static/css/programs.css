@@ -398,6 +398,13 @@ body {
     color: white;
     font-size: 3rem;
     cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.lightbox-close:hover {
+    transform: rotate(90deg);
+    opacity: 0.8;
 }
 
 @keyframes fadeUp {
