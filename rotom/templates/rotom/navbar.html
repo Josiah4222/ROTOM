@@ -1,8 +1,5 @@
 {% load static %}
 
-<!-- Ethiopian Pattern Bar -->
-<div class="top-pattern"></div>
-
 <!-- Navbar -->
 <nav class="navbar" id="mainNavbar">
     <a href="{{ SCRIPT_NAME }}/" class="navbar-brand">
@@ -33,6 +30,15 @@
         </svg>
     </button>
 </nav>
+
+<!-- Ethiopian Pattern Bar Below Navbar -->
+{% if navbar_pattern %}
+<div class="bottom-pattern" style="
+    background-image: url('{{ navbar_pattern.image.url }}');
+    height: {{ navbar_pattern.height }}px;
+    opacity: {{ navbar_pattern.opacity }};
+"></div>
+{% endif %}
 
 <!-- Mobile Backdrop -->
 <div class="menu-backdrop"></div>

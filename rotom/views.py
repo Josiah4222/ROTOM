@@ -42,6 +42,9 @@ def rate_limit(key_prefix, limit=5, period=60):
 
 @rate_limit('contact', limit=5, period=300)  # 5 submissions per 5 minutes
 def home(request):
+    from rotom.models import Partner
+    partners = Partner.objects.filter(is_active=True).order_by('order', 'name')
+    
     if request.method == 'POST':
         logger.info(f"POST data: {request.POST}")
         form = ContactForm(request.POST)
@@ -52,16 +55,17 @@ def home(request):
                 return JsonResponse({'success': True}, status=200)
             return render(request, 'rotom/index.html', {
                 'form': ContactForm(),
+                'partners': partners,
                 'success_message': 'Thank you for your message! We will get back to you soon.'
             })
         else:
             logger.warning(f"Contact form errors: {form.errors}, POST data: {request.POST}")
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'success': False, 'errors': form.errors}, status=400)
-            return render(request, 'rotom/index.html', {'form': form})
+            return render(request, 'rotom/index.html', {'form': form, 'partners': partners})
     else:
         form = ContactForm()
-    return render(request, 'rotom/index.html', {'form': form})
+    return render(request, 'rotom/index.html', {'form': form, 'partners': partners})
 
 def subscribe(request):
     if request.method == 'POST':

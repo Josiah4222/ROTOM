@@ -17,8 +17,9 @@
     <p class="loading-text">Processing your donation...</p>
 </div>
 
-<section class="hero" style="background-image: url('{% static 'images/helpingothers.jpg' %}');">
-    <div class="hero-content">
+<section class="hero" style="background-image: url('{% static 'images/helpingothers.jpg' %}'); position: relative;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E&quot;); background-repeat: repeat; z-index: 1; pointer-events: none;"></div>
+    <div class="hero-content" style="position: relative; z-index: 2;">
         <h1>Support Our Seniors and Youth</h1>
         <p>Your contribution ensures a caring and supportive environment where seniors can live with dignity and
             fulfillment, while empowering the next generation through education. Every gift matters!</p>
@@ -100,6 +101,48 @@
                             <i class="fas fa-heart"></i> Donate Now
                         </button>
                     </form>
+
+                    <!-- Bank Transfer Information -->
+                    <div class="bank-transfer-info">
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+                        <h4><i class="fas fa-university"></i> Pay with Bank Transfer</h4>
+                        
+                        <!-- CBE Account -->
+                        <div class="bank-details">
+                            <div class="bank-detail-item">
+                                <span class="label">Bank Name:</span>
+                                <span class="value">Commercial Bank of Ethiopia (CBE)</span>
+                            </div>
+                            <div class="bank-detail-item">
+                                <span class="label">Account Name:</span>
+                                <span class="value">Reach One Touch One Mission</span>
+                            </div>
+                            <div class="bank-detail-item highlight">
+                                <span class="label">Account Number:</span>
+                                <span class="value account-number">1000256601951</span>
+                            </div>
+                        </div>
+
+                        <!-- Birhan Bank Account -->
+                        <div class="bank-details" style="margin-top: 1.5rem;">
+                            <div class="bank-detail-item">
+                                <span class="label">Bank Name:</span>
+                                <span class="value">Birhan Bank</span>
+                            </div>
+                            <div class="bank-detail-item">
+                                <span class="label">Account Name:</span>
+                                <span class="value">ROTOM Ethiopia ET</span>
+                            </div>
+                            <div class="bank-detail-item highlight">
+                                <span class="label">Account Number:</span>
+                                <span class="value account-number">1600180020464</span>
+                            </div>
+                        </div>
+
+                        <p class="bank-note"><i class="fas fa-info-circle"></i> After making your transfer, please contact us with your transaction reference.</p>
+                    </div>
                 </div>
             </div>
         </div>

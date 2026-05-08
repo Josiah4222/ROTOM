@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="margin: 0 !important; padding: 0 !important;">
 
 <head>
     <meta charset="UTF-8">
@@ -49,11 +49,50 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
     {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* Force remove any gaps at the top */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative;
+        }
+        body {
+            padding-top: 0 !important;
+        }
+
+        /* Hero Image Smooth Fade-In */
+        .hero {
+            background-color: #1C651B;
+        }
+        
+        .hero::before,
+        .hero .hero-background,
+        .hero-background {
+            animation: heroFadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes heroFadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Ensure hero images load smoothly */
+        .hero[style*="background-image"],
+        .hero .hero-background[style*="background-image"] {
+            background-color: #1C651B;
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
 </head>
 
-<body>
+<body style="margin: 0 !important; padding: 0 !important;">
     <!-- PAGE CONTENT -->
-    <main class="main-content-wrapper">
+    <main class="main-content-wrapper" style="margin-top: 0 !important; padding-top: 0 !important;">
         {% block content %}
         {% endblock %}
     </main>

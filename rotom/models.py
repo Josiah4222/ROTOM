@@ -345,3 +345,44 @@ class CenterPhoto(models.Model):
     class Meta:
         ordering = ['order', 'title']
         verbose_name_plural = "Center Photos"
+
+
+class NavbarPattern(models.Model):
+    name = models.CharField(max_length=200, help_text="Pattern name (e.g., Green Ethiopian Pattern)")
+    image = models.ImageField(upload_to='patterns/', help_text="Pattern image (recommended: horizontal repeating pattern)")
+    height = models.IntegerField(default=60, help_text="Pattern bar height in pixels (default: 60)")
+    opacity = models.DecimalField(max_digits=3, decimal_places=2, default=0.80, help_text="Pattern opacity (0.00 to 1.00, default: 0.80)")
+    is_active = models.BooleanField(default=False, help_text="Check to use this pattern on the navbar (only one can be active)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} {'(Active)' if self.is_active else ''}"
+
+    def save(self, *args, **kwargs):
+        # If this pattern is being set as active, deactivate all others
+        if self.is_active:
+            NavbarPattern.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-is_active', '-created_at']
+        verbose_name_plural = "Navbar Patterns"
+
+
+class Partner(models.Model):
+    name = models.CharField(max_length=200, help_text="Partner organization name")
+    logo = models.ImageField(upload_to='partners/', help_text="Partner logo (recommended: transparent PNG, square or landscape)")
+    website = models.URLField(blank=True, help_text="Partner website URL (optional)")
+    description = models.TextField(blank=True, help_text="Brief description of the partnership (optional)")
+    order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
+    is_active = models.BooleanField(default=True, help_text="Check to display in partners section")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['order', 'name']
+        verbose_name_plural = "Partners"

@@ -57,6 +57,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'rotom.middleware.script_name_context',
+                'rotom.context_processors.navbar_pattern',
             ],
         },
     },

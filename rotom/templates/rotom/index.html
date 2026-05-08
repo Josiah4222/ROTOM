@@ -4,7 +4,7 @@
 {% block title %}ROTOM Ethiopia - Empowering Communities{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}?v=40">
 {% endblock %}
 
 {% block content %}
@@ -12,13 +12,13 @@
 
 <!-- Hero Section -->
 <header class="hero">
-    <div class="hero-overlay"></div>
+    <img src="{% static 'images/herosection.jpg' %}" alt="ROTOM Ethiopia Community" class="hero-background" loading="eager">
     <div class="hero-content">
         <h1 class="hero-title">ROTOM-Ethiopia</h1>
         <p class="hero-subtitle">Older persons and their dependents living dignified and fulfilling lives.</p>
         <div class="hero-cta">
-            <a href="#about" class="btn btn-primary">Discover Our Impact</a>
-            <a href="#contact" class="btn btn-secondary">Get Involved</a>
+            <a href="{% url 'ourstory' %}" class="btn btn-primary">Discover</a>
+            <a href="#about" class="btn btn-secondary">Learn More</a>
         </div>
     </div>
 </header>
@@ -40,7 +40,7 @@
         </div>
         <div class="container">
             <i class="fas fa-child"></i>
-            <span class="num" data-val="50">70+</span>
+            <span class="num" data-val="70">70+</span>
             <span class="text">Grandchildren & Dependents</span>
         </div>
         <div class="container">
@@ -70,45 +70,49 @@
             <h2>Our Story</h2>
             <div class="elegant-divider"><span class="diamond"></span></div>
             <p>
-                Reach One Touch One Mission (ROTOM) Ethiopia was founded in 2017 by a dedicated individual inspired by the power of good deeds. ROTOM Ethiopia is a non-profit charitable organization officially registered as a civil society organization under certificate #3764. Our main office is located in Bishoftu, Ethiopia. Our core mission is to elevate the dignity and enhance the quality of life for vulnerable older adults and their dependents through holistic support and improvements in their living conditions.
+                Reach One Touch One Mission (ROTOM) Ethiopia began in 2017, born from a deep belief in the transformative power of compassion and good deeds. Founded by a dedicated volunteer with a heart for the forgotten, our organization was built to be a lifeline for those who need it most. ROTOM Ethiopia is a fully registered civil society organization (Certificate number 3764) operating out of our main office in Bishoftu, Ethiopia.
+            </p>
+            <p>
+                We provide holistic support to vulnerable older adults who have rendered Great Service to the Nation and their dependents, working tirelessly to elevate their dignity, improve their living conditions, and ensure they live out their years with the respect and care they deserve.
             </p>
         </div>
     </div>
 </section>
 
 <section id="projects" class="projects section">
-    <h2 class="section-title">Our Programs</h2>
+    <h2 class="section-title">Our Pillars of Care</h2>
     <div class="gold-accent"></div>
+    <p class="text-center pillars-intro" style="color: var(--text-muted); max-width: 900px; margin: 0 auto 3rem; font-size: 1.05rem; line-height: 1.8; text-align: center;">
+        Our holistic, multigenerational care model relies on three essential pillars:
+    </p>
     <div class="project-cards">
         <a href="{% url 'homebased' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/homebased.webp' %}" alt="Home Based Care Program" loading="lazy">
+                <img src="{% static 'images/homebasedproject.jpg' %}" alt="Home Based Care Program" loading="lazy">
             </div>
             <div class="card-content">
-                <h3>Home Based Care</h3>
-                <p>ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of
-                    life for older persons in our community.</p>
-                <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
-            </div>
-        </a>
-        <a href="{% url 'centerbased' %}" class="card">
-            <div class="card-image">
-                <img src="{% static 'images/centerbased.webp' %}" alt="Center Based Program" loading="lazy">
-            </div>
-            <div class="card-content">
-                <h3>Center Based Care</h3>
-                <p>Our center-based services deliver comprehensive assistance for elderly individuals who require more
-                    intensive support.</p>
+                <h3>Home-Based Care</h3>
+                <p>We meet elders where they are, providing crucial access to medical care, safe housing, hygiene resources, monthly nutritional supplements, and livelihood support.</p>
                 <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
             </div>
         </a>
         <a href="{% url 'champion' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/champions.webp' %}" alt="Our Story" loading="lazy">
+                <img src="{% static 'images/championsproject.jpg' %}" alt="Champions Project" loading="lazy">
             </div>
             <div class="card-content">
                 <h3>Grandchildren Support</h3>
-                <p>We focus on empowering the younger generation through education and mentorship.</p>
+                <p>We invest in the future by delivering complete educational support to the grandchildren raised by our elderly beneficiaries.</p>
+                <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </a>
+        <a href="{% url 'centerbased' %}" class="card">
+            <div class="card-image">
+                <img src="{% static 'images/centerproject.png' %}" alt="Senior Center" loading="lazy">
+            </div>
+            <div class="card-content">
+                <h3>Center-Based Care</h3>
+                <p>We provide a loving, fully-equipped residential haven for formerly homeless, abandoned, and severely ill older persons, restoring their health and dignity.</p>
                 <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
             </div>
         </a>
@@ -116,13 +120,13 @@
 </section>
 
 <section id="testimonials" class="testimonials section">
-    <h2 class="section-title">Stories of Impact</h2>
+    <h2 class="section-title">What People Say</h2>
     <div class="testimonials-slider">
         <div class="testimonial-container">
             <div class="testimonial active">
                 <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/tsige niguse.webp' %}')">
-                        <img src="{% static 'images/tsige niguse.webp' %}" alt="Volunteer Testimonial" loading="lazy">
+                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/tsige niguse.PNG' %}')">
+                        <img src="{% static 'images/tsige niguse.PNG' %}" alt="Senior Tsige" loading="lazy">
                     </div>
                     <div class="testimonial-text">
                         <p>"My children thank you so much. You've given me the privilege to see the outside. I haven't
@@ -135,8 +139,8 @@
             </div>
             <div class="testimonial">
                 <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/adanech.webp' %}')">
-                        <img src="{% static 'images/adanech.webp' %}" alt="Beneficiary Testimonial" loading="lazy">
+                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/adanech.PNG' %}')">
+                        <img src="{% static 'images/adanech.PNG' %}" alt="Beneficiary Testimonial" loading="lazy">
                     </div>
                     <div class="testimonial-text">
                         <p>"The care and support I receive from ROTOM Ethiopia has given me a new lease on life. I feel
@@ -168,52 +172,29 @@
 
 <section id="partners" class="partners section">
     <h2 class="section-title">Our Partners</h2>
-    <p class="text-center" style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">
-        We are proud to collaborate with these organizations to make a lasting impact.
+    <p class="text-center partners-intro" style="color: var(--text-muted); max-width: 800px; margin: 0 auto 1rem; font-size: 1.05rem; line-height: 1.8; text-align: center;">
+        A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders.
     </p>
+    {% if partners %}
     <div class="partners-slider">
         <div class="slider-track">
+            {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{% static 'images/HFTFrec_tan.png' %}" alt="Partner 1" loading="lazy">
+                <img src="{{ partner.logo.url }}" alt="Partner Logo" loading="lazy">
             </div>
+            {% endfor %}
+            {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{% static 'images/holland.png' %}" alt="Partner 2" loading="lazy">
+                <img src="{{ partner.logo.url }}" alt="Partner Logo" loading="lazy">
             </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/rotom_usa.jpg' %}" alt="Partner 5" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/canada.jpg' %}" alt="Partner 6" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/gk.jpg' %}" alt="Partner 7" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/ahsam.jpg' %}" alt="Partner 8" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/andu.jpg' %}" alt="Partner 9" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/alfa.jpg' %}" alt="Partner 10" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/beautifulworld.jpg' %}" alt="Partner 11" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/edf.jpg' %}" alt="Partner 12" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/globalcare.jpg' %}" alt="Partner 13" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/maranatha.jpg' %}" alt="Partner 14" loading="lazy">
-            </div>
-            <div class="partner-logo">
-                <img src="{% static 'images/pyramid.jpg' %}" alt="Partner 15" loading="lazy">
-            </div>
+            {% endfor %}
         </div>
     </div>
+    {% else %}
+    <p class="text-center" style="color: var(--text-muted); padding: 2rem;">
+        No partners to display at the moment.
+    </p>
+    {% endif %}
 </section>
 
 <section id="contact" class="contact-us section">
@@ -225,7 +206,6 @@
             <ul>
                 <li><i class="fas fa-envelope"></i> rotomethiopia@reachone-touchone.org</li>
                 <li><i class="fas fa-phone"></i> +251 989707777</li>
-                <!-- <li><i class="fas fa-map-marker-alt"></i> Ethiopia, Oromiya, Bishoftu Kebele 05</li> -->
             </ul>
         </div>
         <div class="contact-form">
@@ -250,7 +230,7 @@
                     {{ form.email.errors }}
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.phone_number.id_for_label }}" required="True">Phone Number (optional)</label>
+                    <label for="{{ form.phone_number.id_for_label }}">Phone Number (optional)</label>
                     {{ form.phone_number }}
                     {{ form.phone_number.errors }}
                 </div>

@@ -857,3 +857,58 @@ def delete_center_photo(request, pk):
     photo.delete()
     messages.success(request, 'Center photo deleted successfully!')
     return redirect('dashboard:manage_center_photos')
+
+
+# Partner Management Views
+@staff_member_required(login_url='dashboard:login')
+def manage_partners(request):
+    from rotom.models import Partner
+    search = request.GET.get('search', '')
+    partners = Partner.objects.all().order_by('order', 'name')
+    if search:
+        partners = partners.filter(
+            models.Q(name__icontains=search) |
+            models.Q(description__icontains=search)
+        )
+    paginator = Paginator(partners, 15)
+    partners_paginated = paginator.get_page(request.GET.get('page'))
+    return render(request, 'dashboard/manage_partners.html', {
+        'partners': partners_paginated,
+        'search': search,
+    })
+
+@staff_member_required(login_url='dashboard:login')
+def create_partner(request):
+    from dashboard.forms import PartnerForm
+    if request.method == 'POST':
+        form = PartnerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Partner added successfully!')
+            return redirect('dashboard:manage_partners')
+    else:
+        form = PartnerForm()
+    return render(request, 'dashboard/partner_form.html', {'form': form, 'title': 'Add New Partner'})
+
+@staff_member_required(login_url='dashboard:login')
+def edit_partner(request, pk):
+    from dashboard.forms import PartnerForm
+    from rotom.models import Partner
+    partner = get_object_or_404(Partner, pk=pk)
+    if request.method == 'POST':
+        form = PartnerForm(request.POST, request.FILES, instance=partner)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Partner updated successfully!')
+            return redirect('dashboard:manage_partners')
+    else:
+        form = PartnerForm(instance=partner)
+    return render(request, 'dashboard/partner_form.html', {'form': form, 'title': 'Edit Partner', 'partner': partner})
+
+@staff_member_required(login_url='dashboard:login')
+def delete_partner(request, pk):
+    from rotom.models import Partner
+    partner = get_object_or_404(Partner, pk=pk)
+    partner.delete()
+    messages.success(request, 'Partner deleted successfully!')
+    return redirect('dashboard:manage_partners')

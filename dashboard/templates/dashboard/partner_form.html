@@ -1,0 +1,94 @@
+{% extends 'dashboard/base_admin.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ title }}</h2>
+        <a href="{% url 'dashboard:manage_partners' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Partners
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label for="{{ form.logo.id_for_label }}" class="form-label">{{ form.logo.label }}</label>
+                            {{ form.logo }}
+                            {% if form.logo.help_text %}
+                            <div class="form-text">{{ form.logo.help_text }}</div>
+                            {% endif %}
+                            {% if form.logo.errors %}
+                            <div class="text-danger">{{ form.logo.errors }}</div>
+                            {% endif %}
+                            {% if partner and partner.logo %}
+                            <div class="mt-2">
+                                <p class="mb-1">Current logo:</p>
+                                <img src="{{ partner.logo.url }}" alt="Partner Logo" style="max-width: 200px; max-height: 150px; object-fit: contain; border: 1px solid #ddd; padding: 10px;">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">Display Settings</h5>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ form.order.id_for_label }}" class="form-label">{{ form.order.label }}</label>
+                                    {{ form.order }}
+                                    {% if form.order.help_text %}
+                                    <div class="form-text">{{ form.order.help_text }}</div>
+                                    {% endif %}
+                                    {% if form.order.errors %}
+                                    <div class="text-danger">{{ form.order.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3 form-check">
+                                    {{ form.is_active }}
+                                    <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                        {{ form.is_active.label }}
+                                    </label>
+                                    {% if form.is_active.errors %}
+                                    <div class="text-danger">{{ form.is_active.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card bg-info text-white mt-3">
+                            <div class="card-body">
+                                <h6 class="card-title">💡 Tips</h6>
+                                <ul class="small mb-0">
+                                    <li>Use PNG with transparent background</li>
+                                    <li>Recommended size: 200x200px to 400x400px</li>
+                                    <li>Keep file size under 500KB</li>
+                                    <li>Use order increments of 10 (10, 20, 30...)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Partner
+                    </button>
+                    <a href="{% url 'dashboard:manage_partners' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

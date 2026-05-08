@@ -67,6 +67,11 @@ urlpatterns = [
     path('create-center-photo/', views.create_center_photo, name='create_center_photo'),
     path('edit-center-photo/<int:pk>/', views.edit_center_photo, name='edit_center_photo'),
     path('delete-center-photo/<int:pk>/', views.delete_center_photo, name='delete_center_photo'),
+    # Partners
+    path('manage-partners/', views.manage_partners, name='manage_partners'),
+    path('create-partner/', views.create_partner, name='create_partner'),
+    path('edit-partner/<int:pk>/', views.edit_partner, name='edit_partner'),
+    path('delete-partner/<int:pk>/', views.delete_partner, name='delete_partner'),
     # Newsletter URLs
     path('manage-newsletters/', views.manage_newsletters, name='manage_newsletters'),
     path('create-newsletter/', views.create_newsletter, name='create_newsletter'),

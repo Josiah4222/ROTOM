@@ -1,49 +1,62 @@
 #!/bin/bash
 
-# Deployment script for ROTOM Ethiopia Django project
-# Run this script on your server after initial setup
+# ROTOM Ethiopia Deployment Script
+# This script automates the deployment process on the server
 
-set -e  # Exit on error
+set -e  # Exit on any error
 
-echo "Starting deployment..."
+echo "=========================================="
+echo "ROTOM Ethiopia Deployment Script"
+echo "=========================================="
+echo ""
 
-# Navigate to project directory
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Check if running on server
+if [ ! -d "/var/www/rotom" ]; then
+    echo -e "${RED}Error: This script should be run on the server in /var/www/rotom${NC}"
+    exit 1
+fi
+
 cd /var/www/rotom
 
-# Activate virtual environment
+echo -e "${YELLOW}Step 1: Activating virtual environment...${NC}"
 source venv/bin/activate
 
-# Pull latest code (if using git)
-# git pull origin main
-
-# Install/update dependencies
-echo "Installing dependencies..."
+echo -e "${YELLOW}Step 2: Installing/updating dependencies...${NC}"
 pip install -r requirements.txt
 
-# Run migrations
-echo "Running migrations..."
-python manage.py migrate --noinput
+echo -e "${YELLOW}Step 3: Running database migrations...${NC}"
+python manage.py migrate
 
-# Collect static files
-echo "Collecting static files..."
+echo -e "${YELLOW}Step 4: Creating cache table (if not exists)...${NC}"
+python manage.py createcachetable || true
+
+echo -e "${YELLOW}Step 5: Collecting static files...${NC}"
 python manage.py collectstatic --noinput
 
-# Create cache table if not exists
-echo "Creating cache table..."
-python manage.py createcachetable
+echo -e "${YELLOW}Step 6: Setting database permissions...${NC}"
+sudo chown www-data:www-data db.sqlite3 || true
+sudo chmod 664 db.sqlite3 || true
+sudo chown www-data:www-data /var/www/rotom || true
 
-# Restart Gunicorn
-echo "Restarting Gunicorn..."
+echo -e "${YELLOW}Step 7: Restarting Gunicorn...${NC}"
 sudo systemctl restart gunicorn
 
-# Restart Nginx
-echo "Restarting Nginx..."
+echo -e "${YELLOW}Step 8: Restarting Nginx...${NC}"
 sudo systemctl restart nginx
 
-# Check service status
-echo "Checking service status..."
-sudo systemctl status gunicorn --no-pager
-sudo systemctl status nginx --no-pager
-
+echo ""
+echo -e "${GREEN}=========================================="
 echo "Deployment completed successfully!"
-echo "Visit http://178.104.213.200 to check your site"
+echo "==========================================${NC}"
+echo ""
+echo "Next steps:"
+echo "1. Visit your website to verify deployment"
+echo "2. Check logs if any issues: sudo journalctl -u gunicorn -f"
+echo "3. Test milestone management in admin dashboard"
+echo ""

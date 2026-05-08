@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from .models import (
     VolunteerProfile, Day, InterestCategory, Contact, 
-    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto
+    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, NavbarPattern, Partner
 )
 
 # Inline for VolunteerProfile
@@ -441,6 +441,63 @@ class CenterPhotoAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         })
     )
+
+@admin.register(NavbarPattern)
+class NavbarPatternAdmin(admin.ModelAdmin):
+    list_display = ('name', 'height', 'opacity', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name',)
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('is_active',)
+    fieldsets = (
+        ('Pattern Information', {
+            'fields': ('name', 'image'),
+            'description': 'Upload a horizontal repeating pattern image. PNG or JPG format recommended.'
+        }),
+        ('Display Settings', {
+            'fields': ('height', 'opacity', 'is_active'),
+            'description': 'Adjust the pattern bar height and opacity. Only one pattern can be active at a time.'
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if obj.is_active:
+            from django.contrib import messages
+            messages.success(request, f'Pattern "{obj.name}" is now active on the navbar!')
+
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order', 'is_active', 'has_website', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name', 'description')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Partner Information', {
+            'fields': ('name', 'logo', 'website', 'description'),
+            'description': 'Add partner organization details. Logo should be a transparent PNG for best results.'
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active'),
+            'description': 'Control the display order and visibility of this partner.'
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+    def has_website(self, obj):
+        return bool(obj.website)
+    has_website.boolean = True
+    has_website.short_description = 'Website'
+
 
 # Optional: Custom admin site header
 admin.site.site_header = 'REACH ONE ETH Administration'

@@ -1,125 +1,152 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
 
-{% block title %}Our Story & Achievements - ROTOM Ethiopia{% endblock %}
+{% block title %}Our Journey - ROTOM Ethiopia{% endblock %}
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
 <!-- Hero Section -->
-<section class="hero">
-    <div class="hero-background" style="background-image: url('{% get_static_prefix %}images/ourstoryhero.webp');"></div>
-    <div class="hero-content">
-        <h1>Our Story & Achievements</h1>
-        <p>Discover the journey of ROTOM Ethiopia and celebrate our milestones in empowering seniors and communities.
-        </p>
-        <a href="#timeline" class="btn">Explore Our Journey</a>
+<section class="journey-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content-wrapper">
+        <h1 class="hero-main-title">About ROTOM Ethiopia</h1>
+        <p class="hero-description">Born from a deep belief in the transformative power of compassion and good deeds, we provide holistic support to vulnerable older adults who have rendered great service to the nation and their dependents, ensuring they live with dignity and respect.</p>
+    </div>
+</section>
+
+<!-- Vision, Values & Approach Section -->
+<section class="vision-values-section">
+    <div class="vision-values-container">
+        
+        <!-- Vision -->
+        <div class="vva-card vision-card">
+            <div class="vva-icon">
+                <img src="{% static 'images/ourvision.jpg' %}" alt="Our Vision">
+            </div>
+            <h3>Our Vision</h3>
+            <p>A dignified & fulfilled life for older persons!</p>
+        </div>
+
+        <!-- Values -->
+        <div class="vva-card values-card">
+            <div class="vva-icon">
+                <img src="{% static 'images/ourvalue.jpg' %}" alt="Our Values">
+            </div>
+            <h3>Our Values</h3>
+            <p>We uphold Love Beyond Self, Honesty, Justice, Respect, Stewardship, Dignity, Teamwork, and Quality Service</p>
+        </div>
+
+        <!-- Approach -->
+        <div class="vva-card approach-card">
+            <div class="vva-icon">
+                <img src="{% static 'images/ourapproach.jpg' %}" alt="Our Approach">
+            </div>
+            <h3>Our Approach</h3>
+            <p>A holistic, multi-generational model</p>
+        </div>
+
     </div>
 </section>
 
 <!-- Timeline Section -->
-<section id="timeline" class="timeline section">
-    <h2 class="section-title">Our Journey</h2>
-    <div class="gold-accent"></div>
-    <p class="section-subtitle">A path through ROTOM Ethiopia’s milestones.</p>
+<section class="timeline-section">
+    <div class="timeline-header">
+        <h2 class="section-title">Our Milestones</h2>
+        <div class="gold-accent"></div>
+        <p class="section-subtitle">A timeline of growth and compassion</p>
+    </div>
     <div class="timeline-container">
         {% for milestone in milestones %}
-        <div class="timeline-event">
-            <div class="timeline-content {{ milestone.position }}">
-                <time datetime="{{ milestone.year }}">{{ milestone.year }}</time>
+        <div class="timeline-item">
+            <div class="card-image" onclick="openMilestoneLightbox('{{ milestone.image.url }}')">
+                <img src="{{ milestone.image.url }}" alt="{{ milestone.year }} - {{ milestone.title }}" loading="lazy">
+            </div>
+            <div class="timeline-content">
+                <div class="year-badge">{{ milestone.year }}</div>
                 <h3>{{ milestone.title }}</h3>
                 <p>{{ milestone.description }}</p>
-                {% if milestone.image %}
-                    {% if milestone.image.name|slice:":7" == "images/" %}
-                        <img src="{% static milestone.image.name %}" alt="{{ milestone.title }}">
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+            <p>No milestones available at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Team Photos Section -->
+<section class="team-photos-section">
+    <div class="team-photos-container">
+        <h2 class="section-title">Our Team</h2>
+        <div class="gold-accent"></div>
+        <p class="section-subtitle">The dedicated people behind our mission</p>
+        
+        <div class="group-photos-grid">
+            <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/dedicatedteam.jpg' %}')">
+                <img src="{% static 'images/dedicatedteam.jpg' %}" alt="ROTOM Team" loading="lazy">
+                <div class="photo-caption">Our Dedicated Team</div>
+            </div>
+            <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteerteam.jpg' %}')">
+                <img src="{% static 'images/volunteerteam.jpg' %}" alt="ROTOM Volunteers" loading="lazy">
+                <div class="photo-caption">Our Volunteers</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Staff Section -->
+<section class="staff-section">
+    <div class="staff-container">
+        <h2 class="section-title">Meet Our Staff</h2>
+        <div class="gold-accent"></div>
+        <p class="section-subtitle">The passionate individuals driving our mission forward</p>
+        
+        <div class="staff-grid">
+            {% for member in team_members %}
+            <div class="staff-member">
+                {% if member.image %}
+                    {% if member.image.name|slice:":7" == "images/" %}
+                        <img src="{% static member.image.name %}" alt="{{ member.name }}" loading="lazy">
                     {% else %}
-                        <img src="{{ milestone.image.url }}" alt="{{ milestone.title }}">
+                        <img src="{{ member.image.url }}" alt="{{ member.name }}" loading="lazy">
                     {% endif %}
-                {% endif %}
-            </div>
-        </div>
-        {% empty %}
-        <p class="text-center">No milestones available at the moment.</p>
-        {% endfor %}
-    </div>
-</section>
-
-<!-- Achievements Section -->
-<section id="achievements" class="achievements section">
-    <h2 class="section-title">Our Achievements</h2>
-    <div class="gold-accent"></div>
-    <p class="section-subtitle">Celebrating our milestones in serving seniors and communities.</p>
-    <div class="achievements-grid">
-        <div class="achievement-card">
-            <img src="{% static 'images/centerbased.jpg' %}" alt="Extending Our Reach">
-            <div class="achievement-info">
-                <h3>Extending Our Reach</h3>
-                <p>Since 2017, ROTOM Ethiopia has positively impacted the lives of 150+ vulnerable Ethiopians, expanding
-                    our reach and providing essential support to those in need. We serve 120+ elders through our
-                    home-based program and 30+ seniors in our center-based care, creating a comprehensive support
-                    network for our community's most vulnerable members.</p>
-            </div>
-        </div>
-        <div class="achievement-card">
-            <img src="{% static 'images/homebased.jpg' %}" alt="Rescuing Elders from Homelessness">
-            <div class="achievement-info">
-                <h3>Rescuing Elders from Homelessness</h3>
-                <p>We have provided safety, warmth, and security to 30+ formerly homeless seniors in our center-based
-                    program, creating a nurturing environment where they can thrive. Our comprehensive care includes
-                    daily meals, medical attention, social activities, and most importantly, a loving community that
-                    restores their dignity and hope.</p>
-            </div>
-        </div>
-        <div class="achievement-card">
-            <img src="{% static 'images/champions.jpg' %}" alt="Empowering Future Generations">
-            <div class="achievement-info">
-                <h3>Empowering Future Generations</h3>
-                <p>Through our integrated support approach, we have indirectly supported 200+ grandchildren and
-                    dependents of the seniors we serve. By providing educational support, school supplies, and
-                    mentorship programs, we are breaking the cycle of poverty and empowering the next generation to
-                    build bright futures for themselves and their families.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Team Section -->
-<section id="team" class="team-section section">
-    <h2 class="section-title">Meet Our Staff</h2>
-    <div class="gold-accent"></div>
-    <p class="section-subtitle">The passionate individuals driving our mission forward.</p>
-    <div class="team-grid">
-        {% for member in team_members %}
-        <div class="team-member">
-            {% if member.image %}
-                {% if member.image.name|slice:":7" == "images/" %}
-                    <img src="{% static member.image.name %}" alt="{{ member.name }}">
                 {% else %}
-                    <img src="{{ member.image.url }}" alt="{{ member.name }}">
+                    <div class="staff-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
                 {% endif %}
-            {% endif %}
-            <div class="team-member-info">
-                <h3>{{ member.name }}</h3>
-                <p>{{ member.position }}</p>
+                <div class="staff-info">
+                    <h3>{{ member.name }}</h3>
+                    <p>{{ member.position }}</p>
+                </div>
             </div>
+            {% empty %}
+            <p class="text-center" style="grid-column: 1 / -1; color: var(--text-muted);">No staff members available at the moment.</p>
+            {% endfor %}
         </div>
-        {% empty %}
-        <p class="text-center">No team members available at the moment.</p>
-        {% endfor %}
     </div>
 </section>
-
-<!-- Image Modal -->
-<div id="imageModal" class="image-modal">
-    <span class="close-modal">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
 
 {% include 'rotom/footer.html' %}
+
+<!-- Team Photo Lightbox -->
+<div id="teamLightbox" onclick="closeTeamLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
+    <span onclick="closeTeamLightbox()" style="position:absolute; top:1.25rem; right:1.5rem; color:white; font-size:2.5rem; cursor:pointer; line-height:1;">&times;</span>
+    <img id="teamLightboxImg" src="" alt="" style="max-width:90vw; max-height:90vh; object-fit:contain; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+</div>
+
+<!-- Milestone Photo Lightbox -->
+<div id="milestoneLightbox" onclick="closeMilestoneLightbox()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
+    <span onclick="closeMilestoneLightbox()" style="position:absolute; top:1.25rem; right:1.5rem; color:white; font-size:2.5rem; cursor:pointer; line-height:1;">&times;</span>
+    <img id="milestoneLightboxImg" src="" alt="" style="max-width:90vw; max-height:90vh; object-fit:contain; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+</div>
 
 {% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/milestones.css' %}">
 <style>
     :root {
         --main-color: #1C651B;
@@ -128,11 +155,6 @@
         --text-color: #1f2937;
         --text-muted: #6b7280;
         --background-light: #f9fafb;
-        --card-bg: #ffffff;
-        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
     * {
@@ -145,120 +167,179 @@
         font-family: 'Poppins', sans-serif;
         line-height: 1.7;
         color: var(--text-color);
-        background-color: var(--background-light);
-        overflow-x: hidden;
+        background: white;
     }
 
     /* Hero Section */
-    .hero {
+    .journey-hero {
         position: relative;
-        height: 70vh;
-        min-height: 500px;
+        height: 50vh;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url("{% static 'images/abouthero.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        margin-top: 70px;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(28, 101, 27, 0.75);
+        z-index: 0;
+    }
+
+    .journey-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .hero-content-wrapper {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .hero-main-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-description {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        font-weight: 400;
+        line-height: 1.8;
+        opacity: 0.95;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        max-width: 850px;
+        margin: 0 auto;
+    }
+
+    /* Vision, Values & Approach Section */
+    .vision-values-section {
+        padding: 4rem 2rem;
+        background: white;
+    }
+
+    .vision-values-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.5rem;
+    }
+
+    .vva-card {
+        background: white;
+        padding: 2.5rem 2rem;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .vva-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        border-color: var(--main-color);
+    }
+
+    .vva-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        margin-top: 80px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    .hero-background {
-        position: absolute;
-        inset: 0;
-        background-size: cover;
-        background-position: center;
-        filter: brightness(0.9);
+    .vva-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+    .vva-card:hover .vva-icon {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(28, 101, 27, 0.3);
+    }
+
+    .vva-card:hover .vva-icon img {
         transform: scale(1.05);
-        transition: transform 10s ease;
-        animation: zoomEffect 20s infinite alternate;
     }
 
-    @keyframes zoomEffect {
-        from {
-            transform: scale(1);
-        }
-
-        to {
-            transform: scale(1.1);
-        }
-    }
-
-    .hero-background::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(28, 101, 27, 0.85), rgba(0, 0, 0, 0.6));
-        z-index: 1;
-        backdrop-filter: blur(2px);
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        max-width: 900px;
-        padding: 2rem;
-        color: white;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(3rem, 5vw, 4.5rem);
-        font-weight: 800;
+    .vva-card h3 {
+        font-size: 1.5rem;
+        color: var(--main-color);
         margin-bottom: 1rem;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        letter-spacing: -1px;
+        font-weight: 700;
     }
 
-    .hero-content p {
-        font-size: clamp(1.1rem, 2vw, 1.4rem);
-        margin-bottom: 2.5rem;
-        opacity: 0.95;
-        font-weight: 300;
-        max-width: 700px;
-        margin-inline: auto;
+    .vva-card p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
     }
 
-    .btn {
-        display: inline-block;
-        padding: 1rem 2.5rem;
-        background: var(--accent-color);
-        color: var(--main-color);
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(241, 201, 59, 0.3);
+    @media (max-width: 992px) {
+        .vision-values-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 600px;
+        }
+
+        .vva-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .journey-hero {
+            margin-top: 70px;
+        }
     }
 
-    .btn:hover {
-        background: white;
-        color: var(--main-color);
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
-    }
+    /* Timeline Section - Removed all custom styling, using milestones.css */
 
-    /* Section Styles */
-    .section {
-        padding: 6rem 2rem;
-        position: relative;
-    }
-
+    /* Section Title Styles */
     .section-title {
         font-size: 2.5rem;
         font-weight: 700;
         color: var(--main-color);
         text-align: center;
-        margin-bottom: 1rem;
-        position: relative;
+        margin-bottom: 0.5rem;
     }
 
-    .section-title::after {
-        content: '';
-        display: block;
-        width: 60px;
-        height: 4px;
+    .gold-accent {
+        width: 80px;
+        height: 3px;
         background: var(--accent-color);
-        margin: 15px auto 0;
+        margin: 0 auto 1rem;
         border-radius: 2px;
     }
 
@@ -267,373 +348,231 @@
         color: var(--text-muted);
         text-align: center;
         max-width: 600px;
-        margin: 0 auto 4rem;
+        margin: 0 auto 3rem;
         line-height: 1.6;
     }
 
-    /* Timeline Section */
-    .timeline {
+    /* Team Photos Section */
+    .team-photos-section {
+        padding: 5rem 2rem;
         background: white;
-        position: relative;
     }
 
-    .timeline-container {
-        max-width: 1000px;
+    .team-photos-container {
+        max-width: 1200px;
         margin: 0 auto;
-        position: relative;
-        padding: 2rem 0;
     }
 
-    .timeline-container::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        width: 2px;
-        background: #e5e7eb;
-        transform: translateX(-50%);
-        z-index: 0;
+    .group-photos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 2.5rem;
+        margin-top: 2rem;
     }
 
-    .timeline-event {
+    .group-photo-card {
         position: relative;
-        margin-bottom: 4rem;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
         opacity: 0;
-        transform: translateY(20px);
-        transition: var(--transition);
+        transform: translateY(30px);
+        cursor: pointer;
     }
 
-    .timeline-event.visible {
+    .group-photo-card.visible {
         opacity: 1;
         transform: translateY(0);
     }
 
-    .timeline-content {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: var(--shadow-md);
-        width: calc(50% - 40px);
-        position: relative;
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.05);
+    .group-photo-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(28, 101, 27, 0.15);
     }
 
-    .timeline-content:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-lg);
-        border-color: rgba(28, 101, 27, 0.1);
-    }
-
-    .timeline-content.left {
-        margin-right: auto;
-    }
-
-    .timeline-content.right {
-        margin-left: auto;
-    }
-
-    /* Dots on the line */
-    .timeline-content::before {
-        content: '';
-        position: absolute;
-        top: 25px;
-        width: 16px;
-        height: 16px;
-        background: var(--accent-color);
-        border: 4px solid white;
-        border-radius: 50%;
-        z-index: 1;
-        box-shadow: 0 0 0 4px var(--main-color);
-    }
-
-    .timeline-content.left::before {
-        right: -50px;
-    }
-
-    .timeline-content.right::before {
-        left: -50px;
-    }
-
-    .timeline-content time {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--accent-color);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 0.5rem;
+    .group-photo-card img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
         display: block;
-    }
-
-    .timeline-content h3 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--main-color);
-        margin-bottom: 1rem;
-    }
-
-    .timeline-content p {
-        color: var(--text-muted);
-        margin-bottom: 1.5rem;
-        line-height: 1.7;
-    }
-
-    .timeline-content img {
-        width: 100%;
-        height: 250px;
-        border-radius: 12px;
-        object-fit: cover;
-        box-shadow: var(--shadow-sm);
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-
-    .timeline-content img:hover {
-        transform: scale(1.02);
-    }
-
-
-    /* Achievements Section */
-    .achievements {
-        background: var(--background-light);
-    }
-
-    .achievements-grid {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2.5rem;
-        padding: 0 1rem;
-    }
-
-    .achievement-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        border: 1px solid rgba(0, 0, 0, 0.03);
-        display: flex;
-        flex-direction: column;
-    }
-
-    .achievement-card.visible {
-        animation: fadeUp 0.8s ease-out forwards;
-    }
-
-    .achievement-card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .achievement-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
         transition: transform 0.5s ease;
     }
 
-    .achievement-card:hover img {
+    .group-photo-card:hover img {
         transform: scale(1.05);
     }
 
-    .achievement-info {
-        padding: 2rem;
-        flex-grow: 1;
+    .photo-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        color: white;
+        padding: 2rem 1.5rem 1.5rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+        text-align: center;
     }
 
-    .achievement-info h3 {
-        font-size: 1.4rem;
-        color: var(--main-color);
-        margin-bottom: 0.8rem;
-        font-weight: 700;
-    }
-
-    .achievement-info p {
-        color: var(--text-muted);
-        line-height: 1.6;
-    }
-
-    /* Team Section */
-    .team-section {
-        background: white;
+    /* Staff Section */
+    .staff-section {
         padding: 5rem 2rem;
+        background: var(--background-light);
     }
 
-    .team-grid {
-        max-width: 1100px;
+    .staff-container {
+        max-width: 1200px;
         margin: 0 auto;
+    }
+
+    .staff-grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        gap: 2rem;
+        gap: 2.5rem;
+        margin-top: 2rem;
     }
 
-    .team-member {
+    .staff-member {
         text-align: center;
-        transition: var(--transition);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.5s ease;
     }
 
-    .team-member:hover {
+    .staff-member.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .staff-member:hover {
         transform: translateY(-8px);
     }
 
-    .team-member img {
+    .staff-member img,
+    .staff-placeholder {
         width: 160px;
         height: 160px;
         border-radius: 50%;
         object-fit: cover;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        transition: var(--transition);
-        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        margin: 0 auto 1rem;
+        display: block;
     }
 
-    .team-member:hover img {
-        box-shadow: 0 12px 35px rgba(28, 101, 27, 0.2);
+    .staff-placeholder {
+        background: linear-gradient(135deg, var(--main-color), var(--secondary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+    }
+
+    .staff-member:hover img,
+    .staff-member:hover .staff-placeholder {
+        box-shadow: 0 12px 35px rgba(28, 101, 27, 0.25);
         transform: scale(1.05);
     }
 
-    .team-member-info h3 {
+    .staff-info h3 {
         font-size: 1.1rem;
         color: var(--main-color);
         font-weight: 700;
         margin-bottom: 0.3rem;
     }
 
-    .team-member-info p {
+    .staff-info p {
         font-size: 0.9rem;
         color: var(--text-muted);
-        margin-bottom: 0;
         font-weight: 500;
     }
 
-    @media (max-width: 900px) {
-        .team-grid {
+    /* Responsive for Team Sections */
+    @media (max-width: 992px) {
+        .group-photos-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .staff-grid {
             grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
         }
     }
 
-    @media (max-width: 600px) {
-        .team-grid {
+    @media (max-width: 768px) {
+        .team-photos-section,
+        .staff-section {
+            padding: 3rem 1.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+        }
+
+        .group-photo-card img {
+            height: 300px;
+        }
+
+        .photo-caption {
+            font-size: 1.1rem;
+            padding: 1.5rem 1rem 1rem;
+        }
+
+        .staff-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
         }
 
-        .team-member img {
-            width: 130px;
-            height: 130px;
+        .staff-member img,
+        .staff-placeholder {
+            width: 140px;
+            height: 140px;
         }
     }
 
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
+    @media (max-width: 480px) {
+        .team-photos-section,
+        .staff-section {
+            padding: 2rem 1rem;
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 900px) {
-        .timeline-container::before {
-            left: 30px;
+        .section-title {
+            font-size: 1.8rem;
         }
 
-        .timeline-content {
-            width: calc(100% - 60px);
-            margin-left: 60px !important;
-            margin-right: 0 !important;
-        }
-
-        .timeline-content::before {
-            left: -38px !important;
-            right: auto !important;
-        }
-
-        .hero-background::before {
-            background: linear-gradient(180deg, rgba(28, 101, 27, 0.8), rgba(0, 0, 0, 0.6));
-        }
-    }
-
-    @media (max-width: 600px) {
-        .achievements-grid {
+        .group-photos-grid {
             grid-template-columns: 1fr;
         }
 
-        .section {
-            padding: 4rem 1.5rem;
+        .group-photo-card img {
+            height: 250px;
         }
 
-        .hero {
-            height: 60vh;
-        }
-    }
-
-    /* Modal Styles */
-    .image-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        padding-top: 100px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(5px);
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        width: 80%;
-        max-width: 900px;
-        max-height: 80vh;
-        object-fit: contain;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        animation: zoomIn 0.3s;
-    }
-
-
-
-    .close-modal {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .close-modal:hover,
-    .close-modal:focus {
-        color: var(--accent-color);
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    @keyframes zoomIn {
-        from {
-            transform: scale(0)
+        .staff-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
         }
 
-        to {
-            transform: scale(1)
+        .staff-member img,
+        .staff-placeholder {
+            width: 120px;
+            height: 120px;
         }
-    }
 
-    @media only screen and (max-width: 700px) {
-        .modal-content {
-            width: 100%;
+        .staff-info h3 {
+            font-size: 1rem;
+        }
+
+        .staff-info p {
+            font-size: 0.85rem;
         }
     }
 </style>
@@ -641,8 +580,24 @@
 
 {% block extra_js %}
 <script>
-    // Intersection Observer for Timeline and Achievements
-    const observer = new IntersectionObserver((entries) => {
+    // Intersection Observer for Timeline Animation
+    const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.timeline-item').forEach(element => {
+        timelineObserver.observe(element);
+    });
+
+    // Intersection Observer for Team Photos
+    const photoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
@@ -652,54 +607,61 @@
         threshold: 0.2
     });
 
-    document.querySelectorAll('.timeline-event, .achievement-card').forEach(element => {
-        observer.observe(element);
+    document.querySelectorAll('.group-photo-card').forEach(element => {
+        photoObserver.observe(element);
     });
 
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+    // Intersection Observer for Staff Members
+    const staffObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 100); // Stagger animation
+            }
         });
+    }, {
+        threshold: 0.2
     });
 
-    // Modal Image Functionality
-    const modal = document.getElementById("imageModal");
-    const modalImg = document.getElementById("modalImage");
-    const closeBtn = document.getElementsByClassName("close-modal")[0];
-
-    // Add click event to all timeline images
-    document.querySelectorAll('.timeline-content img').forEach(img => {
-        img.addEventListener('click', function () {
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            document.body.style.overflow = "hidden"; // Prevent scrolling
-        });
+    document.querySelectorAll('.staff-member').forEach(element => {
+        staffObserver.observe(element);
     });
 
-    // Close functionality
-    closeBtn.onclick = function () {
-        modal.style.display = "none";
-        document.body.style.overflow = "auto";
+    // Team Photo Lightbox Functions
+    function openTeamLightbox(imageSrc) {
+        const lightbox = document.getElementById('teamLightbox');
+        const lightboxImg = document.getElementById('teamLightboxImg');
+        lightboxImg.src = imageSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
 
-    // Close on outside click
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        }
+    function closeTeamLightbox() {
+        const lightbox = document.getElementById('teamLightbox');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 
-    // Close on Escape key
-    document.addEventListener('keydown', function (event) {
-        if (event.key === "Escape" && modal.style.display === "block") {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        }
-    });
+    // Milestone Photo Lightbox Functions
+    function openMilestoneLightbox(imageSrc) {
+        const lightbox = document.getElementById('milestoneLightbox');
+        const lightboxImg = document.getElementById('milestoneLightboxImg');
+        lightboxImg.src = imageSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMilestoneLightbox() {
+        const lightbox = document.getElementById('milestoneLightbox');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Make functions globally accessible
+    window.openTeamLightbox = openTeamLightbox;
+    window.closeTeamLightbox = closeTeamLightbox;
+    window.openMilestoneLightbox = openMilestoneLightbox;
+    window.closeMilestoneLightbox = closeMilestoneLightbox;
 </script>
 {% endblock %}

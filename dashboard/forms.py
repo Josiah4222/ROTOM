@@ -1,6 +1,6 @@
 # dashboard/forms.py (add this to the existing forms.py)
 from django import forms
-from rotom.models import Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto
+from rotom.models import Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, Partner
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -237,4 +237,24 @@ class CenterPhotoForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
             'order': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '0'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = Partner
+        fields = ['logo', 'order', 'is_active']
+        widgets = {
+            'logo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '10, 20, 30...'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        labels = {
+            'logo': 'Partner Logo',
+            'order': 'Display Order',
+            'is_active': 'Active (Show on Website)',
+        }
+        help_texts = {
+            'logo': 'Recommended: PNG with transparent background, 200x200px to 400x400px',
+            'order': 'Lower numbers appear first. Use increments of 10 (10, 20, 30) for easy reordering',
         }
