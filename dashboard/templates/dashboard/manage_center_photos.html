@@ -44,7 +44,7 @@
                                 {% if photo.image %}
                                     {% if photo.image.name|slice:":7" == "images/" %}
                                         {% load static %}
-                                        <img src="{% static photo.image.name %}" alt="{{ photo.title }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                        <img src="{{ photo.image.url }}" alt="{{ photo.title }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">
                                     {% else %}
                                         <img src="{{ photo.image.url }}" alt="{{ photo.title }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">
                                     {% endif %}

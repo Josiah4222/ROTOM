@@ -476,6 +476,12 @@ div {
     }
 }
 
+@media (max-width: 575px) {
+    .hero {
+        margin: 64px 0 0 0;
+    }
+}
+
 /* Pagination */
 .pagination {
     display: flex;

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{% block title %}ROTOM Ethiopia - Empowering Seniors{% endblock %}</title>
 
     <!-- SEO Meta Tags -->
@@ -44,7 +44,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}?v=2">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
@@ -61,31 +61,34 @@
             padding-top: 0 !important;
         }
 
-        /* Hero Image Smooth Fade-In */
-        .hero {
+        /* Hero & Image Smooth Fade-In */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero, .event-hero, .take-action-hero, .success-hero {
             background-color: #1C651B;
+            animation: fadeIn 0.8s ease-in-out;
         }
         
-        .hero::before,
-        .hero .hero-background,
-        .hero-background {
-            animation: heroFadeIn 0.8s ease-in-out;
+        .hero-background,
+        .event-hero img,
+        .event-hero-background {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        .hero-content, .event-hero-content, .take-action-hero-content {
+            animation: fadeUp 0.8s ease-in-out 0.2s both;
         }
 
-        @keyframes heroFadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        /* Ensure hero images load smoothly */
-        .hero[style*="background-image"],
-        .hero .hero-background[style*="background-image"] {
-            background-color: #1C651B;
-            transition: opacity 0.3s ease-in-out;
+        .hero img, .event-hero img, .hero-background img {
+            animation: fadeIn 0.8s ease-in-out;
         }
     </style>
 </head>

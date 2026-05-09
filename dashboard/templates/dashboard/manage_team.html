@@ -44,7 +44,7 @@
                                 {% if member.image %}
                                     {% if member.image.name|slice:":7" == "images/" %}
                                         {% load static %}
-                                        <img src="{% static member.image.name %}" alt="{{ member.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
+                                        <img src="{{ member.image.url }}" alt="{{ member.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
                                     {% else %}
                                         <img src="{{ member.image.url }}" alt="{{ member.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
                                     {% endif %}

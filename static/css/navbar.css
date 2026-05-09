@@ -37,6 +37,7 @@ html::before {
     background-repeat: repeat-x;
     background-position: center;
     background-size: auto 100%;
+    background-color: #94b294;
     position: fixed;
     top: 56px;
     left: 0;
@@ -45,7 +46,15 @@ html::before {
     margin: 0 !important;
     padding: 0 !important;
     display: block;
-    /* height, opacity, and background-image are set inline from database */
+    opacity: 0;
+    animation: patternFadeIn 0.6s ease forwards;
+    /* height and background-image are set inline from database */
+}
+
+@keyframes patternFadeIn {
+    to {
+        opacity: var(--pattern-opacity, 0.8);
+    }
 }
 
 /* Clean Navbar */
@@ -342,29 +351,26 @@ html::before {
     }
 
     .donate-btn {
-        margin-top: 1rem;
+        margin-top: 2rem;
         text-align: center !important;
-        text-align: center !important;
-        padding: 0.8rem 1.5rem !important;
+        padding: 0.4rem 1.5rem 0.4rem 3.5rem !important;
         justify-content: center;
         min-width: auto;
         height: 48px;
-        margin-top: 2rem;
-        background: var(--main-color);
+        background: linear-gradient(135deg, #1C651B, #2d5a27);
         box-shadow: 0 4px 10px rgba(28, 101, 27, 0.2);
+    }
+
+    .donate-btn::before {
+        display: block;
     }
 
     .donate-btn span {
         text-shadow: none;
     }
 
-    .donate-btn::before {
-        display: none;
-        /* Simplify donate button on mobile */
-    }
-
     .donate-btn:hover {
-        padding-left: 4.1rem !important;
+        padding-left: 4.2rem !important;
     }
 }
 

@@ -179,9 +179,7 @@
             {% for champion in champions %}
             <div class="story-card {% if champion.layout == 'reverse' %}reverse{% endif %}">
                 <div class="story-image">
-                    {% if champion.image.name|slice:":7" == "images/" %}
-                    <img src="{% static champion.image.name %}" alt="{{ champion.name }}" loading="lazy">
-                    {% else %}
+                    {% if champion.image %}
                     <img src="{{ champion.image.url }}" alt="{{ champion.name }}" loading="lazy">
                     {% endif %}
                     <div class="story-badge">
@@ -225,12 +223,8 @@
 
         <div class="gallery-grid">
             {% for gallery_image in gallery_images %}
-            <div class="gallery-item" data-img="{% if gallery_image.image.name|slice:':7' == 'images/' %}{% static gallery_image.image.name %}{% else %}{{ gallery_image.image.url }}{% endif %}">
-                {% if gallery_image.image.name|slice:":7" == "images/" %}
-                <img src="{% static gallery_image.image.name %}" alt="{{ gallery_image.title }}" loading="lazy">
-                {% else %}
+            <div class="gallery-item" data-img="{{ gallery_image.image.url }}">
                 <img src="{{ gallery_image.image.url }}" alt="{{ gallery_image.title }}" loading="lazy">
-                {% endif %}
                 <div class="gallery-caption">
                     <h3>{{ gallery_image.title }}</h3>
                     <p>{{ gallery_image.caption }}</p>

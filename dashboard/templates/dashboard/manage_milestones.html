@@ -46,7 +46,7 @@
                                 {% if milestone.image %}
                                     {% if milestone.image.name|slice:":7" == "images/" %}
                                         {% load static %}
-                                        <img src="{% static milestone.image.name %}" alt="{{ milestone.title }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                        <img src="{{ milestone.image.url }}" alt="{{ milestone.title }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">
                                     {% else %}
                                         <img src="{{ milestone.image.url }}" alt="{{ milestone.title }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;">
                                     {% endif %}

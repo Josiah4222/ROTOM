@@ -236,6 +236,8 @@ img {
 @media (max-width: 575px) {
     body {
         font-size: 14px;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .section {
@@ -255,7 +257,7 @@ img {
     .hero {
         min-height: 50vh;
         padding: 2.5rem 1rem;
-        margin-top: 70px;
+        margin-top: 64px;
     }
 
     .hero-title,
