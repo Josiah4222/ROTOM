@@ -3,6 +3,11 @@
 
 {% block title %}{{ newsletter.title }} | ROTOM Ethiopia{% endblock %}
 
+{% block hero_preload %}
+<link rel="preload" href="{% static 'images/myhome-hero.webp' %}" as="image" fetchpriority="high" type="image/webp">
+<link rel="preload" href="{% static 'images/myhome-hero.jpg' %}" as="image" fetchpriority="high">
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/blog_detail.css' %}">
 {% endblock %}

@@ -119,11 +119,11 @@ FORCE_SCRIPT_NAME = config('FORCE_SCRIPT_NAME', default='')
 if FORCE_SCRIPT_NAME:
     USE_X_FORWARDED_HOST = True
 
-if not DEBUG:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-    
-    # Browser caching for static files
-    WHITENOISE_MAX_AGE = 31536000  # 1 year
+# Always use Whitenoise compressed storage
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+# Browser caching for static files (1 year)
+WHITENOISE_MAX_AGE = 31536000
 
 # Chapa
 CHAPA_SECRET_KEY = config('CHAPA_SECRET_KEY', default='')
@@ -167,9 +167,6 @@ else:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     
-    # WhiteNoise for static files in production
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
     # Fix auth redirect URLs for /rotom/ prefix
     LOGIN_REDIRECT_URL = '/rotom/dashboard/admin-dashboard/'
     LOGIN_URL = '/rotom/dashboard/login/'

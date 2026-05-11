@@ -337,6 +337,16 @@ body {
     }
 }
 
+/* Hero fade-in */
+@keyframes heroFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.hero-bg-img {
+    animation: heroFadeIn 0.8s ease-in-out;
+}
+
 /* Animation */
 @keyframes fadeInUp {
     from {

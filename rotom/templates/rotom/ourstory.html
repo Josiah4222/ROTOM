@@ -3,11 +3,20 @@
 
 {% block title %}Our Journey - ROTOM Ethiopia{% endblock %}
 
+{% block hero_preload %}
+<link rel="preload" href="{% static 'images/abouthero-hero.webp' %}" as="image" fetchpriority="high" type="image/webp">
+<link rel="preload" href="{% static 'images/abouthero-hero.jpg' %}" as="image" fetchpriority="high">
+{% endblock %}
+
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
 <!-- Hero Section -->
 <section class="journey-hero">
+    <picture>
+        <source srcset="{% static 'images/abouthero-hero.webp' %}" type="image/webp">
+        <img src="{% static 'images/abouthero-hero.jpg' %}" alt="" fetchpriority="high" class="hero-bg-img">
+    </picture>
     <div class="hero-overlay"></div>
     <div class="hero-content-wrapper">
         <h1 class="hero-main-title">About ROTOM Ethiopia</h1>
@@ -85,11 +94,17 @@
         
         <div class="group-photos-grid">
             <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/dedicatedteam.jpg' %}')">
-                <img src="{% static 'images/dedicatedteam.jpg' %}" alt="ROTOM Team" loading="lazy">
+                <picture class="team-picture">
+                    <source srcset="{% static 'images/dedicatedteam-thumb.webp' %}" type="image/webp">
+                    <img src="{% static 'images/dedicatedteam-thumb.jpg' %}" alt="ROTOM Team" class="team-thumb-img" width="600" height="400">
+                </picture>
                 <div class="photo-caption">Our Dedicated Team</div>
             </div>
             <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteerteam.jpg' %}')">
-                <img src="{% static 'images/volunteerteam.jpg' %}" alt="ROTOM Volunteers" loading="lazy">
+                <picture class="team-picture">
+                    <source srcset="{% static 'images/volunteerteam-thumb.webp' %}" type="image/webp">
+                    <img src="{% static 'images/volunteerteam-thumb.jpg' %}" alt="ROTOM Volunteers" class="team-thumb-img" width="600" height="400">
+                </picture>
                 <div class="photo-caption">Our Volunteers</div>
             </div>
         </div>
@@ -178,12 +193,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-image: url("{% static 'images/abouthero.jpg' %}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
         overflow: hidden;
         margin-top: 70px;
+    }
+
+    .hero-bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        animation: heroFadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes heroFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     .hero-overlay {
@@ -193,7 +220,7 @@
         right: 0;
         bottom: 0;
         background: rgba(28, 101, 27, 0.75);
-        z-index: 0;
+        z-index: 1;
     }
 
     .journey-hero::before {
@@ -205,13 +232,13 @@
         bottom: 0;
         background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E");
         background-repeat: repeat;
-        z-index: 1;
+        z-index: 2;
         pointer-events: none;
     }
 
     .hero-content-wrapper {
         position: relative;
-        z-index: 2;
+        z-index: 3;
         text-align: center;
         color: white;
         padding: 2rem;
@@ -391,12 +418,27 @@
         box-shadow: 0 15px 40px rgba(28, 101, 27, 0.15);
     }
 
+    .team-picture {
+        display: block;
+        width: 100%;
+        background: #e8ece8;
+    }
+
     .group-photo-card img {
         width: 100%;
         height: 400px;
         object-fit: cover;
         display: block;
         transition: transform 0.5s ease;
+    }
+
+    .team-thumb-img {
+        animation: teamFadeIn 0.5s ease-out;
+    }
+
+    @keyframes teamFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     .group-photo-card:hover img {
@@ -521,7 +563,7 @@
             height: 300px;
         }
 
-        .photo-caption {
+    .photo-caption {
             font-size: 1.1rem;
             padding: 1.5rem 1rem 1rem;
         }

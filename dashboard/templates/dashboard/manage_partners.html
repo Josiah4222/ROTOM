@@ -31,6 +31,9 @@
                     <thead>
                         <tr>
                             <th>Logo</th>
+                            <th>Name</th>
+                            <th>Order</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -44,6 +47,9 @@
                                 <span class="text-muted">No logo</span>
                                 {% endif %}
                             </td>
+                            <td>{{ partner.name }}</td>
+                            <td>{{ partner.order }}</td>
+                            <td>{% if partner.is_active %}<span class="badge bg-success">Yes</span>{% else %}<span class="badge bg-secondary">No</span>{% endif %}</td>
                             <td>
                                 <a href="{% url 'dashboard:edit_partner' partner.pk %}" class="btn btn-sm btn-primary">
                                     <i class="fas fa-edit"></i> Edit
@@ -57,7 +63,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="2" class="text-center">No partners found.</td>
+                            <td colspan="5" class="text-center">No partners found.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

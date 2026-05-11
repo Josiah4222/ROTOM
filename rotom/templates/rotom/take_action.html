@@ -3,6 +3,11 @@
 
 {% block title %}Take Action - ROTOM Ethiopia{% endblock %}
 
+{% block hero_preload %}
+<link rel="preload" href="{% static 'images/takeaction-hero.webp' %}" as="image" fetchpriority="high" type="image/webp">
+<link rel="preload" href="{% static 'images/takeaction-hero.jpg' %}" as="image" fetchpriority="high">
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/take_action.css' %}">
 {% endblock %}
@@ -10,8 +15,13 @@
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<header class="take-action-hero" style="background-image: url('{% static 'images/takeaction.jpg' %}');">
-    <div class="take-action-hero-content">
+<header class="take-action-hero" style="position: relative; overflow: hidden;">
+    <picture>
+        <source srcset="{% static 'images/takeaction-hero.webp' %}" type="image/webp">
+        <img src="{% static 'images/takeaction-hero.jpg' %}" alt="" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+    </picture>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28,101,27,0.75); z-index: 1;"></div>
+    <div class="take-action-hero-content" style="position: relative; z-index: 2;">
         <h1>Take Action</h1>
         <p>Your involvement makes a real difference in the lives of older persons and their dependents. Discover how you
             can contribute.</p>

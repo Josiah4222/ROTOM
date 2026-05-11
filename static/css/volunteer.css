@@ -45,7 +45,8 @@
     z-index: 2;
     max-width: 900px;
     color: white;
-    animation: fadeUp 1.2s ease-out;
+    animation: heroFadeUp 0.4s ease-out 0.1s both;
+    will-change: opacity, transform;
 }
 
 .hero h1 {

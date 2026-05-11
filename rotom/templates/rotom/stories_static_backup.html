@@ -3,6 +3,11 @@
 
 {% block title %}Transformation Stories - ROTOM Ethiopia{% endblock %}
 
+{% block hero_preload %}
+<link rel="preload" href="{% static 'images/stories-hero.webp' %}" as="image" fetchpriority="high" type="image/webp">
+<link rel="preload" href="{% static 'images/stories-hero.jpg' %}" as="image" fetchpriority="high">
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/stories.css' %}">
 {% endblock %}
@@ -11,8 +16,11 @@
 {% include 'rotom/navbar.html' %}
 
 <!-- Hero Section -->
-<section class="hero">
-    <div class="hero-background" style="background-image: url('{% static 'images/stories.jpg' %}');"></div>
+<section class="hero" style="overflow: hidden;">
+    <picture>
+        <source srcset="{% static 'images/stories-hero.webp' %}" type="image/webp">
+        <img src="{% static 'images/stories-hero.jpg' %}" alt="" fetchpriority="high" class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+    </picture>
     <div class="hero-content">
         <h1>Transformation Stories</h1>
         <p>Witness the incredible journeys of our seniors - from struggle to hope, from isolation to community.</p>

@@ -3,6 +3,11 @@
 
 {% block title %}ROTOM Ethiopia - Empowering Communities{% endblock %}
 
+{% block hero_preload %}
+<link rel="preload" href="{% static 'images/herosection-hero.webp' %}" as="image" fetchpriority="high" type="image/webp">
+<link rel="preload" href="{% static 'images/herosection-hero.jpg' %}" as="image" fetchpriority="high">
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}?v=40">
 {% endblock %}
@@ -12,7 +17,10 @@
 
 <!-- Hero Section -->
 <header class="hero">
-    <img src="{% static 'images/herosection.jpg' %}" alt="ROTOM Ethiopia Community" class="hero-background" loading="eager">
+    <picture>
+        <source srcset="{% static 'images/herosection-hero.webp' %}" type="image/webp">
+        <img src="{% static 'images/herosection-hero.jpg' %}" alt="ROTOM Ethiopia Community" class="hero-background" loading="eager" fetchpriority="high">
+    </picture>
     <div class="hero-content">
         <h1 class="hero-title">ROTOM-Ethiopia</h1>
         <p class="hero-subtitle">Older persons and their dependents living dignified and fulfilling lives.</p>
@@ -180,12 +188,12 @@
         <div class="slider-track">
             {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{{ partner.logo.url }}" alt="Partner Logo" loading="lazy">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="eager" fetchpriority="low">
             </div>
             {% endfor %}
             {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{{ partner.logo.url }}" alt="Partner Logo" loading="lazy">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="eager" fetchpriority="low">
             </div>
             {% endfor %}
         </div>

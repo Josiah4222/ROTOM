@@ -243,18 +243,27 @@ class CenterPhotoForm(forms.ModelForm):
 class PartnerForm(forms.ModelForm):
     class Meta:
         model = Partner
-        fields = ['logo', 'order', 'is_active']
+        fields = ['name', 'logo', 'website', 'description', 'order', 'is_active']
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Beautiful World Canada'}),
             'logo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://...'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Brief description of the partnership...'}),
             'order': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '10, 20, 30...'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         labels = {
+            'name': 'Organization Name',
             'logo': 'Partner Logo',
+            'website': 'Website URL (optional)',
+            'description': 'Description (optional)',
             'order': 'Display Order',
             'is_active': 'Active (Show on Website)',
         }
         help_texts = {
+            'name': 'Full name of the partner organization',
             'logo': 'Recommended: PNG with transparent background, 200x200px to 400x400px',
+            'website': 'Optional link to their website',
+            'description': 'Brief description of the partnership (optional)',
             'order': 'Lower numbers appear first. Use increments of 10 (10, 20, 30) for easy reordering',
         }

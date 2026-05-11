@@ -3,6 +3,10 @@
 
 {% block title %}Volunteer Registration - ROTOM Ethiopia{% endblock %}
 
+{% block hero_preload %}
+<link rel="preload" href="{% static 'images/Volunteers.JPG' %}" as="image" fetchpriority="high">
+{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/volunteer.css' %}">
 {% endblock %}
