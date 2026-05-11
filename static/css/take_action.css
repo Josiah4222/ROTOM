@@ -42,6 +42,7 @@
     position: relative;
     min-height: 60vh;
     width: 100%;
+    margin-top: 71px; /* navbar (56px) + pattern (15px) */
     padding: 4rem 2rem;
     display: flex;
     align-items: center;

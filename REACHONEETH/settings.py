@@ -112,7 +112,8 @@ STATICFILES_DIRS = [
 
 # Media files
 MEDIA_URL = '/rotom/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Use mounted volume path for Docker deployment
+MEDIA_ROOT = config('MEDIA_ROOT', default=os.path.join(BASE_DIR, 'media'))
 
 # Path prefix for sub-path hosting
 FORCE_SCRIPT_NAME = config('FORCE_SCRIPT_NAME', default='')
