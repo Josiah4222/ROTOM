@@ -509,6 +509,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{% url 'dashboard:manage_testimonials' %}" class="nav-link {% if 'testimonial' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-quote-left"></i> Testimonials
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{% url 'dashboard:manage_blog' %}" class="nav-link {% if 'blog' in request.resolver_match.url_name %}active{% endif %}">
                     <i class="fas fa-pen-nib"></i> Blog Posts
                 </a>

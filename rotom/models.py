@@ -1,5 +1,6 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from .utils import compress_image
 
 
 class Day(models.Model):
@@ -82,6 +83,12 @@ class Newsletter(models.Model):
     scheduled_for = models.DateTimeField(null=True, blank=True)
     recipients_count = models.PositiveIntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -98,6 +105,12 @@ class BlogPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -112,6 +125,12 @@ class Event(models.Model):
     image = models.ImageField(upload_to='event_images/')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -125,6 +144,12 @@ class PreviousEvent(models.Model):
     event_date = models.DateTimeField()
     image = models.ImageField(upload_to='event_images/')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -166,6 +191,14 @@ class HouseRenovation(models.Model):
     before_image = models.ImageField(upload_to='renovations/')
     after_image = models.ImageField(upload_to='renovations/')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Compress both images before saving
+        if self.before_image:
+            self.before_image = compress_image(self.before_image)
+        if self.after_image:
+            self.after_image = compress_image(self.after_image)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -224,6 +257,16 @@ class Story(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Compress all three images before saving
+        if self.image_1:
+            self.image_1 = compress_image(self.image_1)
+        if self.image_2:
+            self.image_2 = compress_image(self.image_2)
+        if self.image_3:
+            self.image_3 = compress_image(self.image_3)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} - {self.title}"
 
@@ -267,6 +310,12 @@ class Champion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} - {self.role}"
 
@@ -283,6 +332,12 @@ class GalleryImage(models.Model):
     is_active = models.BooleanField(default=True, help_text="Check to display in gallery")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -307,6 +362,12 @@ class Milestone(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.year} - {self.title}"
 
@@ -323,6 +384,12 @@ class TeamMember(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} - {self.position}"
 
@@ -338,6 +405,12 @@ class CenterPhoto(models.Model):
     is_active = models.BooleanField(default=True, help_text="Check to display in gallery")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -360,6 +433,9 @@ class NavbarPattern(models.Model):
         return f"{self.name} {'(Active)' if self.is_active else ''}"
 
     def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image, max_width=1920, max_height=200, quality=90)
         # If this pattern is being set as active, deactivate all others
         if self.is_active:
             NavbarPattern.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
@@ -380,9 +456,39 @@ class Partner(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        # Compress logo before saving (smaller size for logos)
+        if self.logo:
+            self.logo = compress_image(self.logo, max_width=400, max_height=400, quality=90)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
     class Meta:
         ordering = ['order', 'name']
         verbose_name_plural = "Partners"
+
+
+class Testimonial(models.Model):
+    name = models.CharField(max_length=200, help_text="Person's name (e.g., John Doe)")
+    role = models.CharField(max_length=200, help_text="Role/Title (e.g., Volunteer, Donor, Partner)")
+    quote = models.TextField(help_text="Their testimonial/feedback")
+    image = models.ImageField(upload_to='testimonials/', blank=True, null=True, help_text="Photo (optional)")
+    order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
+    is_active = models.BooleanField(default=True, help_text="Check to display on website")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Compress image before saving
+        if self.image:
+            self.image = compress_image(self.image, max_width=800, max_height=800, quality=90)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} - {self.role}"
+
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name_plural = "Testimonials"

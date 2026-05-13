@@ -44,6 +44,8 @@
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
     <!-- CSS - non-blocking via preload -->
+    <link rel="preload" href="{% static 'css/animations.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{% static 'css/animations.css' %}"></noscript>
     <link rel="preload" href="{% static 'css/navbar.css' %}?v=2" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{% static 'css/navbar.css' %}?v=2"></noscript>
     <link rel="preload" href="{% static 'css/footer.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -105,6 +107,9 @@
         {% block content %}
         {% endblock %}
     </main>
+
+    <!-- Global Animation Script -->
+    <script src="{% static 'js/animations.js' %}" defer></script>
 
     {% block extra_js %}{% endblock %}
 </body>

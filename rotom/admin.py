@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from .models import (
     VolunteerProfile, Day, InterestCategory, Contact, 
-    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, NavbarPattern, Partner
+    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, NavbarPattern, Partner, Testimonial
 )
 
 # Inline for VolunteerProfile
@@ -497,6 +497,29 @@ class PartnerAdmin(admin.ModelAdmin):
         return bool(obj.website)
     has_website.boolean = True
     has_website.short_description = 'Website'
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('name', 'role', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name', 'role', 'quote')
+    readonly_fields = ('created_at', 'updated_at')
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Testimonial Information', {
+            'fields': ('name', 'role', 'quote', 'image'),
+            'description': 'Add testimonials from volunteers, donors, partners, or beneficiaries.'
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active'),
+            'description': 'Control the display order and visibility of this testimonial.'
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
 
 
 # Optional: Custom admin site header

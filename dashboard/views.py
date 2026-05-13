@@ -10,7 +10,7 @@ from django.core.mail import send_mass_mail
 from django.conf import settings
 from django.db import models
 
-from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber, BlogPost, HouseRenovation, Story, DonationPackage, Champion, GalleryImage
+from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber, BlogPost, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Testimonial
 from .forms import EventForm, PreviousEventForm, NewsletterForm  # Import the new form
 
 def custom_login(request):
@@ -454,6 +454,32 @@ def manage_subscribers(request):
         'total': Subscriber.objects.count(),
         'search': search,
     })
+
+@staff_member_required(login_url='dashboard:login')
+def export_subscribers(request):
+    import csv
+    from django.http import HttpResponse
+    from datetime import datetime
+    
+    # Create the HttpResponse object with CSV header
+    response = HttpResponse(content_type='text/csv')
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    response['Content-Disposition'] = f'attachment; filename="subscribers_{timestamp}.csv"'
+    
+    # Create CSV writer
+    writer = csv.writer(response)
+    writer.writerow(['Email', 'Subscribed Date', 'Subscribed Time'])
+    
+    # Write subscriber data
+    subscribers = Subscriber.objects.all().order_by('-subscribed_at')
+    for subscriber in subscribers:
+        writer.writerow([
+            subscriber.email,
+            subscriber.subscribed_at.strftime('%Y-%m-%d'),
+            subscriber.subscribed_at.strftime('%H:%M:%S')
+        ])
+    
+    return response
 
 @staff_member_required(login_url='dashboard:login')
 def manage_renovations(request):
@@ -912,3 +938,56 @@ def delete_partner(request, pk):
     partner.delete()
     messages.success(request, 'Partner deleted successfully!')
     return redirect('dashboard:manage_partners')
+
+
+# Testimonial Management Views
+@staff_member_required(login_url='dashboard:login')
+def manage_testimonials(request):
+    search = request.GET.get('search', '')
+    testimonials = Testimonial.objects.all().order_by('order', '-created_at')
+    if search:
+        testimonials = testimonials.filter(
+            models.Q(name__icontains=search) |
+            models.Q(role__icontains=search) |
+            models.Q(quote__icontains=search)
+        )
+    paginator = Paginator(testimonials, 10)
+    testimonials_paginated = paginator.get_page(request.GET.get('page'))
+    return render(request, 'dashboard/manage_testimonials.html', {
+        'testimonials': testimonials_paginated,
+        'search': search,
+    })
+
+@staff_member_required(login_url='dashboard:login')
+def create_testimonial(request):
+    from dashboard.forms import TestimonialForm
+    if request.method == 'POST':
+        form = TestimonialForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Testimonial added successfully!')
+            return redirect('dashboard:manage_testimonials')
+    else:
+        form = TestimonialForm()
+    return render(request, 'dashboard/testimonial_form.html', {'form': form, 'title': 'Add New Testimonial'})
+
+@staff_member_required(login_url='dashboard:login')
+def edit_testimonial(request, pk):
+    from dashboard.forms import TestimonialForm
+    testimonial = get_object_or_404(Testimonial, pk=pk)
+    if request.method == 'POST':
+        form = TestimonialForm(request.POST, request.FILES, instance=testimonial)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Testimonial updated successfully!')
+            return redirect('dashboard:manage_testimonials')
+    else:
+        form = TestimonialForm(instance=testimonial)
+    return render(request, 'dashboard/testimonial_form.html', {'form': form, 'title': 'Edit Testimonial', 'testimonial': testimonial})
+
+@staff_member_required(login_url='dashboard:login')
+def delete_testimonial(request, pk):
+    testimonial = get_object_or_404(Testimonial, pk=pk)
+    testimonial.delete()
+    messages.success(request, 'Testimonial deleted successfully!')
+    return redirect('dashboard:manage_testimonials')

@@ -27,6 +27,7 @@ urlpatterns = [
     # Email Subscribers
     path('send-email/', views.send_email_to_subscribers, name='send_email'),
     path('manage-subscribers/', views.manage_subscribers, name='manage_subscribers'),
+    path('export-subscribers/', views.export_subscribers, name='export_subscribers'),
     # House Renovations
     path('manage-renovations/', views.manage_renovations, name='manage_renovations'),
     path('create-renovation/', views.create_renovation, name='create_renovation'),
@@ -72,6 +73,11 @@ urlpatterns = [
     path('create-partner/', views.create_partner, name='create_partner'),
     path('edit-partner/<int:pk>/', views.edit_partner, name='edit_partner'),
     path('delete-partner/<int:pk>/', views.delete_partner, name='delete_partner'),
+    # Testimonials
+    path('manage-testimonials/', views.manage_testimonials, name='manage_testimonials'),
+    path('create-testimonial/', views.create_testimonial, name='create_testimonial'),
+    path('edit-testimonial/<int:pk>/', views.edit_testimonial, name='edit_testimonial'),
+    path('delete-testimonial/<int:pk>/', views.delete_testimonial, name='delete_testimonial'),
     # Newsletter URLs
     path('manage-newsletters/', views.manage_newsletters, name='manage_newsletters'),
     path('create-newsletter/', views.create_newsletter, name='create_newsletter'),

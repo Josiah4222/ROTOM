@@ -1,0 +1,100 @@
+/**
+ * Image Smooth Transitions
+ * Smooth fade-in and zoom effects for images only
+ */
+
+/* ============================================
+   IMAGE FADE IN ON LOAD
+   ============================================ */
+
+img {
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.4s ease;
+}
+
+img.loaded {
+    opacity: 1;
+}
+
+/* ============================================
+   IMAGE HOVER ZOOM EFFECT
+   ============================================ */
+
+/* Container with overflow hidden for zoom effect */
+.image-container,
+.hover-zoom,
+figure,
+[class*="image-"],
+[class*="-image"],
+.card,
+[class*="card"] {
+    overflow: hidden;
+}
+
+/* Smooth zoom on hover */
+.image-container img,
+.hover-zoom img,
+figure img,
+[class*="image-"] img,
+[class*="-image"] img,
+.card img,
+[class*="card"] img {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.image-container:hover img,
+.hover-zoom:hover img,
+figure:hover img,
+[class*="image-"]:hover img,
+[class*="-image"]:hover img,
+.card:hover img,
+[class*="card"]:hover img {
+    transform: scale(1.08);
+}
+
+/* ============================================
+   LAZY LOADING FADE IN
+   ============================================ */
+
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE - REDUCE ZOOM ON MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .image-container:hover img,
+    .hover-zoom:hover img,
+    figure:hover img,
+    [class*="image-"]:hover img,
+    [class*="-image"]:hover img,
+    .card:hover img,
+    [class*="card"]:hover img {
+        transform: scale(1.05); /* Less zoom on mobile */
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY - RESPECT REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    img {
+        transition: none !important;
+    }
+    
+    .image-container:hover img,
+    .hover-zoom:hover img,
+    figure:hover img,
+    .card:hover img {
+        transform: none !important;
+    }
+}
+

@@ -1,6 +1,6 @@
 # dashboard/forms.py (add this to the existing forms.py)
 from django import forms
-from rotom.models import Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, Partner
+from rotom.models import Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, Partner, Testimonial
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -266,4 +266,33 @@ class PartnerForm(forms.ModelForm):
             'website': 'Optional link to their website',
             'description': 'Brief description of the partnership (optional)',
             'order': 'Lower numbers appear first. Use increments of 10 (10, 20, 30) for easy reordering',
+        }
+
+
+class TestimonialForm(forms.ModelForm):
+    class Meta:
+        model = Testimonial
+        fields = ['name', 'role', 'quote', 'image', 'order', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., Sarah Johnson'}),
+            'role': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., Volunteer, Donor, Partner'}),
+            'quote': forms.Textarea(attrs={'class': 'form-control', 'rows': 6, 'placeholder': 'Enter their testimonial/feedback...'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '0'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        labels = {
+            'name': 'Name',
+            'role': 'Role/Title',
+            'quote': 'Testimonial',
+            'image': 'Photo (Optional)',
+            'order': 'Display Order',
+            'is_active': 'Active (Show on Website)',
+        }
+        help_texts = {
+            'name': 'Full name of the person giving the testimonial',
+            'role': 'Their relationship to ROTOM (e.g., Volunteer, Donor, Beneficiary, Partner)',
+            'quote': 'Their testimonial or feedback about ROTOM',
+            'image': 'Optional photo (will be auto-compressed to 800x800)',
+            'order': 'Lower numbers appear first (0, 1, 2...)',
         }
