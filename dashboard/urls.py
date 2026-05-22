@@ -78,6 +78,11 @@ urlpatterns = [
     path('create-testimonial/', views.create_testimonial, name='create_testimonial'),
     path('edit-testimonial/<int:pk>/', views.edit_testimonial, name='edit_testimonial'),
     path('delete-testimonial/<int:pk>/', views.delete_testimonial, name='delete_testimonial'),
+    # Volunteer Gallery
+    path('manage-volunteer-gallery/', views.manage_volunteer_gallery, name='manage_volunteer_gallery'),
+    path('create-volunteer-gallery-image/', views.create_volunteer_gallery_image, name='create_volunteer_gallery_image'),
+    path('edit-volunteer-gallery-image/<int:pk>/', views.edit_volunteer_gallery_image, name='edit_volunteer_gallery_image'),
+    path('delete-volunteer-gallery-image/<int:pk>/', views.delete_volunteer_gallery_image, name='delete_volunteer_gallery_image'),
     # Newsletter URLs
     path('manage-newsletters/', views.manage_newsletters, name='manage_newsletters'),
     path('create-newsletter/', views.create_newsletter, name='create_newsletter'),
@@ -86,7 +91,10 @@ urlpatterns = [
     path('newsletter/<int:pk>/preview/', views.preview_newsletter, name='preview_newsletter'),
     # Detail views
     path('volunteer/<int:pk>/', views.volunteer_detail, name='volunteer_detail'),
+    path('delete-volunteer/<int:pk>/', views.delete_volunteer, name='delete_volunteer'),
     path('contact/<int:pk>/', views.contact_detail, name='contact_detail'),
+    path('delete-contact/<int:pk>/', views.delete_contact, name='delete_contact'),
     path('payment/<int:pk>/', views.payment_detail, name='payment_detail'),
     path('registration/<int:pk>/', views.registration_detail, name='registration_detail'),
+    path('delete-registration/<int:pk>/', views.delete_registration, name='delete_registration'),
 ]

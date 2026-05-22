@@ -8,9 +8,15 @@
         <h1 class="page-title">{{ registration.full_name }}</h1>
         <p class="page-subtitle">Meal Registration Details</p>
     </div>
-    <a href="{% url 'dashboard:manage_registrations' %}" class="btn btn-outline-primary">
-        <i class="fas fa-arrow-left me-1"></i> Back to List
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{% url 'dashboard:manage_registrations' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
+        <button type="button" class="btn btn-outline-danger" 
+                onclick="if(confirm('Are you sure you want to delete this registration?')) window.location.href='{% url 'dashboard:delete_registration' registration.pk %}';">
+            <i class="fas fa-trash me-1"></i> Delete
+        </button>
+    </div>
 </div>
 
 <div class="row g-4">

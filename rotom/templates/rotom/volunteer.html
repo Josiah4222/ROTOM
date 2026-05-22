@@ -58,28 +58,60 @@
         </div>
 
         <div class="gallery">
-            <div class="gallery-item">
-                <img src="{% static 'images/volunteers_group.JPG' %}" alt="Volunteer Activity" loading="lazy">
-                <div class="gallery-caption">
-                    <h3>Community Service</h3>
-                    <p>Our dedicated volunteers working together</p>
+            {% if gallery_images %}
+                {% for item in gallery_images %}
+                <div class="gallery-item">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+                    <div class="gallery-caption">
+                        <h3>{{ item.title }}</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="gallery-item">
-                <img src="{% static 'images/Volunteers.JPG' %}" alt="Volunteer Activity" loading="lazy">
-                <div class="gallery-caption">
-                    <h3>Volunteer Team</h3>
-                    <p>Making a difference in seniors' lives</p>
+                {% endfor %}
+            {% else %}
+                <div class="gallery-item">
+                    <img src="{% static 'images/volunteers_group.JPG' %}" alt="Volunteer Activity" loading="lazy">
+                    <div class="gallery-caption">
+                        <h3>Community Service</h3>
+                        <p>Our dedicated volunteers working together</p>
+                    </div>
                 </div>
-            </div>
-            <div class="gallery-item">
-                <img src="{% static 'images/gather.jpg' %}" alt="Volunteer Activity" loading="lazy">
-                <div class="gallery-caption">
-                    <h3>Community Gathering</h3>
-                    <p>Building connections and sharing moments</p>
+                <div class="gallery-item">
+                    <img src="{% static 'images/Volunteers.JPG' %}" alt="Volunteer Activity" loading="lazy">
+                    <div class="gallery-caption">
+                        <h3>Volunteer Team</h3>
+                        <p>Making a difference in seniors' lives</p>
+                    </div>
                 </div>
-            </div>
+                <div class="gallery-item">
+                    <img src="{% static 'images/gather.jpg' %}" alt="Volunteer Activity" loading="lazy">
+                    <div class="gallery-caption">
+                        <h3>Community Gathering</h3>
+                        <p>Building connections and sharing moments</p>
+                    </div>
+                </div>
+            {% endif %}
         </div>
+
+        <!-- Pagination Controls -->
+        {% if gallery_images.paginator.num_pages > 1 %}
+        <div class="pagination-wrapper">
+            <nav class="gallery-pagination">
+                {% if gallery_images.has_previous %}
+                    <a href="?page=1" class="page-btn first" title="First Page"><i class="fas fa-angle-double-left"></i></a>
+                    <a href="?page={{ gallery_images.previous_page_number }}" class="page-btn prev"><i class="fas fa-angle-left"></i> Previous</a>
+                {% endif %}
+
+                <div class="page-info">
+                    Page <span>{{ gallery_images.number }}</span> of {{ gallery_images.paginator.num_pages }}
+                </div>
+
+                {% if gallery_images.has_next %}
+                    <a href="?page={{ gallery_images.next_page_number }}" class="page-btn next">Next <i class="fas fa-angle-right"></i></a>
+                    <a href="?page={{ gallery_images.paginator.num_pages }}" class="page-btn last" title="Last Page"><i class="fas fa-angle-double-right"></i></a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
     </section>
 
     <section class="section">

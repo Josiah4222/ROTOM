@@ -127,6 +127,8 @@ def ourplan(request):
 
 # rotom/views.py (updated volunteer view to handle errors properly)
 def volunteer(request):
+    from rotom.models import VolunteerGallery
+    from django.core.paginator import Paginator
     if request.method == 'POST':
         form = VolunteerProfileForm(request.POST)
         if form.is_valid():
@@ -142,9 +144,17 @@ def volunteer(request):
         form = VolunteerProfileForm()
     
     all_interest_options = InterestCategory.objects.all()
+    gallery_list = VolunteerGallery.objects.filter(is_active=True).order_by('order', '-created_at')
+    
+    # Pagination: 12 items per page
+    paginator = Paginator(gallery_list, 12)
+    page_number = request.GET.get('page')
+    gallery_images = paginator.get_page(page_number)
+    
     return render(request, 'rotom/volunteer.html', {
         'form': form, 
-        'all_interest_options': all_interest_options
+        'all_interest_options': all_interest_options,
+        'gallery_images': gallery_images
     })
 def events_view(request):
     now = timezone.now()

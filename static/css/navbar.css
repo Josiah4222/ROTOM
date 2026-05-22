@@ -45,7 +45,8 @@ html::before {
     margin: 0 !important;
     padding: 0 !important;
     display: block;
-    /* height, opacity, and background-image are set inline from database */
+    opacity: var(--pattern-opacity, 0.8);
+    /* height and background-image are set inline from database */
 }
 
 /* Clean Navbar */

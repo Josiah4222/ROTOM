@@ -10,7 +10,7 @@ from django.core.mail import send_mass_mail
 from django.conf import settings
 from django.db import models
 
-from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber, BlogPost, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Testimonial
+from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber, BlogPost, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Testimonial, VolunteerGallery
 from .forms import EventForm, PreviousEventForm, NewsletterForm  # Import the new form
 
 def custom_login(request):
@@ -55,6 +55,7 @@ def admin_dashboard(request):
         'total_registrations': FeedingRegistration.objects.count(),
         'total_newsletters': Newsletter.objects.count(),
         'total_subscribers': Subscriber.objects.count(),
+        'total_volunteer_photos': VolunteerGallery.objects.count(),
     }
 
     # Use select_related for foreign keys in recent queries
@@ -256,9 +257,23 @@ def volunteer_detail(request, pk):
     return render(request, 'dashboard/volunteer_detail.html', {'volunteer': volunteer})
 
 @staff_member_required(login_url='dashboard:login')
+def delete_volunteer(request, pk):
+    volunteer = get_object_or_404(VolunteerProfile, pk=pk)
+    volunteer.delete()
+    messages.success(request, 'Volunteer deleted successfully!')
+    return redirect('dashboard:manage_volunteers')
+
+@staff_member_required(login_url='dashboard:login')
 def contact_detail(request, pk):
     contact = get_object_or_404(Contact, pk=pk)
     return render(request, 'dashboard/contact_detail.html', {'contact': contact})
+
+@staff_member_required(login_url='dashboard:login')
+def delete_contact(request, pk):
+    contact = get_object_or_404(Contact, pk=pk)
+    contact.delete()
+    messages.success(request, 'Message deleted successfully!')
+    return redirect('dashboard:manage_contacts')
 
 @staff_member_required(login_url='dashboard:login')
 def payment_detail(request, pk):
@@ -269,6 +284,13 @@ def payment_detail(request, pk):
 def registration_detail(request, pk):
     registration = get_object_or_404(FeedingRegistration, pk=pk)
     return render(request, 'dashboard/registration_detail.html', {'registration': registration})
+
+@staff_member_required(login_url='dashboard:login')
+def delete_registration(request, pk):
+    registration = get_object_or_404(FeedingRegistration, pk=pk)
+    registration.delete()
+    messages.success(request, 'Meal registration deleted successfully!')
+    return redirect('dashboard:manage_registrations')
 
 @staff_member_required(login_url='dashboard:login')
 def manage_blog(request):
@@ -991,3 +1013,54 @@ def delete_testimonial(request, pk):
     testimonial.delete()
     messages.success(request, 'Testimonial deleted successfully!')
     return redirect('dashboard:manage_testimonials')
+
+
+# Volunteer Gallery Management Views
+@staff_member_required(login_url='dashboard:login')
+def manage_volunteer_gallery(request):
+    search = request.GET.get('search', '')
+    images = VolunteerGallery.objects.all().order_by('order', '-created_at')
+    if search:
+        images = images.filter(
+            models.Q(title__icontains=search)
+        )
+    paginator = Paginator(images, 12)
+    images_paginated = paginator.get_page(request.GET.get('page'))
+    return render(request, 'dashboard/manage_volunteer_gallery.html', {
+        'gallery_images': images_paginated,
+        'search': search,
+    })
+
+@staff_member_required(login_url='dashboard:login')
+def create_volunteer_gallery_image(request):
+    from dashboard.forms import VolunteerGalleryForm
+    if request.method == 'POST':
+        form = VolunteerGalleryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Volunteer gallery image added successfully!')
+            return redirect('dashboard:manage_volunteer_gallery')
+    else:
+        form = VolunteerGalleryForm()
+    return render(request, 'dashboard/volunteer_gallery_form.html', {'form': form, 'title': 'Add Volunteer Gallery Image'})
+
+@staff_member_required(login_url='dashboard:login')
+def edit_volunteer_gallery_image(request, pk):
+    from dashboard.forms import VolunteerGalleryForm
+    image = get_object_or_404(VolunteerGallery, pk=pk)
+    if request.method == 'POST':
+        form = VolunteerGalleryForm(request.POST, request.FILES, instance=image)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Volunteer gallery image updated successfully!')
+            return redirect('dashboard:manage_volunteer_gallery')
+    else:
+        form = VolunteerGalleryForm(instance=image)
+    return render(request, 'dashboard/volunteer_gallery_form.html', {'form': form, 'title': 'Edit Volunteer Gallery Image', 'gallery_image': image})
+
+@staff_member_required(login_url='dashboard:login')
+def delete_volunteer_gallery_image(request, pk):
+    image = get_object_or_404(VolunteerGallery, pk=pk)
+    image.delete()
+    messages.success(request, 'Volunteer gallery image deleted successfully!')
+    return redirect('dashboard:manage_volunteer_gallery')

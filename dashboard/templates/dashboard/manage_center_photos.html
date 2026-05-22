@@ -78,6 +78,30 @@
                     </tbody>
                 </table>
             </div>
+
+            {% if center_photos.has_other_pages %}
+            <div class="d-flex justify-content-center py-3">
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        {% if center_photos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?search={{ search }}&page={{ center_photos.previous_page_number }}">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        {% for num in center_photos.paginator.page_range %}
+                        <li class="page-item {% if center_photos.number == num %}active{% endif %}">
+                            <a class="page-link" href="?search={{ search }}&page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if center_photos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?search={{ search }}&page={{ center_photos.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
         {% else %}
             <div class="empty-state">
                 <i class="fas fa-building"></i>

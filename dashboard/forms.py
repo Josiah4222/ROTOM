@@ -1,6 +1,6 @@
 # dashboard/forms.py (add this to the existing forms.py)
 from django import forms
-from rotom.models import Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, Partner, Testimonial
+from rotom.models import Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, Partner, Testimonial, VolunteerGallery
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -294,5 +294,28 @@ class TestimonialForm(forms.ModelForm):
             'role': 'Their relationship to ROTOM (e.g., Volunteer, Donor, Beneficiary, Partner)',
             'quote': 'Their testimonial or feedback about ROTOM',
             'image': 'Optional photo (will be auto-compressed to 800x800)',
+            'order': 'Lower numbers appear first (0, 1, 2...)',
+        }
+
+
+class VolunteerGalleryForm(forms.ModelForm):
+    class Meta:
+        model = VolunteerGallery
+        fields = ['title', 'image', 'order', 'is_active']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g., Community Service Day'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'order': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '0'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+        labels = {
+            'title': 'Image Title',
+            'image': 'Volunteer Photo',
+            'order': 'Display Order',
+            'is_active': 'Active (Show in Gallery)',
+        }
+        help_texts = {
+            'title': 'Brief description of what is happening in the photo',
+            'image': 'Photo from a volunteer activity (will be auto-compressed to 1200x1200px)',
             'order': 'Lower numbers appear first (0, 1, 2...)',
         }

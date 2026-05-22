@@ -3,134 +3,153 @@
 
 {% block title %}{{ newsletter.title }} | ROTOM Ethiopia{% endblock %}
 
-{% block hero_preload %}
-<link rel="preload" href="{% static 'images/myhome-hero.webp' %}" as="image" fetchpriority="high" type="image/webp">
-<link rel="preload" href="{% static 'images/myhome-hero.jpg' %}" as="image" fetchpriority="high">
-{% endblock %}
+{% block og_title %}{{ newsletter.title }} | ROTOM Ethiopia{% endblock %}
+{% block og_description %}{{ newsletter.subject|truncatechars:150 }}{% endblock %}
+{% block og_image %}{% if newsletter.image %}{{ newsletter.image.url }}{% endif %}{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/blog_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/blog_detail.css' %}?v=2">
 {% endblock %}
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-background"
-        style="background-image: url('{% if newsletter.image %}{{ newsletter.image.url }}{% else %}{% static 'images/myhome.jpg' %}{% endif %}');">
-    </div>
-    <div class="hero-content">
-        <h1>{{ newsletter.title }}</h1>
-        <div class="meta">
-            <span><i class="fas fa-calendar"></i> {{ newsletter.created_at|date:"F d, Y" }}</span>
+<article class="blog-article">
+    <!-- Immersive Hero -->
+    <header class="blog-header-immersive">
+        <div class="blog-hero-bg">
+            <img src="{% if newsletter.image %}{{ newsletter.image.url }}{% else %}{% static 'images/myhome.jpg' %}{% endif %}" alt="{{ newsletter.title }}" class="hero-img">
+            <div class="hero-overlay"></div>
         </div>
-        <p>{{ newsletter.subject }}</p>
-    </div>
-</section>
-
-<!-- Main Content -->
-<section class="main-content">
-    <div class="content-wrapper">
-        <!-- Article Content -->
-        <article class="article-content">
-            {% if newsletter.image %}
-            <img src="{{ newsletter.image.url }}" alt="{{ newsletter.title }}" class="article-image" loading="lazy">
-            {% endif %}
-
-            <div class="article-text">
-                {{ newsletter.content|linebreaksbr }}
-            </div>
-
-            <!-- Article Navigation -->
-            <div class="article-nav">
-                <a href="{% url 'blog' %}" class="nav-button">
-                    <i class="fas fa-arrow-left"></i> Back to Blog
+        
+        <div class="blog-header-content">
+            <div class="container">
+                <a href="{% url 'blog' %}" class="minimal-back">
+                    <i class="fas fa-chevron-left"></i> Back to Blog
                 </a>
-
-                <div class="share-buttons">
-                    <a href="https://web.facebook.com/R.Ethiopia/" target="_blank" class="share-btn facebook"
-                        title="Follow us on Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.instagram.com/rotom_ethiopia" target="_blank" class="share-btn instagram"
-                        title="Follow us on Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://t.me/ROTOMEHIOPIA" target="_blank" class="share-btn telegram"
-                        title="Join our Telegram">
-                        <i class="fab fa-telegram-plane"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/reach-one-touch-one-mission-rotom-ethiopia/"
-                        target="_blank" class="share-btn linkedin" title="Connect on LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@rotom_et" target="_blank" class="share-btn tiktok"
-                        title="Follow us on TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+                <div class="header-tags">
+                    <span class="tag-date">{{ newsletter.created_at|date:"F j, Y" }}</span>
+                    <span class="tag-category">ROTOM Update</span>
                 </div>
+                <h1 class="blog-display-title">{{ newsletter.title }}</h1>
             </div>
-        </article>
+        </div>
+    </header>
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <!-- Article Meta -->
-            <div class="sidebar-card">
-                <h3><i class="fas fa-info-circle"></i> Article Info</h3>
-                <div class="article-meta">
-                    <div class="meta-item">
-                        <i class="fas fa-calendar"></i>
-                        <span>Published {{ newsletter.created_at|date:"F d, Y" }}</span>
+    <!-- Main Content Container -->
+    <div class="immersive-container">
+        <div class="blog-grid-layout">
+            <!-- Left: Info Card -->
+            <aside class="blog-quick-info">
+                <div class="info-card glass">
+                    <div class="info-item">
+                        <span class="label">Published On</span>
+                        <span class="value">{{ newsletter.created_at|date:"l" }}</span>
+                        <span class="sub-value">{{ newsletter.created_at|date:"F j, Y" }}</span>
                     </div>
-                    <div class="meta-item">
-                        <i class="fas fa-tag"></i>
-                        <span>ROTOM Update</span>
+                    <div class="info-actions">
+                        <a href="{% url 'donate' %}" class="action-btn primary">Support Our Mission</a>
+                        <a href="{% url 'volunteer' %}" class="action-btn outline">Volunteer</a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Related Posts -->
-            {% if related_posts %}
-            <div class="sidebar-card">
-                <h3><i class="fas fa-newspaper"></i> Related Articles</h3>
-                {% for post in related_posts %}
-                <a href="{% url 'blog_detail' post.id %}" class="related-post">
-                    {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="related-post-image" loading="lazy">
-                    {% else %}
-                    <div class="no-image-placeholder">
-                        <i class="fas fa-newspaper"></i>
+                <!-- Simple Share Actions -->
+                <div class="share-actions-minimal">
+                    <p>Share this article</p>
+                    <div class="share-minimal-grid">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="share-icon-btn" title="Share on Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/?text={{ newsletter.title }}%20{{ request.build_absolute_uri }}" target="_blank" class="share-icon-btn" title="Share on WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <button onclick="copyLink()" class="share-icon-btn" title="Copy Link">
+                            <i class="fas fa-link"></i>
+                        </button>
+                        <button onclick="shareNative()" class="share-icon-btn highlight" title="More Options">
+                            <i class="fas fa-share-nodes"></i>
+                        </button>
                     </div>
-                    {% endif %}
-                    <div class="related-post-content">
-                        <h4>{{ post.title|truncatechars:50 }}</h4>
-                        <div class="related-post-date">{{ post.created_at|date:"M d, Y" }}</div>
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </aside>
-    </div>
-</section>
+                </div>
+            </aside>
 
-<!-- CTA Section -->
-<section class="cta-section">
-    <h2>Support Our Mission</h2>
-    <p>Help us continue transforming lives and building a better future for Ethiopia's elders.</p>
-    <div class="cta-buttons">
-        <a href="{% url 'donate' %}" class="btn btn-primary">
-            <img src="{% static 'images/muday.jpg' %}" alt="Donate" class="btn-image">
-            Donate Now
-        </a>
-        <a href="{% url 'volunteer' %}" class="btn btn-outline"><i class="fas fa-hands-helping"></i> Volunteer</a>
+            <!-- Right: Article Body -->
+            <div class="blog-full-content">
+                <div class="content-body">
+                    <p class="lead-subject">{{ newsletter.subject }}</p>
+                    <div class="article-text">
+                        {{ newsletter.content|linebreaks }}
+                    </div>
+                    
+                    <!-- Footer Links -->
+                    <footer class="content-footer">
+                        <div class="share-row">
+                            <span>Connect with us:</span>
+                            <div class="social-links">
+                                <a href="https://web.facebook.com/R.Ethiopia/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/rotom_ethiopia" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://t.me/ROTOMEHIOPIA" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+
+                <!-- Related Articles -->
+                {% if related_posts %}
+                <section class="related-articles">
+                    <h3 class="related-title">Read Next</h3>
+                    <div class="related-grid">
+                        {% for post in related_posts %}
+                        <a href="{% url 'blog_detail' post.id %}" class="related-card">
+                            <div class="related-img">
+                                <img src="{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/myhome.jpg' %}{% endif %}" alt="{{ post.title }}">
+                            </div>
+                            <div class="related-info">
+                                <h4>{{ post.title|truncatechars:60 }}</h4>
+                                <span>{{ post.created_at|date:"M j, Y" }}</span>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</section>
+</article>
+
+<div id="copyNotification" class="notification-toast">Link copied!</div>
+
+<script>
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            showNotification('Link copied!');
+        });
+    }
+
+    async function shareNative() {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: "{{ newsletter.title|escapejs }}",
+                    text: "{{ newsletter.subject|escapejs }}",
+                    url: window.location.href
+                });
+            } catch (err) {
+                if (err.name !== 'AbortError') console.error(err);
+            }
+        } else {
+            copyLink();
+        }
+    }
+
+    function showNotification(message) {
+        const toast = document.getElementById('copyNotification');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+</script>
 
 {% include 'rotom/footer.html' %}
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/blog_detail.js' %}" defer></script>
 {% endblock %}
