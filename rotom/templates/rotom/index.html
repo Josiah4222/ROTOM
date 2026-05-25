@@ -178,13 +178,21 @@
         {{ content.partners_intro|default:"A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders." }}
     </p>
     {% if partners %}
-    <div class="partners-grid">
-        {% for partner in partners %}
-        <div class="partner-logo">
-            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
+    <div class="partners-slider">
+        <div class="slider-track" id="partnerTrack">
+            {% for partner in partners %}
+            <div class="partner-logo">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var track = document.getElementById('partnerTrack');
+            if (track) track.innerHTML += track.innerHTML;
+        });
+    </script>
     {% else %}
     <p class="text-center" style="color: var(--text-muted); padding: 2rem;">
         No partners to display at the moment.

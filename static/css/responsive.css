@@ -392,10 +392,11 @@ img {
         height: 80px;
     }
 
-    /* Partners grid */
+    /* Partners slider */
     .partner-logo {
         width: 120px;
         height: 80px;
+        margin: 0 0.75rem;
     }
 
     /* Buttons */

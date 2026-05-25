@@ -683,21 +683,53 @@ body {
     position: relative;
 }
 
-.partners-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
+.partners-slider {
+    overflow: hidden;
+    position: relative;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
+}
+
+.partners::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(to right, white, transparent);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.partners::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(to left, white, transparent);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.slider-track {
+    display: flex;
+    width: max-content;
+    animation: slide 40s linear infinite;
+}
+
+.slider-track:hover {
+    animation-play-state: paused;
 }
 
 .partner-logo {
     flex: 0 0 auto;
-    width: 160px;
+    width: 180px;
     height: 100px;
+    margin: 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -723,6 +755,15 @@ body {
 
 .partner-logo:hover img {
     transform: scale(1.05);
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /* Contact Section */
