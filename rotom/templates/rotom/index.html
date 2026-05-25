@@ -182,12 +182,12 @@
         <div class="slider-track">
             {% for partner in partners %}
             <div class="partner-logo">
-                {% webp_picture partner.logo.url alt=partner.name loading="eager" fetchpriority="low" %}
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
             </div>
             {% endfor %}
             {% for partner in partners %}
             <div class="partner-logo">
-                {% webp_picture partner.logo.url alt=partner.name loading="eager" fetchpriority="low" %}
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
             </div>
             {% endfor %}
         </div>
