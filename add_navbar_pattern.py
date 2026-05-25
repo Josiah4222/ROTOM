@@ -14,7 +14,7 @@ print("Cleared existing navbar patterns")
 pattern = NavbarPattern.objects.create(
     name="Green Ethiopian Pattern",
     image="images/pattern_green.png",  # Using the pattern from static/images/patterns/
-    height=20,  # Height in pixels
+    height=40,  # Height in pixels
     opacity=1.0,  # Full opacity
     is_active=True
 )
