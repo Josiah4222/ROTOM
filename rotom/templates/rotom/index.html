@@ -178,13 +178,35 @@
         {{ content.partners_intro|default:"A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders." }}
     </p>
     {% if partners %}
-    <div class="partners-grid">
-        {% for partner in partners %}
-        <div class="partner-logo">
-            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
+    <div class="partners-slider" id="partnersSlider">
+        <div class="slider-track" id="partnerTrack">
+            {% for partner in partners %}
+            <div class="partner-logo">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var c = document.getElementById('partnersSlider');
+            if (!c || c.children.length === 0) return;
+            var t = c.children[0];
+            if (t.children.length < 2) return;
+
+            var cur = 0;
+
+            function slide() {
+                cur = (cur + 1) % t.children.length;
+                var w = t.children[cur].offsetWidth;
+                var s = w + parseFloat(getComputedStyle(t).gap || 0);
+                t.style.transform = 'translateX(-' + (cur * s) + 'px)';
+                t.style.transition = 'transform 0.5s ease';
+            }
+
+            setInterval(slide, 4000);
+        });
+    </script>
     {% else %}
     <p class="text-center" style="color: var(--text-muted); padding: 2rem;">
         No partners to display at the moment.
