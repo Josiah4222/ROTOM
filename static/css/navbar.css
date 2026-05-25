@@ -274,27 +274,21 @@ html::before {
         top: 70px !important;
     }
 
-    .navbar-brand .brand-name {
-        font-size: 1.3rem;
-    }
-
-    .navbar-brand .brand-tagline {
-        display: block;
-        font-size: 0.5rem;
-    }
-
-    .navbar-brand img {
-        height: 48px;
-    }
-
     .navbar-brand {
         max-width: 60%;
         overflow: hidden;
     }
 
+    .navbar-brand img {
+        height: 42px;
+    }
+
     .navbar-brand .brand-name {
-        white-space: nowrap;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
+    }
+
+    .navbar-brand .brand-tagline {
+        font-size: 0.5rem;
     }
 
     .navbar-brand .brand-text {
@@ -303,15 +297,21 @@ html::before {
 
     .navbar .menu-toggle {
         display: flex;
+        margin-left: 10px;
+    }
+
+    .menu-backdrop {
+        top: 70px;
+        height: calc(100% - 70px);
     }
 
     .navbar-nav {
         position: fixed;
-        top: 80px;
+        top: 70px;
         right: -100%;
         width: 80%;
         max-width: 300px;
-        height: calc(100vh - 80px);
+        height: calc(100vh - 70px);
         background: white;
         flex-direction: column;
         padding: 2rem 1.5rem;
@@ -398,8 +398,8 @@ html::before {
     }
 
     .navbar-nav {
-        top: 70px;
-        height: calc(100vh - 70px);
+        top: 64px;
+        height: calc(100vh - 64px);
         width: 85%;
         padding: 1.5rem 1rem;
     }
@@ -411,33 +411,61 @@ html::before {
 }
 
 /* Extra small phones */
+@media (max-width: 480px) {
+    .navbar-brand .brand-tagline {
+        display: none;
+    }
+}
+
 @media (max-width: 375px) {
-    .navbar-brand .brand-name {
-        font-size: 1rem;
-    }
-
     .navbar-brand img {
-        height: 36px;
+        height: 32px;
     }
 
     .navbar-brand .brand-name {
-        font-size: 0.95rem;
-        letter-spacing: -0.2px;
+        font-size: 0.9rem;
+        letter-spacing: -0.3px;
+    }
+
+    .navbar {
+        padding: 0.5rem 0.75rem;
+        height: 56px;
+    }
+
+    .bottom-pattern {
+        top: 56px !important;
+    }
+
+    .navbar-nav {
+        top: 56px;
+        height: calc(100vh - 56px);
+    }
+
+    .menu-backdrop {
+        top: 56px;
+        height: calc(100% - 56px);
     }
 
     .navbar .menu-toggle {
         padding: 0.4rem;
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
+        margin-left: 6px;
     }
 
     .navbar .menu-toggle svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 
     .navbar-nav {
         width: 90%;
+        padding: 1rem 0.75rem;
+    }
+
+    .navbar-nav li a {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.85rem;
     }
 }
 
@@ -459,8 +487,8 @@ html::before {
 
 @media (max-width: 575px) {
     .menu-backdrop {
-        top: 70px;
-        height: calc(100% - 70px);
+        top: 64px;
+        height: calc(100% - 64px);
     }
 }
 
@@ -525,12 +553,32 @@ html::before {
 /* Mobile: keep it visible but compact */
 @media (max-width: 992px) {
     .lang-toggle {
-        min-width: 64px;
-        height: 30px;
+        min-width: 60px;
+        height: 28px;
     }
 
     .lang-toggle .lang-option {
-        font-size: 0.65rem;
-        padding: 0 6px;
+        font-size: 0.6rem;
+        padding: 0 5px;
+    }
+}
+
+@media (max-width: 375px) {
+    .lang-toggle {
+        min-width: 52px;
+        height: 26px;
+        padding: 2px 3px;
+    }
+
+    .lang-toggle .lang-option {
+        font-size: 0.55rem;
+        padding: 0 4px;
+    }
+
+    .lang-toggle .lang-slider {
+        top: 2px;
+        left: 2px;
+        height: calc(100% - 4px);
+        width: calc(50% - 2px);
     }
 }
