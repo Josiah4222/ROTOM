@@ -688,10 +688,11 @@ body {
     align-items: center;
     width: fit-content;
     animation: scrollPartners 40s linear infinite;
-    animation-play-state: paused;
 }
 
-
+.slider-track:hover {
+    animation-play-state: paused;
+}
 
 @keyframes scrollPartners {
     from {
@@ -709,7 +710,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f8f8;
+    background: white;
     border-radius: 12px;
     border: 1px solid #eee;
     transition: var(--transition);

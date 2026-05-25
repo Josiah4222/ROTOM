@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}?v=40">
+<link rel="stylesheet" href="{% static 'css/home.v45.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,6 @@
         <p class="hero-subtitle">{{ content.hero_subtitle|default:"Older persons and their dependents living dignified and fulfilling lives." }}</p>
         <div class="hero-cta">
             <a href="{% url 'ourstory' %}" class="btn btn-primary">{{ content.hero_btn_discover|default:"Discover" }}</a>
-            <a href="#about" class="btn btn-secondary">{{ content.hero_btn_learn|default:"Learn More" }}</a>
         </div>
     </div>
 </header>
@@ -37,7 +36,6 @@
 
 <section id="impacts" class="impacts section">
     <h2 class="section-title">{{ content.impact_title|default:"Our Impact" }}</h2>
-    <div class="gold-accent"></div>
     <div class="wrapper">
         <div class="container">
             <i class="fas fa-users"></i>
@@ -73,8 +71,7 @@
             {% webp_picture 'images/ourstory.jpg' alt="ROTOM Ethiopia team in action" loading="lazy" width="600" height="400" %}
         </div>
         <div class="about-content">
-            <h2>{{ content.about_title|default:"Our Story" }}</h2>
-            <div class="elegant-divider"></div>
+            <h2 class="section-title">{{ content.about_title|default:"Our Story" }}</h2>
             <p>{{ content.about_para1|default:"Reach One Touch One Mission (ROTOM) Ethiopia began in 2017, born from a deep belief in the transformative power of compassion and good deeds. Founded by a dedicated volunteer with a heart for the forgotten, our organization was built to be a lifeline for those who need it most. ROTOM Ethiopia is a fully registered civil society organization (Certificate number 3764) operating out of our main office in Bishoftu, Ethiopia." }}</p>
             <p>{{ content.about_para2|default:"We provide holistic support to vulnerable older adults who have rendered Great Service to the Nation and their dependents, working tirelessly to elevate their dignity, improve their living conditions, and ensure they live out their years with the respect and care they deserve." }}</p>
         </div>
@@ -83,7 +80,6 @@
 
 <section id="projects" class="projects section">
     <h2 class="section-title">{{ content.pillars_title|default:"Our Pillars of Care" }}</h2>
-    <div class="gold-accent"></div>
     <p class="text-center pillars-intro" style="color: var(--text-muted); max-width: 900px; margin: 0 auto 3rem; font-size: 1.05rem; line-height: 1.8; text-align: center;">
         {{ content.pillars_intro|default:"Our holistic, multigenerational care model relies on three essential pillars:" }}
     </p>
@@ -173,7 +169,7 @@
 </section>
 
 <section id="partners" class="partners section">
-    <h2 class="section-title">{{ content.partners_title|default:"Our Partners" }}</h2>
+    <h2 class="section-title">{{ content.partners_title|default:"Our Partnerssssss" }}</h2>
     <p class="text-center partners-intro" style="color: var(--text-muted); max-width: 800px; margin: 0 auto 1rem; font-size: 1.05rem; line-height: 1.8; text-align: center;">
         {{ content.partners_intro|default:"A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders." }}
     </p>
@@ -187,26 +183,7 @@
             {% endfor %}
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var c = document.getElementById('partnersSlider');
-            if (!c || c.children.length === 0) return;
-            var t = c.children[0];
-            if (t.children.length < 2) return;
 
-            var cur = 0;
-
-            function slide() {
-                cur = (cur + 1) % t.children.length;
-                var w = t.children[cur].offsetWidth;
-                var s = w + parseFloat(getComputedStyle(t).gap || 0);
-                t.style.transform = 'translateX(-' + (cur * s) + 'px)';
-                t.style.transition = 'transform 0.5s ease';
-            }
-
-            setInterval(slide, 4000);
-        });
-    </script>
     {% else %}
     <p class="text-center" style="color: var(--text-muted); padding: 2rem;">
         No partners to display at the moment.
@@ -214,9 +191,42 @@
     {% endif %}
 </section>
 
+<script>
+(function(){
+    var track = document.getElementById('partnerTrack');
+    if (!track) return;
+    var items = Array.from(track.children);
+    for (var i = 0; i < items.length; i++) {
+        var clone = items[i].cloneNode(true);
+        track.appendChild(clone);
+    }
+    var imgs = track.querySelectorAll('img');
+    var loaded = 0;
+    function startSlide() {
+        track.style.animationPlayState = 'running';
+    }
+    track.style.animationPlayState = 'paused';
+    for (var i = 0; i < imgs.length; i++) {
+        if (imgs[i].complete) {
+            loaded++;
+            if (loaded === imgs.length) startSlide();
+        } else {
+            imgs[i].addEventListener('load', function(){
+                loaded++;
+                if (loaded === imgs.length) startSlide();
+            });
+            imgs[i].addEventListener('error', function(){
+                loaded++;
+                if (loaded === imgs.length) startSlide();
+            });
+        }
+    }
+    if (imgs.length === 0) startSlide();
+})();
+</script>
+
 <section id="contact" class="contact-us section">
     <h2 class="section-title">{{ content.contact_title|default:"Contact Us" }}</h2>
-    <div class="gold-accent"></div>
     <div class="contact-container">
         <div class="contact-info">
             <h3>{{ content.contact_get_in_touch|default:"Get in Touch" }}</h3>
@@ -261,7 +271,6 @@
         </div>
         <div class="contact-map">
             <h3>{{ content.contact_map_heading|default:"Find Us" }}</h3>
-            <p class="map-description">{{ content.contact_map_desc|default:"Visit our center in the heart of Bishoftu" }}</p>
             <div class="map-container">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.217826069276!2d38.973441745193114!3d8.765565670677391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b73004e3b9505%3A0xfdb5b82590291fba!2sReach%20One%20Touch%20One%20mission!5e0!3m2!1sen!2set!4v1766563379966!5m2!1sen!2set"

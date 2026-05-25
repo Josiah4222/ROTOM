@@ -677,29 +677,14 @@ body {
     max-width: 1000px;
     margin: 0 auto;
     padding: 2rem 0;
-    overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 .slider-track {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
+    justify-content: center;
     align-items: center;
-    width: fit-content;
-    animation: scrollPartners 40s linear infinite;
-    animation-play-state: paused;
-}
-
-
-
-@keyframes scrollPartners {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-50%);
-    }
 }
 
 .partner-logo {
@@ -709,7 +694,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8f8f8;
+    background: white;
     border-radius: 12px;
     border: 1px solid #eee;
     transition: var(--transition);

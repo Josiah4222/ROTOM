@@ -95,13 +95,6 @@
     margin-bottom: 0.75rem;
 }
 
-.gold-accent {
-    width: 80px;
-    height: 4px;
-    background: var(--accent-color);
-    margin: 0 auto 1.5rem;
-    border-radius: 2px;
-}
 
 .section-header p {
     font-size: 1.15rem;

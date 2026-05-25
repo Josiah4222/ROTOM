@@ -40,12 +40,6 @@ body {
     margin: 0 auto;
 }
 
-.gold-accent {
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-    margin: 0 auto;
-}
 
 /* Events Container - Poster Style Grid */
 .events-container {

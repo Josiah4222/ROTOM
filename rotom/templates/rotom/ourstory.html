@@ -60,8 +60,6 @@
 <section class="timeline-section">
     <div class="timeline-header">
         <h2 class="section-title">{{ content.milestones_title|default:"Our Milestones" }}</h2>
-        <div class="gold-accent"></div>
-        <p class="section-subtitle">{{ content.milestones_subtitle|default:"A timeline of growth and compassion" }}</p>
     </div>
     <div class="timeline-container">
         {% for milestone in milestones %}
@@ -83,38 +81,10 @@
     </div>
 </section>
 
-<!-- Team Photos Section -->
-<section class="team-photos-section">
-    <div class="team-photos-container">
-        <h2 class="section-title">{{ content.team_title|default:"Our Team" }}</h2>
-        <div class="gold-accent"></div>
-        <p class="section-subtitle">{{ content.team_subtitle|default:"The dedicated people behind our mission" }}</p>
-        
-        <div class="group-photos-grid">
-            <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/dedicatedteam.jpg' %}')">
-                <picture class="team-picture">
-                    <source srcset="{% static 'images/dedicatedteam-thumb.webp' %}" type="image/webp">
-                    <img src="{% static 'images/dedicatedteam-thumb.jpg' %}" alt="ROTOM Team" class="team-thumb-img" width="600" height="400">
-                </picture>
-                <div class="photo-caption">{{ content.team_photo1_caption|default:"Our Dedicated Team" }}</div>
-            </div>
-            <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteerteam.jpg' %}')">
-                <picture class="team-picture">
-                    <source srcset="{% static 'images/volunteerteam-thumb.webp' %}" type="image/webp">
-                    <img src="{% static 'images/volunteerteam-thumb.jpg' %}" alt="ROTOM Volunteers" class="team-thumb-img" width="600" height="400">
-                </picture>
-                <div class="photo-caption">{{ content.team_photo2_caption|default:"Our Volunteers" }}</div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Staff Section -->
 <section class="staff-section">
     <div class="staff-container">
         <h2 class="section-title">{{ content.staff_title|default:"Meet Our Staff" }}</h2>
-        <div class="gold-accent"></div>
-        <p class="section-subtitle">{{ content.staff_subtitle|default:"The passionate individuals driving our mission forward" }}</p>
         
         <div class="staff-grid">
             {% for member in team_members %}
@@ -138,6 +108,32 @@
             {% empty %}
             <p class="text-center" style="grid-column: 1 / -1; color: var(--text-muted);">No staff members available at the moment.</p>
             {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Team Photos Section -->
+<section class="team-photos-section">
+    <div class="team-photos-container">
+        <div class="group-photos-grid">
+            <div class="team-card">
+                <h3 class="team-card-title">{{ content.core_team_title|default:"Our Core Team" }}</h3>
+                <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/dedicatedteam.jpg' %}')">
+                    <picture class="team-picture">
+                        <source srcset="{% static 'images/dedicatedteam-thumb.webp' %}" type="image/webp">
+                        <img src="{% static 'images/dedicatedteam-thumb.jpg' %}" alt="ROTOM Team" class="team-thumb-img" width="600" height="400">
+                    </picture>
+                </div>
+            </div>
+            <div class="team-card">
+                <h3 class="team-card-title">{{ content.volunteers_title|default:"Our Volunteers" }}</h3>
+                <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteerteam.jpg' %}')">
+                    <picture class="team-picture">
+                        <source srcset="{% static 'images/volunteerteam-thumb.webp' %}" type="image/webp">
+                        <img src="{% static 'images/volunteerteam-thumb.jpg' %}" alt="ROTOM Volunteers" class="team-thumb-img" width="600" height="400">
+                    </picture>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -186,13 +182,13 @@
     /* Hero Section */
     .journey-hero {
         position: relative;
-        height: 50vh;
+        height: 55vh;
         min-height: 400px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        margin-top: 70px;
+        margin-top: 80px;
     }
 
     .hero-bg-img {
@@ -360,11 +356,13 @@
         margin-bottom: 0.5rem;
     }
 
-    .gold-accent {
-        width: 80px;
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 60px;
         height: 3px;
         background: var(--accent-color);
-        margin: 0 auto 1rem;
+        margin: 12px auto 0;
         border-radius: 2px;
     }
 
@@ -388,11 +386,33 @@
         margin: 0 auto;
     }
 
+    .team-card {
+        text-align: center;
+    }
+
+    .team-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--main-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .team-card-title::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: var(--accent-color);
+        margin: 12px auto 1.5rem;
+        border-radius: 2px;
+    }
+
     .group-photos-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        display: flex;
         gap: 2.5rem;
         margin-top: 2rem;
+        justify-content: center;
+        align-items: flex-start;
     }
 
     .group-photo-card {
@@ -404,16 +424,12 @@
         opacity: 0;
         transform: translateY(30px);
         cursor: pointer;
+        max-width: 500px;
     }
 
     .group-photo-card.visible {
         opacity: 1;
         transform: translateY(0);
-    }
-
-    .group-photo-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(28, 101, 27, 0.15);
     }
 
     .team-picture {
@@ -424,23 +440,14 @@
 
     .group-photo-card img {
         width: 100%;
-        height: 400px;
+        height: 280px;
         object-fit: cover;
         display: block;
-        transition: transform 0.5s ease;
-    }
-
-    .team-thumb-img {
-        animation: teamFadeIn 0.5s ease-out;
     }
 
     @keyframes teamFadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
-    }
-
-    .group-photo-card:hover img {
-        transform: scale(1.05);
     }
 
     .photo-caption {

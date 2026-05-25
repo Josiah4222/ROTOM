@@ -2,8 +2,11 @@
 WSGI config for REACHONEETH project.
 """
 
+import mimetypes
 import os
 from django.core.wsgi import get_wsgi_application
+
+mimetypes.add_type('image/webp', '.webp')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'REACHONEETH.settings')
 
