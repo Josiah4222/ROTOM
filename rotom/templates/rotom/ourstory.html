@@ -1,5 +1,6 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
+{% load image_tags %}
 
 {% block title %}Our Journey - ROTOM Ethiopia{% endblock %}
 
@@ -13,14 +14,11 @@
 
 <!-- Hero Section -->
 <section class="journey-hero">
-    <picture>
-        <source srcset="{% static 'images/abouthero-hero.webp' %}" type="image/webp">
-        <img src="{% static 'images/abouthero-hero.jpg' %}" alt="" fetchpriority="high" class="hero-bg-img">
-    </picture>
+    {% webp_picture 'images/abouthero-hero.jpg' alt="" fetchpriority="high" img_class="hero-bg-img" %}
     <div class="hero-overlay"></div>
     <div class="hero-content-wrapper">
-        <h1 class="hero-main-title">About ROTOM Ethiopia</h1>
-        <p class="hero-description">Born from a deep belief in the transformative power of compassion and good deeds, we provide holistic support to vulnerable older adults who have rendered great service to the nation and their dependents, ensuring they live with dignity and respect.</p>
+        <h1 class="hero-main-title">{{ content.hero_title|default:"About ROTOM Ethiopia" }}</h1>
+        <p class="hero-description">{{ content.hero_description|default:"Born from a deep belief in the transformative power of compassion and good deeds, we provide holistic support to vulnerable older adults who have rendered great service to the nation and their dependents, ensuring they live with dignity and respect." }}</p>
     </div>
 </section>
 
@@ -31,28 +29,28 @@
         <!-- Vision -->
         <div class="vva-card vision-card">
             <div class="vva-icon">
-                <img src="{% static 'images/ourvision.jpg' %}" alt="Our Vision">
+                {% webp_picture 'images/ourvision.jpg' alt="Our Vision" loading="lazy" width="120" height="120" %}
             </div>
-            <h3>Our Vision</h3>
-            <p>A dignified & fulfilled life for older persons!</p>
+            <h3>{{ content.vision_title|default:"Our Vision" }}</h3>
+            <p>{{ content.vision_text|default:"A dignified & fulfilled life for older persons!" }}</p>
         </div>
 
         <!-- Values -->
         <div class="vva-card values-card">
             <div class="vva-icon">
-                <img src="{% static 'images/ourvalue.jpg' %}" alt="Our Values">
+                {% webp_picture 'images/ourvalue.jpg' alt="Our Values" loading="lazy" width="120" height="120" %}
             </div>
-            <h3>Our Values</h3>
-            <p>We uphold Love Beyond Self, Honesty, Justice, Respect, Stewardship, Dignity, Teamwork, and Quality Service</p>
+            <h3>{{ content.values_title|default:"Our Values" }}</h3>
+            <p>{{ content.values_text|default:"We uphold Love Beyond Self, Honesty, Justice, Respect, Stewardship, Dignity, Teamwork, and Quality Service" }}</p>
         </div>
 
         <!-- Approach -->
         <div class="vva-card approach-card">
             <div class="vva-icon">
-                <img src="{% static 'images/ourapproach.jpg' %}" alt="Our Approach">
+                {% webp_picture 'images/ourapproach.jpg' alt="Our Approach" loading="lazy" width="120" height="120" %}
             </div>
-            <h3>Our Approach</h3>
-            <p>A holistic, multi-generational model</p>
+            <h3>{{ content.approach_title|default:"Our Approach" }}</h3>
+            <p>{{ content.approach_text|default:"A holistic, multi-generational model" }}</p>
         </div>
 
     </div>
@@ -61,15 +59,15 @@
 <!-- Timeline Section -->
 <section class="timeline-section">
     <div class="timeline-header">
-        <h2 class="section-title">Our Milestones</h2>
+        <h2 class="section-title">{{ content.milestones_title|default:"Our Milestones" }}</h2>
         <div class="gold-accent"></div>
-        <p class="section-subtitle">A timeline of growth and compassion</p>
+        <p class="section-subtitle">{{ content.milestones_subtitle|default:"A timeline of growth and compassion" }}</p>
     </div>
     <div class="timeline-container">
         {% for milestone in milestones %}
         <div class="timeline-item">
             <div class="card-image" onclick="openMilestoneLightbox('{{ milestone.image.url }}')">
-                <img src="{{ milestone.image.url }}" alt="{{ milestone.year }} - {{ milestone.title }}" loading="lazy">
+                <img src="{{ milestone.image.url }}" alt="{{ milestone.year }} - {{ milestone.title }}" loading="lazy" decoding="async">
             </div>
             <div class="timeline-content">
                 <div class="year-badge">{{ milestone.year }}</div>
@@ -88,9 +86,9 @@
 <!-- Team Photos Section -->
 <section class="team-photos-section">
     <div class="team-photos-container">
-        <h2 class="section-title">Our Team</h2>
+        <h2 class="section-title">{{ content.team_title|default:"Our Team" }}</h2>
         <div class="gold-accent"></div>
-        <p class="section-subtitle">The dedicated people behind our mission</p>
+        <p class="section-subtitle">{{ content.team_subtitle|default:"The dedicated people behind our mission" }}</p>
         
         <div class="group-photos-grid">
             <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/dedicatedteam.jpg' %}')">
@@ -98,14 +96,14 @@
                     <source srcset="{% static 'images/dedicatedteam-thumb.webp' %}" type="image/webp">
                     <img src="{% static 'images/dedicatedteam-thumb.jpg' %}" alt="ROTOM Team" class="team-thumb-img" width="600" height="400">
                 </picture>
-                <div class="photo-caption">Our Dedicated Team</div>
+                <div class="photo-caption">{{ content.team_photo1_caption|default:"Our Dedicated Team" }}</div>
             </div>
             <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteerteam.jpg' %}')">
                 <picture class="team-picture">
                     <source srcset="{% static 'images/volunteerteam-thumb.webp' %}" type="image/webp">
                     <img src="{% static 'images/volunteerteam-thumb.jpg' %}" alt="ROTOM Volunteers" class="team-thumb-img" width="600" height="400">
                 </picture>
-                <div class="photo-caption">Our Volunteers</div>
+                <div class="photo-caption">{{ content.team_photo2_caption|default:"Our Volunteers" }}</div>
             </div>
         </div>
     </div>
@@ -114,18 +112,18 @@
 <!-- Staff Section -->
 <section class="staff-section">
     <div class="staff-container">
-        <h2 class="section-title">Meet Our Staff</h2>
+        <h2 class="section-title">{{ content.staff_title|default:"Meet Our Staff" }}</h2>
         <div class="gold-accent"></div>
-        <p class="section-subtitle">The passionate individuals driving our mission forward</p>
+        <p class="section-subtitle">{{ content.staff_subtitle|default:"The passionate individuals driving our mission forward" }}</p>
         
         <div class="staff-grid">
             {% for member in team_members %}
             <div class="staff-member">
                 {% if member.image %}
                     {% if member.image.name|slice:":7" == "images/" %}
-                        <img src="{% static member.image.name %}" alt="{{ member.name }}" loading="lazy">
+                        <img src="{% static member.image.name %}" alt="{{ member.name }}" loading="lazy" decoding="async">
                     {% else %}
-                        <img src="{{ member.image.url }}" alt="{{ member.name }}" loading="lazy">
+                        <img src="{{ member.image.url }}" alt="{{ member.name }}" loading="lazy" decoding="async">
                     {% endif %}
                 {% else %}
                     <div class="staff-placeholder">

@@ -6,6 +6,9 @@
 (function() {
     'use strict';
 
+    // Add js-enabled class to document
+    document.documentElement.classList.add('js-enabled');
+
     /**
      * Add fade-in effect to images as they load
      */
@@ -13,19 +16,19 @@
         const images = document.querySelectorAll('img');
         
         images.forEach(img => {
-            // If image is already loaded
-            if (img.complete) {
+            // If image is already loaded or is the hero background (which we want to show fast)
+            if (img.complete || img.classList.contains('hero-background')) {
                 img.classList.add('loaded');
             } else {
                 // Add loaded class when image loads
                 img.addEventListener('load', function() {
                     this.classList.add('loaded');
-                });
+                }, { once: true });
                 
                 // Handle error case
                 img.addEventListener('error', function() {
-                    this.classList.add('loaded'); // Still show it
-                });
+                    this.classList.add('loaded'); // Still show it even if error
+                }, { once: true });
             }
         });
     }

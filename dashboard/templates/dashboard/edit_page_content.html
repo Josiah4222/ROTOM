@@ -1,0 +1,252 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block title %}Edit {{ page_label }} Content{% endblock %}
+
+{% block extra_styles %}
+/* ── Language Radio Toggle (matches site navbar style) ── */
+.lang-radio-group {
+    display: inline-flex;
+    align-items: center;
+    background: #f0f0f0;
+    border: 1.5px solid #d1d5db;
+    border-radius: 999px;
+    padding: 3px 4px;
+    position: relative;
+    height: 36px;
+    min-width: 90px;
+    transition: border-color 0.2s;
+    gap: 0;
+    cursor: pointer;
+}
+.lang-radio-group:focus-within {
+    border-color: #1C651B;
+    box-shadow: 0 0 0 3px rgba(28,101,27,0.12);
+}
+.lang-radio-group input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+.lang-radio-group .lang-opt {
+    position: relative;
+    z-index: 2;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    padding: 0 12px;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1;
+    transition: color 0.25s;
+    border-radius: 999px;
+}
+.lang-radio-group .lang-pill {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
+    background: #1C651B;
+    border-radius: 999px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    pointer-events: none;
+}
+.lang-radio-group[data-active="en"] .lang-pill { transform: translateX(0); }
+.lang-radio-group[data-active="en"] .lang-opt[data-lang="en"] { color: #fff; }
+.lang-radio-group[data-active="am"] .lang-pill { transform: translateX(calc(100% + 2px)); }
+.lang-radio-group[data-active="am"] .lang-opt[data-lang="am"] { color: #fff; }
+
+/* ── Field cards ── */
+.field-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 1.25rem 1.5rem 1.1rem;
+    transition: box-shadow 0.2s;
+    border: 1.5px solid transparent;
+}
+.field-card:hover { box-shadow: 0 4px 20px rgba(28,101,27,0.1); border-color: rgba(28,101,27,0.1); }
+.field-label { font-weight: 600; font-size: 0.95rem; color: #1f2937; margin-bottom: 0.15rem; }
+.field-key { font-size: 0.7rem; color: #9ca3af; font-family: monospace; margin-bottom: 0.85rem; display: block; }
+
+/* Pane switching */
+.lang-pane { display: none; }
+.lang-pane.active { display: block; }
+
+/* Amharic optional badge */
+.optional-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #92400e;
+    background: rgba(241,201,59,0.18);
+    border: 1px solid rgba(241,201,59,0.4);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.form-control:focus {
+    border-color: #1C651B;
+    box-shadow: 0 0 0 3px rgba(28,101,27,0.12);
+}
+
+/* Hint banners */
+.hint-en {
+    background: rgba(28,101,27,0.07);
+    border-left: 4px solid #1C651B;
+    color: #1C651B;
+    border-radius: 0 10px 10px 0;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.hint-am {
+    background: rgba(241,201,59,0.12);
+    border-left: 4px solid #F1C93B;
+    color: #92400e;
+    border-radius: 0 10px 10px 0;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <a href="{% url 'dashboard:manage_site_content' %}" class="text-muted text-decoration-none small">
+            <i class="fas fa-arrow-left me-1"></i> Back to Site Content
+        </a>
+        <h2 class="mb-0 mt-1">
+            <i class="fas fa-edit me-2" style="color:#1C651B;"></i>{{ page_label }}
+        </h2>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <!-- Language toggle — same sliding pill as the site navbar -->
+        <div class="lang-radio-group" id="globalLangToggle" data-active="en" title="Switch language">
+            <span class="lang-pill"></span>
+            <label class="lang-opt" data-lang="en">
+                <input type="radio" name="global_lang" value="en" checked> EN
+            </label>
+            <label class="lang-opt" data-lang="am">
+                <input type="radio" name="global_lang" value="am"> አማ
+            </label>
+        </div>
+        <button type="submit" form="contentForm" class="btn btn-success px-4">
+            <i class="fas fa-save me-1"></i> Save All
+        </button>
+    </div>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags != 'error' or 'Invalid page' not in message.message %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+<!-- Hint banners — swapped by JS -->
+<div id="hintEn" class="hint-en mb-4">
+    <i class="fas fa-globe-americas"></i>
+    <span>Editing <strong>English</strong> content — click <strong>አማ</strong> to switch to Amharic translations.</span>
+</div>
+<div id="hintAm" class="hint-am mb-4" style="display:none;">
+    <i class="fas fa-globe-africa"></i>
+    <span>Editing <strong>Amharic (አማርኛ)</strong> — all fields are <strong>optional</strong>. Leave blank to fall back to English.</span>
+</div>
+
+<form method="POST" id="contentForm">
+    {% csrf_token %}
+    <div class="row g-3">
+        {% for field in form_fields %}
+        <div class="col-12">
+            <div class="field-card">
+                <div class="field-label">{{ field.label }}</div>
+                <span class="field-key">{{ field.key }}</span>
+
+                <!-- English pane -->
+                <div class="lang-pane active" data-pane="en">
+                    {% if field.is_long %}
+                    <textarea name="{{ field.key }}" class="form-control" rows="4"
+                        style="font-size:0.92rem; resize:vertical;">{{ field.value }}</textarea>
+                    {% else %}
+                    <input type="text" name="{{ field.key }}" value="{{ field.value }}"
+                        class="form-control" style="font-size:0.92rem;">
+                    {% endif %}
+                </div>
+
+                <!-- Amharic pane -->
+                <div class="lang-pane" data-pane="am">
+                    <div class="optional-badge">
+                        <i class="fas fa-info-circle"></i> Optional — leave blank to use English
+                    </div>
+                    {% if field.is_long %}
+                    <textarea name="{{ field.key }}_am" class="form-control" rows="4"
+                        placeholder="የአማርኛ ትርጉም (optional Amharic translation)"
+                        style="font-size:0.92rem; resize:vertical;">{{ field.value_am }}</textarea>
+                    {% else %}
+                    <input type="text" name="{{ field.key }}_am" value="{{ field.value_am }}"
+                        placeholder="የአማርኛ ትርጉም (optional)"
+                        class="form-control" style="font-size:0.92rem;">
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-end mt-4 mb-5">
+        <button type="submit" class="btn btn-success btn-lg px-5">
+            <i class="fas fa-save me-2"></i> Save All Changes
+        </button>
+    </div>
+</form>
+
+<script>
+(function () {
+    const toggle = document.getElementById('globalLangToggle');
+    const hintEn = document.getElementById('hintEn');
+    const hintAm = document.getElementById('hintAm');
+
+    function switchLang(lang) {
+        toggle.setAttribute('data-active', lang);
+
+        hintEn.style.display = lang === 'en' ? 'flex' : 'none';
+        hintAm.style.display = lang === 'am' ? 'flex' : 'none';
+
+        document.querySelectorAll('.lang-pane').forEach(pane => {
+            pane.classList.toggle('active', pane.dataset.pane === lang);
+        });
+    }
+
+    // Radio change
+    toggle.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => { if (radio.checked) switchLang(radio.value); });
+    });
+
+    // Label click (also triggers radio change, but belt-and-suspenders)
+    toggle.querySelectorAll('.lang-opt').forEach(label => {
+        label.addEventListener('click', () => {
+            const radio = label.querySelector('input[type="radio"]');
+            if (radio) { radio.checked = true; switchLang(radio.value); }
+        });
+    });
+})();
+</script>
+{% endblock %}

@@ -68,6 +68,14 @@
                             <div class="text-danger">{{ form.description.errors }}</div>
                             {% endif %}
                         </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.description_am.id_for_label }}" class="form-label">🇪🇹 አማርኛ — Description</label>
+                            {{ form.description_am }}
+                            {% if form.description_am.errors %}
+                            <div class="text-danger">{{ form.description_am.errors }}</div>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="col-md-4">

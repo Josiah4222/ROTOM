@@ -42,6 +42,14 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="{{ form.role_am.id_for_label }}" class="form-label">🇪🇹 አማርኛ — Role / Title</label>
+                            {{ form.role_am }}
+                            {% if form.role_am.errors %}
+                            <div class="text-danger">{{ form.role_am.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
                             <label for="{{ form.quote.id_for_label }}" class="form-label">{{ form.quote.label }} <span class="text-danger">*</span></label>
                             {{ form.quote }}
                             {% if form.quote.help_text %}
@@ -49,6 +57,14 @@
                             {% endif %}
                             {% if form.quote.errors %}
                             <div class="text-danger">{{ form.quote.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.quote_am.id_for_label }}" class="form-label">🇪🇹 አማርኛ — Testimonial</label>
+                            {{ form.quote_am }}
+                            {% if form.quote_am.errors %}
+                            <div class="text-danger">{{ form.quote_am.errors }}</div>
                             {% endif %}
                         </div>
 

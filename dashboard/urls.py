@@ -89,4 +89,7 @@ urlpatterns = [
     path('contact/<int:pk>/', views.contact_detail, name='contact_detail'),
     path('payment/<int:pk>/', views.payment_detail, name='payment_detail'),
     path('registration/<int:pk>/', views.registration_detail, name='registration_detail'),
+    # Site Content (Static Text Editor)
+    path('site-content/', views.manage_site_content, name='manage_site_content'),
+    path('site-content/<str:page_slug>/', views.edit_page_content, name='edit_page_content'),
 ]

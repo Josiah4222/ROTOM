@@ -22,9 +22,8 @@
     </picture>
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28,101,27,0.65); z-index: 1;"></div>
     <div class="take-action-hero-content" style="position: relative; z-index: 2;">
-        <h1>Take Action</h1>
-        <p>Your involvement makes a real difference in the lives of older persons and their dependents. Discover how you
-            can contribute.</p>
+        <h1>{{ content.hero_title|default:"Take Action" }}</h1>
+        <p>{{ content.hero_subtitle|default:"Your involvement makes a real difference in the lives of older persons and their dependents. Discover how you can contribute." }}</p>
         <div class="action-buttons">
             <a href="#give" class="action-btn">Give</a>
             <a href="#feeding-form-section" class="action-btn">Feed</a>
@@ -37,9 +36,8 @@
 <section id="give" class="give-section-enhanced">
     <div class="give-container">
         <div class="give-intro">
-            <h2>Give</h2>
-            <p>Your generous contributions help us provide essential support to elders and their families. Every
-                donation, whether items or financial support, makes a meaningful difference in their lives.</p>
+            <h2>{{ content.give_title|default:"Give" }}</h2>
+            <p>{{ content.give_intro|default:"Your generous contributions help us provide essential support to elders and their families. Every donation, whether items or financial support, makes a meaningful difference in their lives." }}</p>
         </div>
 
         <div class="give-cards-container">
@@ -48,21 +46,16 @@
                     <div class="image-overlay-content">
                         <i class="fas fa-gift"></i>
                         <h4>Essential Items</h4>
-                        <p>Your donated items directly reach those who need them most, bringing comfort and dignity to
-                            our elders.</p>
+                        <p>Your donated items directly reach those who need them most, bringing comfort and dignity to our elders.</p>
                     </div>
                 </div>
                 <div class="give-card-content">
-                    <h3>Donate Items</h3>
-                    <p>Your generous donations help support our programs and the elders in our care. We are currently
-                        accepting:</p>
+                    <h3>{{ content.donate_items_title|default:"Donate Items" }}</h3>
+                    <p>{{ content.donate_items_desc|default:"Your generous donations help support our programs and the elders in our care. We are currently accepting:" }}</p>
                     <ul>
-                        <li>Non-perishable food items</li>
-                        <li>Clothing for elders (clean and gently used)</li>
-                        <li>Adult diapers</li>
-                        <li>Sanitary materials</li>
-                        <li>Office supplies (paper, pens, notebooks)</li>
-                        <li>Other essentials as needed</li>
+                        {% for item in content.donate_items_list|default:"Non-perishable food items\nClothing for elders (clean and gently used)\nAdult diapers\nSanitary materials\nOffice supplies (paper, pens, notebooks)\nOther essentials as needed"|splitlines %}
+                        {% if item %}<li>{{ item }}</li>{% endif %}
+                        {% endfor %}
                     </ul>
                     <a href="#contact" class="btn">Contact Us to Donate</a>
                 </div>
@@ -73,22 +66,12 @@
                     <div class="image-overlay-content">
                         <i class="fas fa-hands-helping"></i>
                         <h4>Financial Impact</h4>
-                        <p>Monetary support allows us to expand our reach and provide comprehensive care to more elders
-                            in need.</p>
+                        <p>Monetary support allows us to expand our reach and provide comprehensive care to more elders in need.</p>
                     </div>
                 </div>
                 <div class="give-card-content">
-                    <h3>Financial Support</h3>
-                    <p>Monetary donations allow us to purchase specific items, maintain our center, and expand our
-                        services. Every contribution, big or small, makes a significant impact.</p>
-                    <ul>
-                        <li>General donations for operational support</li>
-                        <li>Sponsor an elder program</li>
-                        <li>Fund specific projects or events</li>
-                        <li>Support home renovation projects</li>
-                        <li>Contribute to feeding programs</li>
-                        <li>Help with medical expenses</li>
-                    </ul>
+                    <h3>{{ content.financial_title|default:"Financial Support" }}</h3>
+                    <p>{{ content.financial_desc|default:"Monetary donations allow us to purchase specific items, maintain our center, and expand our services. Every contribution, big or small, makes a significant impact." }}</p>
                     <a href="{% url 'donate' %}" class="btn">Make a Donation</a>
                 </div>
             </div>
@@ -107,9 +90,8 @@
             </div>
         </div>
         <div class="feeding-form-content">
-            <h3>Register to Feed Elders</h3>
-            <p>Provide a meal for our elders and bring joy to their day. Select a meal type and schedule a time to
-                contribute.</p>
+            <h3>{{ content.feeding_title|default:"Register to Feed Elders" }}</h3>
+            <p>{{ content.feeding_intro|default:"Provide a meal for our elders and bring joy to their day. Select a meal type and schedule a time to contribute." }}</p>
 
             <!-- Display Django messages (success/errors from view) -->
             {% if messages %}
@@ -207,7 +189,7 @@
 </section>
 
 <section id="visit" class="action-section visit">
-    <h2 class="section-title">Visit Us</h2>
+    <h2 class="section-title">{{ content.visit_title|default:"Visit Us" }}</h2>
     <div class="gold-accent"></div>
     <div class="action-grid">
         <div class="action-card">
@@ -215,8 +197,7 @@
                 <i class="fas fa-map-marker-alt"></i>
             </div>
             <h3>Welcome!</h3>
-            <p>We warmly welcome visitors who want to learn more about our work, meet our team and the elders, and see
-                our center firsthand. Your visit brings joy and encouragement to everyone here.</p>
+            <p>{{ content.visit_intro|default:"We warmly welcome visitors who want to learn more about our work, meet our team and the elders, and see our center firsthand. Your visit brings joy and encouragement to everyone here." }}</p>
             <p><strong>Our Center:</strong></p>
             <div class="visit-details">
                 <div class="visit-location">
@@ -240,12 +221,12 @@
                 <div class="visit-hours">
                     <h4>Visiting Hours</h4>
                     <ul>
-                        <li><strong>Monday - Friday:</strong> 9:00 AM - 4:00 PM</li>
-                        <li><strong>Saturday:</strong> 10:00 AM - 2:00 PM</li>
-                        <li><strong>Sunday:</strong> Closed</li>
+                        {% for line in content.visit_hours|default:"Monday - Friday: 9:00 AM - 4:00 PM\nSaturday: 10:00 AM - 2:00 PM\nSunday: Closed"|splitlines %}
+                        {% if line %}<li>{{ line }}</li>{% endif %}
+                        {% endfor %}
                     </ul>
                     <p><em>Please call ahead to schedule a visit and ensure someone is available to greet you.</em></p>
-                    <p><i class="fas fa-phone"></i> +251 989707777</p>
+                    <p><i class="fas fa-phone"></i> {{ content.visit_phone|default:"+251 989707777" }}</p>
                 </div>
             </div>
             <a href="tel:+251911234567" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1.25rem; font-size:0.875rem; border-radius:50px; background: var(--primary-color, #1C651B); color:white; text-decoration:none; font-weight:600; width:fit-content;">
@@ -282,24 +263,20 @@
 </section> -->
 
 <section id="volunteer" class="action-section volunteer">
-    <h2 class="section-title">Volunteer</h2>
+    <h2 class="section-title">{{ content.volunteer_title|default:"Volunteer" }}</h2>
     <div class="gold-accent"></div>
     <div class="action-grid">
         <div class="action-card">
             <div class="action-icon">
                 <i class="fas fa-hands-helping"></i>
             </div>
-            <h3>Make a Difference</h3>
-            <p>Join our dedicated team of volunteers. Whether it's helping at our center, providing home-based care,
-                supporting our events, or offering your professional skills, your time and talents are invaluable.</p>
+            <h3>{{ content.volunteer_intro|default:"Make a Difference" }}</h3>
+            <p>Join our dedicated team of volunteers. Whether it's helping at our center, providing home-based care, supporting our events, or offering your professional skills, your time and talents are invaluable.</p>
             <p><strong>Volunteer Opportunities Include:</strong></p>
             <ul>
-                <li>Direct care and companionship for elders</li>
-                <li>Administrative and office support</li>
-                <li>Event planning and organization</li>
-                <li>Maintenance and handyman tasks</li>
-                <li>Fundraising activities</li>
-                <li>Professional skills (legal, medical, IT, etc.)</li>
+                {% for item in content.volunteer_opps|default:"Daily care and companionship\nAdministrative and office support\nEvent planning and organization\nMaintenance and handyman tasks\nFundraising activities\nProfessional skills (legal, medical, IT, etc.)"|splitlines %}
+                {% if item %}<li>{{ item }}</li>{% endif %}
+                {% endfor %}
             </ul>
             <a href="{% url 'volunteer' %}" class="btn">Volunteer Now</a>
         </div>

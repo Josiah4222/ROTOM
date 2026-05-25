@@ -56,6 +56,14 @@
     {% block extra_css %}{% endblock %}
     
     <style>
+        /* ── Language switching ───────────────────────────── */
+        .lang-am { display: none; }
+
+        html[data-lang="am"] .lang-en { display: none; }
+        html[data-lang="am"] .lang-am { display: inline; }
+
+        /* Block-level elements (p, div, h*) need block not inline */
+        html[data-lang="am"] .lang-am.lang-block { display: block; }
         /* Force remove any gaps at the top */
         html, body {
             margin: 0 !important;

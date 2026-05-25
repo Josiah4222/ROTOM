@@ -12,85 +12,93 @@
         </a>
     </div>
 
+    <div class="alert alert-info py-2 mb-4">
+        <i class="fas fa-language me-2"></i>
+        Fields marked <strong>🇪🇹 አማርኛ</strong> are Amharic translations — all optional.
+    </div>
+
     <div class="card">
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">{{ form.name.label }}</label>
+
+                <!-- Name & Image -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">{{ form.name.label }}</label>
                         {{ form.name }}
-                        {% if form.name.errors %}
-                        <div class="text-danger">{{ form.name.errors }}</div>
-                        {% endif %}
+                        {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">{{ form.role.label }}</label>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">{{ form.image.label }}</label>
+                        {{ form.image }}
+                        {% if champion.image %}
+                        <img src="{{ champion.image.url }}" class="img-thumbnail mt-2" style="max-height: 100px;">
+                        {% endif %}
+                        {% if form.image.errors %}<div class="text-danger">{{ form.image.errors }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <!-- Role -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Role <span class="text-muted fw-normal">(English)</span></label>
                         {{ form.role }}
-                        {% if form.role.errors %}
-                        <div class="text-danger">{{ form.role.errors }}</div>
-                        {% endif %}
+                        {% if form.role.errors %}<div class="text-danger">{{ form.role.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Role</label>
+                        {{ form.role_am }}
+                        {% if form.role_am.errors %}<div class="text-danger">{{ form.role_am.errors }}</div>{% endif %}
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">{{ form.quote.label }}</label>
-                    {{ form.quote }}
-                    {% if form.quote.errors %}
-                    <div class="text-danger">{{ form.quote.errors }}</div>
-                    {% endif %}
+                <!-- Quote -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Quote / Story <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.quote }}
+                        {% if form.quote.errors %}<div class="text-danger">{{ form.quote.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Quote / Story</label>
+                        {{ form.quote_am }}
+                        {% if form.quote_am.errors %}<div class="text-danger">{{ form.quote_am.errors }}</div>{% endif %}
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">{{ form.image.label }}</label>
-                    {{ form.image }}
-                    {% if champion.image %}
-                    <img src="{{ champion.image.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
-                    {% endif %}
-                    {% if form.image.errors %}
-                    <div class="text-danger">{{ form.image.errors }}</div>
-                    {% endif %}
+                <!-- Achievement -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Achievement <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.achievement }}
+                        {% if form.achievement.errors %}<div class="text-danger">{{ form.achievement.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Achievement</label>
+                        {{ form.achievement_am }}
+                        {% if form.achievement_am.errors %}<div class="text-danger">{{ form.achievement_am.errors }}</div>{% endif %}
+                    </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                <!-- Years Supported & Settings -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
                         <label class="form-label">{{ form.years_supported.label }}</label>
                         {{ form.years_supported }}
-                        {% if form.years_supported.errors %}
-                        <div class="text-danger">{{ form.years_supported.errors }}</div>
-                        {% endif %}
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">{{ form.achievement.label }}</label>
-                        {{ form.achievement }}
-                        {% if form.achievement.errors %}
-                        <div class="text-danger">{{ form.achievement.errors }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3">
                         <label class="form-label">{{ form.order.label }}</label>
                         {{ form.order }}
-                        {% if form.order.errors %}
-                        <div class="text-danger">{{ form.order.errors }}</div>
-                        {% endif %}
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3">
                         <label class="form-label">{{ form.layout.label }}</label>
                         {{ form.layout }}
-                        {% if form.layout.errors %}
-                        <div class="text-danger">{{ form.layout.errors }}</div>
-                        {% endif %}
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="form-check mt-4">
+                    <div class="col-md-3 d-flex align-items-end pb-2">
+                        <div class="form-check">
                             {{ form.is_active }}
-                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
-                                {{ form.is_active.label }}
-                            </label>
+                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label>
                         </div>
                     </div>
                 </div>
@@ -99,7 +107,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-save"></i> Save Champion
                     </button>
-                    <a href="{% url 'dashboard:manage_champions' %}" class="btn btn-secondary">Cancel</a>
+                    <a href="{% url 'dashboard:manage_champions' %}" class="btn btn-secondary ms-2">Cancel</a>
                 </div>
             </form>
         </div>

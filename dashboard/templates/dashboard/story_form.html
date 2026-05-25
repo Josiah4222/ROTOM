@@ -12,159 +12,241 @@
         </a>
     </div>
 
+    <!-- Translation legend -->
+    <div class="alert alert-info py-2 mb-4">
+        <i class="fas fa-language me-2"></i>
+        Fields marked <strong>🇪🇹 አማርኛ</strong> are the Amharic translations — all optional.
+        If left empty, the English version will be shown to all visitors.
+    </div>
+
     <div class="card">
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                
-                <!-- Basic Information -->
-                <h4 class="mb-3">Basic Information</h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+
+                <!-- ── Basic Information ───────────────────────────── -->
+                <h5 class="section-heading mb-3">Basic Information</h5>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
                         <label class="form-label">{{ form.name.label }}</label>
                         {{ form.name }}
-                        {% if form.name.errors %}
-                        <div class="text-danger">{{ form.name.errors }}</div>
-                        {% endif %}
                         <small class="form-text text-muted">{{ form.name.help_text }}</small>
+                        {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">{{ form.tag.label }}</label>
+                </div>
+
+                <!-- Title -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Title <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.title }}
+                        {% if form.title.errors %}<div class="text-danger">{{ form.title.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Title</label>
+                        {{ form.title_am }}
+                        {% if form.title_am.errors %}<div class="text-danger">{{ form.title_am.errors }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <!-- Tag -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Tag <span class="text-muted fw-normal">(English)</span></label>
                         {{ form.tag }}
-                        {% if form.tag.errors %}
-                        <div class="text-danger">{{ form.tag.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">{{ form.tag.help_text }}</small>
+                        {% if form.tag.errors %}<div class="text-danger">{{ form.tag.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Tag</label>
+                        {{ form.tag_am }}
+                        {% if form.tag_am.errors %}<div class="text-danger">{{ form.tag_am.errors }}</div>{% endif %}
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">{{ form.title.label }}</label>
-                    {{ form.title }}
-                    {% if form.title.errors %}
-                    <div class="text-danger">{{ form.title.errors }}</div>
-                    {% endif %}
-                    <small class="form-text text-muted">{{ form.title.help_text }}</small>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">{{ form.date_info.label }}</label>
+                <!-- Date & Location -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Date Info <span class="text-muted fw-normal">(English)</span></label>
                         {{ form.date_info }}
-                        {% if form.date_info.errors %}
-                        <div class="text-danger">{{ form.date_info.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">{{ form.date_info.help_text }}</small>
+                        {% if form.date_info.errors %}<div class="text-danger">{{ form.date_info.errors }}</div>{% endif %}
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">{{ form.location_info.label }}</label>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Date Info</label>
+                        {{ form.date_info_am }}
+                        {% if form.date_info_am.errors %}<div class="text-danger">{{ form.date_info_am.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Location Info <span class="text-muted fw-normal">(English)</span></label>
                         {{ form.location_info }}
-                        {% if form.location_info.errors %}
-                        <div class="text-danger">{{ form.location_info.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">{{ form.location_info.help_text }}</small>
+                        {% if form.location_info.errors %}<div class="text-danger">{{ form.location_info.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Location Info</label>
+                        {{ form.location_info_am }}
+                        {% if form.location_info_am.errors %}<div class="text-danger">{{ form.location_info_am.errors }}</div>{% endif %}
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">{{ form.content.label }}</label>
-                    {{ form.content }}
-                    {% if form.content.errors %}
-                    <div class="text-danger">{{ form.content.errors }}</div>
-                    {% endif %}
-                    <small class="form-text text-muted">{{ form.content.help_text }}</small>
+                <!-- Content -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Content <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.content }}
+                        {% if form.content.errors %}<div class="text-danger">{{ form.content.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Content</label>
+                        {{ form.content_am }}
+                        {% if form.content_am.errors %}<div class="text-danger">{{ form.content_am.errors }}</div>{% endif %}
+                    </div>
                 </div>
 
                 <hr class="my-4">
 
-                <!-- Images -->
-                <h4 class="mb-3">Images</h4>
+                <!-- ── Images ─────────────────────────────────────── -->
+                <h5 class="section-heading mb-3">Images</h5>
                 <div class="row">
+
+                    <!-- Image 1 -->
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">{{ form.image_1.label }}</label>
+                        <label class="form-label fw-semibold">Image 1 (Before)</label>
                         {{ form.image_1 }}
                         {% if story.image_1 %}
-                        <img src="{{ story.image_1.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
+                        <img src="{{ story.image_1.url }}" class="img-thumbnail mt-2" style="max-height:120px;">
                         {% endif %}
-                        {% if form.image_1.errors %}
-                        <div class="text-danger">{{ form.image_1.errors }}</div>
-                        {% endif %}
-                        <input type="text" name="image_1_label" class="form-control mt-2" placeholder="Image 1 Label" value="{{ form.image_1_label.value|default:'Before' }}">
+                        {% if form.image_1.errors %}<div class="text-danger">{{ form.image_1.errors }}</div>{% endif %}
+                        <div class="row mt-2 g-1">
+                            <div class="col-6">
+                                <label class="form-label small text-muted mb-1">Label (EN)</label>
+                                {{ form.image_1_label }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small mb-1">🇪🇹 Label</label>
+                                {{ form.image_1_label_am }}
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Image 2 -->
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">{{ form.image_2.label }}</label>
+                        <label class="form-label fw-semibold">Image 2 (After)</label>
                         {{ form.image_2 }}
                         {% if story.image_2 %}
-                        <img src="{{ story.image_2.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
+                        <img src="{{ story.image_2.url }}" class="img-thumbnail mt-2" style="max-height:120px;">
                         {% endif %}
-                        {% if form.image_2.errors %}
-                        <div class="text-danger">{{ form.image_2.errors }}</div>
-                        {% endif %}
-                        <input type="text" name="image_2_label" class="form-control mt-2" placeholder="Image 2 Label" value="{{ form.image_2_label.value|default:'After' }}">
+                        {% if form.image_2.errors %}<div class="text-danger">{{ form.image_2.errors }}</div>{% endif %}
+                        <div class="row mt-2 g-1">
+                            <div class="col-6">
+                                <label class="form-label small text-muted mb-1">Label (EN)</label>
+                                {{ form.image_2_label }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small mb-1">🇪🇹 Label</label>
+                                {{ form.image_2_label_am }}
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Image 3 -->
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">{{ form.image_3.label }}</label>
+                        <label class="form-label fw-semibold">Image 3 (At Center)</label>
                         {{ form.image_3 }}
                         {% if story.image_3 %}
-                        <img src="{{ story.image_3.url }}" class="img-thumbnail mt-2" style="max-height: 150px;">
+                        <img src="{{ story.image_3.url }}" class="img-thumbnail mt-2" style="max-height:120px;">
                         {% endif %}
-                        {% if form.image_3.errors %}
-                        <div class="text-danger">{{ form.image_3.errors }}</div>
-                        {% endif %}
-                        <input type="text" name="image_3_label" class="form-control mt-2" placeholder="Image 3 Label" value="{{ form.image_3_label.value|default:'At Center' }}">
+                        {% if form.image_3.errors %}<div class="text-danger">{{ form.image_3.errors }}</div>{% endif %}
+                        <div class="row mt-2 g-1">
+                            <div class="col-6">
+                                <label class="form-label small text-muted mb-1">Label (EN)</label>
+                                {{ form.image_3_label }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small mb-1">🇪🇹 Label</label>
+                                {{ form.image_3_label_am }}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <hr class="my-4">
 
-                <!-- Statistics -->
-                <h4 class="mb-3">Statistics</h4>
+                <!-- ── Statistics ─────────────────────────────────── -->
+                <h5 class="section-heading mb-3">Statistics</h5>
                 <div class="row">
+
+                    <!-- Stat 1 -->
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">Statistic 1</label>
-                        <input type="text" name="stat_1_number" class="form-control mb-2" placeholder="Number" value="{{ form.stat_1_number.value }}">
-                        <input type="text" name="stat_1_text" class="form-control" placeholder="Text" value="{{ form.stat_1_text.value }}">
+                        <label class="form-label fw-semibold">Statistic 1</label>
+                        {{ form.stat_1_number }}
+                        <div class="row mt-2 g-1">
+                            <div class="col-6">
+                                <label class="form-label small text-muted mb-1">Text (EN)</label>
+                                {{ form.stat_1_text }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small mb-1">🇪🇹 Text</label>
+                                {{ form.stat_1_text_am }}
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Stat 2 -->
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">Statistic 2</label>
-                        <input type="text" name="stat_2_number" class="form-control mb-2" placeholder="Number" value="{{ form.stat_2_number.value }}">
-                        <input type="text" name="stat_2_text" class="form-control" placeholder="Text" value="{{ form.stat_2_text.value }}">
+                        <label class="form-label fw-semibold">Statistic 2</label>
+                        {{ form.stat_2_number }}
+                        <div class="row mt-2 g-1">
+                            <div class="col-6">
+                                <label class="form-label small text-muted mb-1">Text (EN)</label>
+                                {{ form.stat_2_text }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small mb-1">🇪🇹 Text</label>
+                                {{ form.stat_2_text_am }}
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Stat 3 -->
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">Statistic 3</label>
-                        <input type="text" name="stat_3_number" class="form-control mb-2" placeholder="Number" value="{{ form.stat_3_number.value }}">
-                        <input type="text" name="stat_3_text" class="form-control" placeholder="Text" value="{{ form.stat_3_text.value }}">
+                        <label class="form-label fw-semibold">Statistic 3</label>
+                        {{ form.stat_3_number }}
+                        <div class="row mt-2 g-1">
+                            <div class="col-6">
+                                <label class="form-label small text-muted mb-1">Text (EN)</label>
+                                {{ form.stat_3_text }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small mb-1">🇪🇹 Text</label>
+                                {{ form.stat_3_text_am }}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <hr class="my-4">
 
-                <!-- Display Settings -->
-                <h4 class="mb-3">Display Settings</h4>
+                <!-- ── Display Settings ───────────────────────────── -->
+                <h5 class="section-heading mb-3">Display Settings</h5>
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">{{ form.order.label }}</label>
                         {{ form.order }}
-                        {% if form.order.errors %}
-                        <div class="text-danger">{{ form.order.errors }}</div>
-                        {% endif %}
                         <small class="form-text text-muted">{{ form.order.help_text }}</small>
+                        {% if form.order.errors %}<div class="text-danger">{{ form.order.errors }}</div>{% endif %}
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label">{{ form.layout.label }}</label>
                         {{ form.layout }}
-                        {% if form.layout.errors %}
-                        <div class="text-danger">{{ form.layout.errors }}</div>
-                        {% endif %}
+                        {% if form.layout.errors %}<div class="text-danger">{{ form.layout.errors }}</div>{% endif %}
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="form-check mt-4">
+                    <div class="col-md-4 mb-3 d-flex align-items-end pb-2">
+                        <div class="form-check">
                             {{ form.published }}
                             <label class="form-check-label" for="{{ form.published.id_for_label }}">
                                 {{ form.published.label }}
                             </label>
                         </div>
-                        <small class="form-text text-muted">{{ form.published.help_text }}</small>
                     </div>
                 </div>
 
@@ -172,10 +254,22 @@
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-save"></i> Save Story
                     </button>
-                    <a href="{% url 'dashboard:manage_stories' %}" class="btn btn-secondary">Cancel</a>
+                    <a href="{% url 'dashboard:manage_stories' %}" class="btn btn-secondary ms-2">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<style>
+.section-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1C651B;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.4rem;
+}
+</style>
 {% endblock %}

@@ -1,24 +1,32 @@
 {% load static %}
+{% load image_tags %}
 
 <!-- Navbar -->
 <nav class="navbar" id="mainNavbar">
     <a href="{{ SCRIPT_NAME }}/" class="navbar-brand">
-        <img src="{% static 'images/logo.png' %}" alt="ROTOM Logo">
+        {% webp_picture 'images/logo.png' alt="ROTOM Logo" loading="eager" fetchpriority="high" %}
         <div class="brand-text">
-            <span class="brand-name">ROTOM Ethiopia</span>
-            <span class="brand-tagline">Older persons living dignified & fulfilled lives.</span>
+            <span class="brand-name">{{ navbar_content.brand_name|default:"ROTOM Ethiopia" }}</span>
+            <span class="brand-tagline">{{ navbar_content.brand_tagline|default:"Older persons living dignified & fulfilled lives." }}</span>
         </div>
     </a>
 
     <ul class="navbar-nav">
-        <li><a href="{{ SCRIPT_NAME }}/">HOME</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'ourstory' %}">ABOUT US</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'stories' %}">STORIES</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'blog' %}">BLOG</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'take_action' %}">TAKE ACTION</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'events' %}">EVENTS</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'donate' %}" class="donate-btn"><span>DONATE</span></a></li>
+        <li><a href="{{ SCRIPT_NAME }}/">{{ navbar_content.nav_home|default:"HOME" }}</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'ourstory' %}">{{ navbar_content.nav_about|default:"ABOUT US" }}</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'stories' %}">{{ navbar_content.nav_stories|default:"STORIES" }}</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'blog' %}">{{ navbar_content.nav_blog|default:"BLOG" }}</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'take_action' %}">{{ navbar_content.nav_takeaction|default:"TAKE ACTION" }}</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'events' %}">{{ navbar_content.nav_events|default:"EVENTS" }}</a></li>
+        <li><a href="{{ SCRIPT_NAME }}{% url 'donate' %}" class="donate-btn"><span>{{ navbar_content.nav_donate|default:"DONATE" }}</span></a></li>
     </ul>
+
+    <!-- Language Toggle -->
+    <button class="lang-toggle" id="langToggle" aria-label="Switch language" title="Switch language">
+        <span class="lang-option" data-lang="en">EN</span>
+        <span class="lang-slider"></span>
+        <span class="lang-option" data-lang="am">አማ</span>
+    </button>
 
     <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
         <svg class="menu-icon" viewBox="0 0 24 24">
@@ -97,5 +105,20 @@
                 document.body.style.overflow = '';
             });
         });
+
+        // Language toggle
+        const langToggle = document.getElementById('langToggle');
+        const savedLang = localStorage.getItem('rotom_lang') || 'en';
+        document.documentElement.setAttribute('data-lang', savedLang);
+        if (langToggle) {
+            langToggle.setAttribute('data-active', savedLang);
+            langToggle.addEventListener('click', () => {
+                const current = langToggle.getAttribute('data-active');
+                const next = current === 'en' ? 'am' : 'en';
+                langToggle.setAttribute('data-active', next);
+                document.documentElement.setAttribute('data-lang', next);
+                localStorage.setItem('rotom_lang', next);
+            });
+        }
     });
 </script>

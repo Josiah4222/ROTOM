@@ -18,15 +18,15 @@
 <section class="hero" style="position: relative;">
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E&quot;); background-repeat: repeat; z-index: 1; pointer-events: none;"></div>
     <div class="hero-content" style="position: relative; z-index: 2;">
-        <h1>Volunteer with Us</h1>
-        <p>Join our mission to support and care for seniors in Ethiopia</p>
+        <h1>{{ content.hero_title|default:"Volunteer with Us" }}</h1>
+        <p>{{ content.hero_subtitle|default:"Join our mission to support and care for seniors in Ethiopia" }}</p>
     </div>
 </section>
 
 <div class="main-content">
     <section class="section ethiopian-section-border">
         <div class="section-header">
-            <h2 style="color: #1C651B">Our Impact</h2>
+            <h2 style="color: #1C651B">{{ content.impact_title|default:"Our Impact" }}</h2>
             <div class="gold-accent"></div>
             <p>See how our volunteers make a difference in the lives of seniors</p>
         </div>
@@ -34,25 +34,25 @@
         <div class="impact-grid">
             <div class="impact-item">
                 <i class="fas fa-hands-helping"></i>
-                <h3>Daily Care</h3>
-                <p>Providing essential care and support to seniors in need</p>
+                <h3>{{ content.impact1_title|default:"Daily Care" }}</h3>
+                <p>{{ content.impact1_desc|default:"Providing essential care and support to seniors in need" }}</p>
             </div>
             <div class="impact-item">
                 <i class="fas fa-heart"></i>
-                <h3>Community Building</h3>
-                <p>Creating meaningful connections and fostering a sense of belonging</p>
+                <h3>{{ content.impact2_title|default:"Community Building" }}</h3>
+                <p>{{ content.impact2_desc|default:"Creating meaningful connections and fostering a sense of belonging" }}</p>
             </div>
             <div class="impact-item">
                 <i class="fas fa-users"></i>
-                <h3>Social Activities</h3>
-                <p>Organizing events and activities to keep seniors engaged</p>
+                <h3>{{ content.impact3_title|default:"Social Activities" }}</h3>
+                <p>{{ content.impact3_desc|default:"Organizing events and activities to keep seniors engaged" }}</p>
             </div>
         </div>
     </section>
 
     <section class="section ethiopian-section-border corner-motif">
         <div class="section-header">
-            <h2 style="color: #1C651B">Volunteer Gallery</h2>
+            <h2 style="color: #1C651B">{{ content.gallery_title|default:"Volunteer Gallery" }}</h2>
             <div class="gold-accent"></div>
             <p>Take a look at our volunteers in action</p>
         </div>
@@ -84,8 +84,8 @@
 
     <section class="section">
         <div class="section-header">
-            <h2 style="color: #1C651B">Join Our Team</h2>
-            <p>Fill out the form below to start your volunteer journey with us</p>
+            <h2 style="color: #1C651B">{{ content.join_title|default:"Join Our Team" }}</h2>
+            <p>{{ content.join_intro|default:"Fill out the form below to start your volunteer journey with us" }}</p>
         </div>
 
         <div class="form-container feeding-form-section">

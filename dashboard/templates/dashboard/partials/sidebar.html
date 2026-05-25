@@ -25,6 +25,11 @@
         <li class="nav-item">
             <a href="{% url 'dashboard:manage_partners' %}" class="nav-link {% if 'partner' in request.resolver_match.url_name %}active{% endif %}">Partners</a>
         </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:manage_site_content' %}" class="nav-link {% if 'site_content' in request.resolver_match.url_name or 'page_content' in request.resolver_match.url_name %}active{% endif %}">
+                <i class="fas fa-edit me-1"></i> Site Content
+            </a>
+        </li>
         <li class="nav-item mt-auto pt-3 border-top">
             <a href="/admin/" class="nav-link text-warning">Django Admin</a>
         </li>

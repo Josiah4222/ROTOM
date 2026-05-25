@@ -10,7 +10,7 @@ from django.core.mail import send_mass_mail
 from django.conf import settings
 from django.db import models
 
-from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber, BlogPost, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Testimonial
+from rotom.models import Contact, Event, FeedingRegistration, Payment, PreviousEvent, VolunteerProfile, Newsletter, Subscriber, BlogPost, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Testimonial, SiteContent
 from .forms import EventForm, PreviousEventForm, NewsletterForm  # Import the new form
 
 def custom_login(request):
@@ -991,3 +991,272 @@ def delete_testimonial(request, pk):
     testimonial.delete()
     messages.success(request, 'Testimonial deleted successfully!')
     return redirect('dashboard:manage_testimonials')
+
+
+# ─── Site Content (Static Text Editor) ───────────────────────────────────────
+
+# Default content definitions: (page, key, label, default_value)
+SITE_CONTENT_DEFAULTS = [
+    # ── Navbar ──────────────────────────────────────────────────────────────
+    ('navbar', 'brand_name',    'Brand Name',    'ROTOM Ethiopia'),
+    ('navbar', 'brand_tagline', 'Brand Tagline', 'Older persons living dignified & fulfilled lives.'),
+    ('navbar', 'nav_home',      'Nav: Home',     'HOME'),
+    ('navbar', 'nav_about',     'Nav: About Us', 'ABOUT US'),
+    ('navbar', 'nav_stories',   'Nav: Stories',  'STORIES'),
+    ('navbar', 'nav_blog',      'Nav: Blog',     'BLOG'),
+    ('navbar', 'nav_takeaction','Nav: Take Action','TAKE ACTION'),
+    ('navbar', 'nav_events',    'Nav: Events',   'EVENTS'),
+    ('navbar', 'nav_donate',    'Nav: Donate',   'DONATE'),
+
+    # ── Home Page ────────────────────────────────────────────────────────────
+    ('home', 'hero_title',           'Hero Title',           'ROTOM-Ethiopia'),
+    ('home', 'hero_subtitle',        'Hero Subtitle',        'Older persons and their dependents living dignified and fulfilling lives.'),
+    ('home', 'hero_btn_discover',    'Hero Button: Discover','Discover'),
+    ('home', 'hero_btn_learn',       'Hero Button: Learn More','Learn More'),
+    ('home', 'impact_title',         'Impact Section Title', 'Our Impact'),
+    ('home', 'impact_stat1_num',     'Impact Stat 1: Number','120+'),
+    ('home', 'impact_stat1_label',   'Impact Stat 1: Label', 'Elders Reached'),
+    ('home', 'impact_stat2_num',     'Impact Stat 2: Number','70+'),
+    ('home', 'impact_stat2_label',   'Impact Stat 2: Label', 'Grandchildren & Dependents'),
+    ('home', 'impact_stat3_num',     'Impact Stat 3: Number','30+'),
+    ('home', 'impact_stat3_label',   'Impact Stat 3: Label', 'Seniors in Center'),
+    ('home', 'impact_stat4_num',     'Impact Stat 4: Number','500+'),
+    ('home', 'impact_stat4_label',   'Impact Stat 4: Label', 'Volunteers'),
+    ('home', 'impact_stat5_num',     'Impact Stat 5: Number','200+'),
+    ('home', 'impact_stat5_label',   'Impact Stat 5: Label', 'Indirectly Supported'),
+    ('home', 'about_title',          'About Section Title',  'Our Story'),
+    ('home', 'about_para1',          'About Paragraph 1',    'Reach One Touch One Mission (ROTOM) Ethiopia began in 2017, born from a deep belief in the transformative power of compassion and good deeds. Founded by a dedicated volunteer with a heart for the forgotten, our organization was built to be a lifeline for those who need it most. ROTOM Ethiopia is a fully registered civil society organization (Certificate number 3764) operating out of our main office in Bishoftu, Ethiopia.'),
+    ('home', 'about_para2',          'About Paragraph 2',    'We provide holistic support to vulnerable older adults who have rendered Great Service to the Nation and their dependents, working tirelessly to elevate their dignity, improve their living conditions, and ensure they live out their years with the respect and care they deserve.'),
+    ('home', 'pillars_title',        'Pillars Section Title','Our Pillars of Care'),
+    ('home', 'pillars_intro',        'Pillars Intro Text',   'Our holistic, multigenerational care model relies on three essential pillars:'),
+    ('home', 'pillar1_title',        'Pillar 1 Title',       'Home-Based Care'),
+    ('home', 'pillar1_desc',         'Pillar 1 Description', 'We meet elders where they are, providing crucial access to medical care, safe housing, hygiene resources, monthly nutritional supplements, and livelihood support.'),
+    ('home', 'pillar2_title',        'Pillar 2 Title',       'Grandchildren Support'),
+    ('home', 'pillar2_desc',         'Pillar 2 Description', 'We invest in the future by delivering complete educational support to the grandchildren raised by our elderly beneficiaries.'),
+    ('home', 'pillar3_title',        'Pillar 3 Title',       'Center-Based Care'),
+    ('home', 'pillar3_desc',         'Pillar 3 Description', 'We provide a loving, fully-equipped residential haven for formerly homeless, abandoned, and severely ill older persons, restoring their health and dignity.'),
+    ('home', 'testimonials_title',   'Testimonials Section Title','What People Say'),
+    ('home', 'partners_title',       'Partners Section Title','Our Partners'),
+    ('home', 'partners_intro',       'Partners Intro Text',  'A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia\'s elders.'),
+    ('home', 'contact_title',        'Contact Section Title','Contact Us'),
+    ('home', 'contact_get_in_touch', 'Contact: Get in Touch Heading','Get in Touch'),
+    ('home', 'contact_email',        'Contact: Email',       'rotomethiopia@reachone-touchone.org'),
+    ('home', 'contact_phone',        'Contact: Phone',       '+251 989707777'),
+    ('home', 'contact_form_heading', 'Contact: Form Heading','Send Us a Message'),
+    ('home', 'contact_map_heading',  'Contact: Map Heading', 'Find Us'),
+    ('home', 'contact_map_desc',     'Contact: Map Description','Visit our center in the heart of Bishoftu'),
+    ('home', 'contact_address',      'Contact: Address',     'Ethiopia, Oromiya, Bishoftu Kebele 05'),
+
+    # ── About Us Page ────────────────────────────────────────────────────────
+    ('about', 'hero_title',          'Hero Title',           'About ROTOM Ethiopia'),
+    ('about', 'hero_description',    'Hero Description',     'Born from a deep belief in the transformative power of compassion and good deeds, we provide holistic support to vulnerable older adults who have rendered great service to the nation and their dependents, ensuring they live with dignity and respect.'),
+    ('about', 'vision_title',        'Vision Card Title',    'Our Vision'),
+    ('about', 'vision_text',         'Vision Card Text',     'A dignified & fulfilled life for older persons!'),
+    ('about', 'values_title',        'Values Card Title',    'Our Values'),
+    ('about', 'values_text',         'Values Card Text',     'We uphold Love Beyond Self, Honesty, Justice, Respect, Stewardship, Dignity, Teamwork, and Quality Service'),
+    ('about', 'approach_title',      'Approach Card Title',  'Our Approach'),
+    ('about', 'approach_text',       'Approach Card Text',   'A holistic, multi-generational model'),
+    ('about', 'milestones_title',    'Milestones Section Title','Our Milestones'),
+    ('about', 'milestones_subtitle', 'Milestones Subtitle',  'A timeline of growth and compassion'),
+    ('about', 'team_title',          'Team Section Title',   'Our Team'),
+    ('about', 'team_subtitle',       'Team Section Subtitle','The dedicated people behind our mission'),
+    ('about', 'team_photo1_caption', 'Team Photo 1 Caption', 'Our Dedicated Team'),
+    ('about', 'team_photo2_caption', 'Team Photo 2 Caption', 'Our Volunteers'),
+    ('about', 'staff_title',         'Staff Section Title',  'Meet Our Staff'),
+    ('about', 'staff_subtitle',      'Staff Section Subtitle','The passionate individuals driving our mission forward'),
+
+    # ── Center-Based Care Page ───────────────────────────────────────────────
+    ('centerbased', 'hero_title',    'Hero Title',           'Center-Based Senior Support'),
+    ('centerbased', 'hero_subtitle', 'Hero Subtitle',        'Providing Comprehensive Care in a Dedicated Space'),
+    ('centerbased', 'hero_btn',      'Hero Button',          'Discover Our Services'),
+    ('centerbased', 'services_title','Services Section Title','Our Services'),
+    ('centerbased', 'svc1_title',    'Service 1 Title',      '24/7 Care'),
+    ('centerbased', 'svc1_desc',     'Service 1 Description','Round-the-clock care for seniors to ensure their safety and comfort.'),
+    ('centerbased', 'svc2_title',    'Service 2 Title',      'Nutritious Meals'),
+    ('centerbased', 'svc2_desc',     'Service 2 Description','Three nutritious meals daily'),
+    ('centerbased', 'svc3_title',    'Service 3 Title',      'Cultural Coffee Ceremony'),
+    ('centerbased', 'svc3_desc',     'Service 3 Description','Serving coffee with a cultural ceremony during lunchtime.'),
+    ('centerbased', 'svc4_title',    'Service 4 Title',      'Hygiene Support'),
+    ('centerbased', 'svc4_desc',     'Service 4 Description','Bathing sessions and haircuts for all seniors.'),
+    ('centerbased', 'svc5_title',    'Service 5 Title',      'Medical Support'),
+    ('centerbased', 'svc5_desc',     'Service 5 Description','Medical checkup for all seniors in the center'),
+    ('centerbased', 'svc6_title',    'Service 6 Title',      'Burial Services'),
+    ('centerbased', 'svc6_desc',     'Service 6 Description','Dignified burial services for seniors who pass away.'),
+    ('centerbased', 'svc7_title',    'Service 7 Title',      'Cleanliness & Maintenance'),
+    ('centerbased', 'svc7_desc',     'Service 7 Description','Regular cleaning and maintenance of the center facilities.'),
+    ('centerbased', 'svc8_title',    'Service 8 Title',      'Live Stock & Gardening'),
+    ('centerbased', 'svc8_desc',     'Service 8 Description','Seniors participate in gardening and livestock activities.'),
+    ('centerbased', 'svc9_title',    'Service 9 Title',      'Craft Corner'),
+    ('centerbased', 'svc9_desc',     'Service 9 Description','Creative crafts and activities to keep seniors engaged.'),
+    ('centerbased', 'gallery_title', 'Gallery Section Title','Our Center with Photos'),
+
+    # ── Home-Based Care Page ─────────────────────────────────────────────────
+    ('homebased', 'hero_title',      'Hero Title',           'Home-Based Senior Support'),
+    ('homebased', 'hero_subtitle',   'Hero Subtitle',        'Creating a Caring and Supportive Home Environment for Our Seniors'),
+    ('homebased', 'scope_title',     'Scope Section Title',  'Our Scope'),
+    ('homebased', 'scope_intro',     'Scope Intro Text',     'ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of life for 80 older persons in our community:'),
+    ('homebased', 'svc1_title',      'Service 1 Title',      'Physical and Emotional Support'),
+    ('homebased', 'svc1_desc',       'Service 1 Description','Promoting emotional and social well-being through monthly meetings and supportive home visits.'),
+    ('homebased', 'svc2_title',      'Service 2 Title',      'Health Enhancement'),
+    ('homebased', 'svc2_desc',       'Service 2 Description','Offering medical services, annual health check-ups, monthly sanitation supplies, and educational resources to improve overall health.'),
+    ('homebased', 'svc3_title',      'Service 3 Title',      'Income and Food Security'),
+    ('homebased', 'svc3_desc',       'Service 3 Description','Providing monthly grocery support to ensure access to essential resources for older adults.'),
+    ('homebased', 'svc4_title',      'Service 4 Title',      'Educational Empowerment for Grandchildren'),
+    ('homebased', 'svc4_desc',       'Service 4 Description','Reducing the burden on older caregivers by supplying educational resources to empower the next generation.'),
+    ('homebased', 'svc5_title',      'Service 5 Title',      'Additional Support'),
+    ('homebased', 'svc5_desc',       'Service 5 Description','Facilitating home repairs, holiday packages and clothing'),
+    ('homebased', 'renovation_title','Renovation Section Title','House Rebuilding & Renovation'),
+    ('homebased', 'renovation_intro','Renovation Intro Text','We rebuild and renovate homes for our elderly beneficiaries, ensuring they have safe and comfortable living conditions.'),
+
+    # ── Champions / Grandchildren Page ──────────────────────────────────────
+    ('champions', 'hero_title',      'Hero Title',           'Educational Support for Grandchildren and Dependents'),
+    ('champions', 'hero_subtitle',   'Hero Subtitle',        'Empowering the Younger Generation Through Education and Mentorship'),
+    ('champions', 'stat1_num',       'Impact Stat 1: Number','45'),
+    ('champions', 'stat1_label',     'Impact Stat 1: Label', 'Graduates'),
+    ('champions', 'stat2_num',       'Impact Stat 2: Number','120'),
+    ('champions', 'stat2_label',     'Impact Stat 2: Label', 'Grandchildren Supported'),
+    ('champions', 'stat3_num',       'Impact Stat 3: Number','15'),
+    ('champions', 'stat3_label',     'Impact Stat 3: Label', 'University Students'),
+    ('champions', 'stat4_num',       'Impact Stat 4: Number','28'),
+    ('champions', 'stat4_label',     'Impact Stat 4: Label', 'Employed Graduates'),
+    ('champions', 'initiatives_title','Initiatives Section Title','Our Initiatives'),
+    ('champions', 'initiatives_intro','Initiatives Intro Text','We run several programs to support the educational journey of grandchildren in our care.'),
+    ('champions', 'init1_title',     'Initiative 1 Title',   'School Supplies'),
+    ('champions', 'init1_desc',      'Initiative 1 Description','Providing notebooks, pens, uniforms, and other essential school materials.'),
+    ('champions', 'init2_title',     'Initiative 2 Title',   'Tuition Support'),
+    ('champions', 'init2_desc',      'Initiative 2 Description','Covering school fees and tuition costs for enrolled students.'),
+    ('champions', 'init3_title',     'Initiative 3 Title',   'Mentorship Program'),
+    ('champions', 'init3_desc',      'Initiative 3 Description','Connecting students with mentors who guide their academic and personal development.'),
+    ('champions', 'init4_title',     'Initiative 4 Title',   'University Scholarships'),
+    ('champions', 'init4_desc',      'Initiative 4 Description','Supporting outstanding students to pursue higher education at university level.'),
+    ('champions', 'gallery_title',   'Gallery Section Title','Gallery'),
+    ('champions', 'gallery_intro',   'Gallery Intro Text',   'Explore moments from our educational programs and the lives of our champions.'),
+
+    # ── Stories Page ─────────────────────────────────────────────────────────
+    ('stories', 'hero_title',        'Hero Title',           'Transformation Stories'),
+    ('stories', 'hero_subtitle',     'Hero Subtitle',        'Witness the incredible journeys of our seniors - from struggle to hope, from isolation to community.'),
+    ('stories', 'intro_title',       'Intro Section Title',  'Lives Changed Through Love'),
+    ('stories', 'intro_subtitle',    'Intro Section Subtitle','Every elder who comes to ROTOM has a unique story. Here are just a few of the remarkable transformations we\'ve witnessed through the power of care, community, and compassion.'),
+    ('stories', 'cta_title',         'CTA Section Title',    'Help Us Write More Success Stories'),
+    ('stories', 'cta_subtitle',      'CTA Section Subtitle', 'Your support can transform the life of an elder in need.'),
+    ('stories', 'cta_btn_donate',    'CTA Button: Donate',   'Donate Now'),
+    ('stories', 'cta_btn_volunteer', 'CTA Button: Volunteer','Volunteer'),
+
+    # ── Take Action Page ─────────────────────────────────────────────────────
+    ('takeaction', 'hero_title',     'Hero Title',           'Take Action'),
+    ('takeaction', 'hero_subtitle',  'Hero Subtitle',        'Your involvement makes a real difference in the lives of older persons and their dependents. Discover how you can contribute.'),
+    ('takeaction', 'give_title',     'Give Section Title',   'Give'),
+    ('takeaction', 'give_intro',     'Give Section Intro',   'Your generous contributions help us provide essential support to elders and their families. Every donation, whether items or financial support, makes a meaningful difference in their lives.'),
+    ('takeaction', 'donate_items_title','Donate Items Card Title','Donate Items'),
+    ('takeaction', 'donate_items_desc','Donate Items Description','Your generous donations help support our programs and the elders in our care. We are currently accepting:'),
+    ('takeaction', 'donate_items_list','Donate Items List (one per line)','Non-perishable food items\nClothing for elders (clean and gently used)\nAdult diapers\nSanitary materials\nOffice supplies (paper, pens, notebooks)\nOther essentials as needed'),
+    ('takeaction', 'financial_title','Financial Support Card Title','Financial Support'),
+    ('takeaction', 'financial_desc', 'Financial Support Description','Your monetary donations directly fund our programs and help us reach more elders in need.'),
+    ('takeaction', 'feeding_title',  'Feeding Section Title','Register to Feed Elders'),
+    ('takeaction', 'feeding_intro',  'Feeding Section Intro','Join our feeding program and help provide nutritious meals to seniors in our care.'),
+    ('takeaction', 'visit_title',    'Visit Section Title',  'Visit Us'),
+    ('takeaction', 'visit_intro',    'Visit Section Intro',  'We warmly welcome visitors to our center. Come and see the work we do and meet the seniors we serve.'),
+    ('takeaction', 'visit_hours',    'Visiting Hours',       'Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 10:00 AM - 3:00 PM'),
+    ('takeaction', 'visit_phone',    'Visit Section Phone',  '+251 989707777'),
+    ('takeaction', 'volunteer_title','Volunteer Section Title','Make a Difference'),
+    ('takeaction', 'volunteer_intro','Volunteer Section Intro','Join our team of dedicated volunteers and help make a real difference in the lives of our seniors.'),
+    ('takeaction', 'volunteer_opps', 'Volunteer Opportunities (one per line)','Daily care and companionship\nMedical and health support\nEducational tutoring for grandchildren\nEvent organization and coordination\nFundraising and awareness campaigns\nSkills training and workshops'),
+
+    # ── Volunteer Page ───────────────────────────────────────────────────────
+    ('volunteer', 'hero_title',      'Hero Title',           'Volunteer with Us'),
+    ('volunteer', 'hero_subtitle',   'Hero Subtitle',        'Join our mission to support and care for seniors in Ethiopia'),
+    ('volunteer', 'impact_title',    'Impact Section Title', 'Our Impact'),
+    ('volunteer', 'impact1_title',   'Impact Item 1 Title',  'Daily Care'),
+    ('volunteer', 'impact1_desc',    'Impact Item 1 Description','Providing essential care and support to seniors in need'),
+    ('volunteer', 'impact2_title',   'Impact Item 2 Title',  'Community Building'),
+    ('volunteer', 'impact2_desc',    'Impact Item 2 Description','Creating meaningful connections and fostering a sense of belonging'),
+    ('volunteer', 'impact3_title',   'Impact Item 3 Title',  'Social Activities'),
+    ('volunteer', 'impact3_desc',    'Impact Item 3 Description','Organizing events and activities to keep seniors engaged'),
+    ('volunteer', 'gallery_title',   'Gallery Section Title','Volunteer Gallery'),
+    ('volunteer', 'join_title',      'Join Section Title',   'Join Our Team'),
+    ('volunteer', 'join_intro',      'Join Section Intro',   'Fill out the form below to start your volunteer journey with us'),
+]
+
+
+def _get_content_map(page):
+    """Return a dict of {key: value} and {key_am: value_am} for a given page, with defaults filled in."""
+    db_items = {obj.key: obj for obj in SiteContent.objects.filter(page=page)}
+    result = {}
+    for (p, key, label, default) in SITE_CONTENT_DEFAULTS:
+        if p == page:
+            obj = db_items.get(key)
+            result[key] = obj.value if obj else default
+            result[key + '_am'] = obj.value_am if obj else ''
+    return result
+
+
+@staff_member_required(login_url='dashboard:login')
+def manage_site_content(request):
+    """Overview page listing all pages with their content counts."""
+    pages = {}
+    for (page, key, label, default) in SITE_CONTENT_DEFAULTS:
+        if page not in pages:
+            pages[page] = {'label': dict(SiteContent.PAGE_CHOICES).get(page, page), 'total': 0, 'saved': 0}
+        pages[page]['total'] += 1
+
+    saved_counts = (
+        SiteContent.objects.values('page')
+        .annotate(count=models.Count('id'))
+    )
+    for row in saved_counts:
+        if row['page'] in pages:
+            pages[row['page']]['saved'] = row['count']
+
+    return render(request, 'dashboard/manage_site_content.html', {'pages': pages})
+
+
+@staff_member_required(login_url='dashboard:login')
+def edit_page_content(request, page_slug):
+    """Edit all content fields for a specific page (English + Amharic)."""
+    page_choices_dict = dict(SiteContent.PAGE_CHOICES)
+    if page_slug not in page_choices_dict:
+        messages.error(request, 'Invalid page.')
+        return redirect('dashboard:manage_site_content')
+
+    page_label = page_choices_dict[page_slug]
+    fields = [(key, label, default) for (p, key, label, default) in SITE_CONTENT_DEFAULTS if p == page_slug]
+
+    # Load existing saved values
+    existing = {obj.key: obj for obj in SiteContent.objects.filter(page=page_slug)}
+
+    if request.method == 'POST':
+        for (key, label, default) in fields:
+            value = request.POST.get(key, '')
+            value_am = request.POST.get(key + '_am', '')
+            if key in existing:
+                existing[key].value = value
+                existing[key].value_am = value_am
+                existing[key].save()
+            else:
+                SiteContent.objects.create(
+                    page=page_slug, key=key, label=label,
+                    value=value, value_am=value_am
+                )
+        messages.success(request, f'{page_label} content updated successfully!')
+        return redirect('dashboard:edit_page_content', page_slug=page_slug)
+
+    # Build form data with current values (db or default)
+    form_fields = []
+    for (key, label, default) in fields:
+        obj = existing.get(key)
+        current_value = obj.value if obj is not None else default
+        current_value_am = obj.value_am if obj is not None else ''
+        is_long = len(default) > 80 or '\n' in default
+        form_fields.append({
+            'key': key,
+            'label': label,
+            'value': current_value,
+            'value_am': current_value_am,
+            'is_long': is_long,
+        })
+
+    return render(request, 'dashboard/edit_page_content.html', {
+        'page_slug': page_slug,
+        'page_label': page_label,
+        'form_fields': form_fields,
+    })

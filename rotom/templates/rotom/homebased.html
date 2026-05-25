@@ -1,5 +1,6 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
+{% load image_tags %}
 
 {% block title %}Home-Based Senior Support{% endblock %}
 
@@ -16,53 +17,46 @@
 {% include 'rotom/navbar.html' %}
 
 <section class="hero" style="position: relative; overflow: hidden;">
-    <picture>
-        <source srcset="{% static 'images/homehome-hero.webp' %}" type="image/webp">
-        <img src="{% static 'images/homehome-hero.jpg' %}" alt="" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-    </picture>
+    {% webp_picture 'images/homehome-hero.jpg' alt="" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" %}
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E&quot;); background-repeat: repeat; z-index: 1; pointer-events: none;"></div>
     <div class="hero-content" style="position: relative; z-index: 2;">
-        <h1>Home-Based Senior Support</h1>
-        <p>Creating a Caring and Supportive Home Environment for Our Seniors</p>
+        <h1>{{ content.hero_title|default:"Home-Based Senior Support" }}</h1>
+        <p>{{ content.hero_subtitle|default:"Creating a Caring and Supportive Home Environment for Our Seniors" }}</p>
     </div>
 </section>
 
 <div class="main-content ethiopian-bg">
     <section class="section ethiopian-section-border">
         <div class="section-header">
-            <h2>Our Scope</h2>
+            <h2>{{ content.scope_title|default:"Our Scope" }}</h2>
             <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
-            <p>ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of life
-                for 80 older persons in our community:</p>
+            <p>{{ content.scope_intro|default:"ROTOM Ethiopia provides a range of home-based support programs designed to enhance the quality of life for 80 older persons in our community:" }}</p>
         </div>
 
         <div class="services-grid">
             <div class="service-card">
-                <h3><i class="fas fa-heart"></i> Physical and Emotional support</h3>
-                <p>Promoting emotional and social well-being through monthly meetings and supportive home visits.</p>
+                <h3><i class="fas fa-heart"></i> {{ content.svc1_title|default:"Physical and Emotional Support" }}</h3>
+                <p>{{ content.svc1_desc|default:"Promoting emotional and social well-being through monthly meetings and supportive home visits." }}</p>
             </div>
             <div class="service-card">
-                <h3><i class="fas fa-heartbeat"></i> Health Enhancement</h3>
-                <p>Offering medical services, annual health check-ups, monthly sanitation supplies, and educational
-                    resources to improve overall health.</p>
+                <h3><i class="fas fa-heartbeat"></i> {{ content.svc2_title|default:"Health Enhancement" }}</h3>
+                <p>{{ content.svc2_desc|default:"Offering medical services, annual health check-ups, monthly sanitation supplies, and educational resources to improve overall health." }}</p>
             </div>
             <div class="service-card">
-                <h3><i class="fas fa-utensils"></i> Income and Food Security</h3>
-                <p>Providing monthly grocery support to ensure access to essential resources for older adults.</p>
+                <h3><i class="fas fa-utensils"></i> {{ content.svc3_title|default:"Income and Food Security" }}</h3>
+                <p>{{ content.svc3_desc|default:"Providing monthly grocery support to ensure access to essential resources for older adults." }}</p>
             </div>
             <div class="service-card">
-                <h3><i class="fas fa-book"></i> Educational Empowernment for grand children</h3>
-                <p>Reducing the burden on older caregivers by supplying educational resources to empower the next
-                    generation.</p>
+                <h3><i class="fas fa-book"></i> {{ content.svc4_title|default:"Educational Empowerment for Grandchildren" }}</h3>
+                <p>{{ content.svc4_desc|default:"Reducing the burden on older caregivers by supplying educational resources to empower the next generation." }}</p>
             </div>
             <div class="service-card">
-                <h3><i class="fas fa-home"></i> Additional Support</h3>
-                <p>Facilitating home repairs, holiday packages and clothing </p>
+                <h3><i class="fas fa-home"></i> {{ content.svc5_title|default:"Additional Support" }}</h3>
+                <p>{{ content.svc5_desc|default:"Facilitating home repairs, holiday packages and clothing" }}</p>
             </div>
             <div class="service-card">
                 <h3><i class="fas fa-monument"></i> Burial ceremony</h3>
-                <p>Providing a dignified burial ceremony based on the religion they follow, ensuring respectful final
-                    rites for our elders.</p>
+                <p>Providing a dignified burial ceremony based on the religion they follow, ensuring respectful final rites for our elders.</p>
             </div>
             <div class="service-card">
                 <h3><i class="fas fa-bullhorn"></i> Awareness Raising</h3>
@@ -73,10 +67,9 @@
 
     <section class="section ethiopian-section-border corner-motif">
         <div class="section-header Ren">
-            <h2>House Rebuiding & Renovation</h2>
+            <h2>{{ content.renovation_title|default:"House Rebuilding & Renovation" }}</h2>
             <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
-            <p style="color: #6b7280; max-width: 650px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.7;">Discover the impact of our home renovation program, improving living conditions for seniors through
-                thoughtful upgrades and repairs.</p>
+            <p style="color: #6b7280; max-width: 650px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.7;">{{ content.renovation_intro|default:"Discover the impact of our home renovation program, improving living conditions for seniors through thoughtful upgrades and repairs." }}</p>
         </div>
 
         {% if renovations %}
@@ -85,12 +78,12 @@
             <div class="renovation-card">
                 <div class="renovation-images">
                     <div class="reno-img-wrap" onclick="openRenoLightbox('{{ r.before_image.url }}')">
-                        <img src="{{ r.before_image.url }}" alt="Before" loading="lazy">
+                        {% webp_picture r.before_image.url alt="Before" loading="lazy" %}
                         <span class="reno-label before">Before</span>
                     </div>
                     <div class="reno-divider"><i class="fas fa-arrow-right"></i></div>
                     <div class="reno-img-wrap" onclick="openRenoLightbox('{{ r.after_image.url }}')">
-                        <img src="{{ r.after_image.url }}" alt="After" loading="lazy">
+                        {% webp_picture r.after_image.url alt="After" loading="lazy" %}
                         <span class="reno-label after">After</span>
                     </div>
                 </div>

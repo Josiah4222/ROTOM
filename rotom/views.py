@@ -10,11 +10,16 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.http import JsonResponse
-from .models import Event, Payment, PreviousEvent, InterestCategory, Newsletter
+from .models import Event, Payment, PreviousEvent, InterestCategory, Newsletter, SiteContent
 from .forms import ContactForm, FeedingRegistrationForm, SubscriberForm, VolunteerProfileForm
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
+
+
+def _page_content(page):
+    """Return a dict of all SiteContent values for a page, keyed by content key."""
+    return {obj.key: obj.value for obj in SiteContent.objects.filter(page=page)}
 
 
 def rate_limit(key_prefix, limit=5, period=60):
@@ -44,6 +49,8 @@ def rate_limit(key_prefix, limit=5, period=60):
 def home(request):
     from rotom.models import Partner
     partners = Partner.objects.filter(is_active=True).order_by('order', 'name')
+    content = _page_content('home')
+    navbar_content = _page_content('navbar')
     
     if request.method == 'POST':
         logger.info(f"POST data: {request.POST}")
@@ -56,16 +63,18 @@ def home(request):
             return render(request, 'rotom/index.html', {
                 'form': ContactForm(),
                 'partners': partners,
+                'content': content,
+                'navbar_content': navbar_content,
                 'success_message': 'Thank you for your message! We will get back to you soon.'
             })
         else:
             logger.warning(f"Contact form errors: {form.errors}, POST data: {request.POST}")
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'success': False, 'errors': form.errors}, status=400)
-            return render(request, 'rotom/index.html', {'form': form, 'partners': partners})
+            return render(request, 'rotom/index.html', {'form': form, 'partners': partners, 'content': content, 'navbar_content': navbar_content})
     else:
         form = ContactForm()
-    return render(request, 'rotom/index.html', {'form': form, 'partners': partners})
+    return render(request, 'rotom/index.html', {'form': form, 'partners': partners, 'content': content, 'navbar_content': navbar_content})
 
 def subscribe(request):
     if request.method == 'POST':
@@ -106,20 +115,28 @@ def achievements(request):
 def centerbased(request):
     from rotom.models import CenterPhoto
     center_photos = CenterPhoto.objects.filter(is_active=True).order_by('order', 'title')
-    return render(request, 'rotom/centerbased.html', {'center_photos': center_photos})
+    content = _page_content('centerbased')
+    navbar_content = _page_content('navbar')
+    return render(request, 'rotom/centerbased.html', {'center_photos': center_photos, 'content': content, 'navbar_content': navbar_content})
 
 def homebased(request):
     from .models import HouseRenovation
     renovations = HouseRenovation.objects.all()
-    return render(request, 'rotom/homebased.html', {'renovations': renovations})
+    content = _page_content('homebased')
+    navbar_content = _page_content('navbar')
+    return render(request, 'rotom/homebased.html', {'renovations': renovations, 'content': content, 'navbar_content': navbar_content})
 
 def ourstory(request):
     from rotom.models import Milestone, TeamMember
     milestones = Milestone.objects.filter(is_active=True).order_by('order', 'year')
     team_members = TeamMember.objects.filter(is_active=True).order_by('order', 'name')
+    content = _page_content('about')
+    navbar_content = _page_content('navbar')
     return render(request, 'rotom/ourstory.html', {
         'milestones': milestones,
-        'team_members': team_members
+        'team_members': team_members,
+        'content': content,
+        'navbar_content': navbar_content,
     })
 
 def ourplan(request):
@@ -142,9 +159,13 @@ def volunteer(request):
         form = VolunteerProfileForm()
     
     all_interest_options = InterestCategory.objects.all()
+    content = _page_content('volunteer')
+    navbar_content = _page_content('navbar')
     return render(request, 'rotom/volunteer.html', {
         'form': form, 
-        'all_interest_options': all_interest_options
+        'all_interest_options': all_interest_options,
+        'content': content,
+        'navbar_content': navbar_content,
     })
 def events_view(request):
     now = timezone.now()
@@ -336,9 +357,12 @@ def take_action(request):
     else:
         form = FeedingRegistrationForm()
     
+    content = _page_content('takeaction')
+    navbar_content = _page_content('navbar')
     context = {
         'form': form,
-        # Add any other context vars for the full page
+        'content': content,
+        'navbar_content': navbar_content,
     }
     return render(request, 'rotom/take_action.html', context)
 
@@ -406,16 +430,22 @@ def champions(request):
     from rotom.models import Champion, GalleryImage
     champions = Champion.objects.filter(is_active=True).order_by('order', '-created_at')
     gallery_images = GalleryImage.objects.filter(is_active=True).order_by('order', '-created_at')
+    content = _page_content('champions')
+    navbar_content = _page_content('navbar')
     context = {
         'champions': champions,
-        'gallery_images': gallery_images
+        'gallery_images': gallery_images,
+        'content': content,
+        'navbar_content': navbar_content,
     }
     return render(request, 'rotom/champions.html', context)
 
 def stories(request):
     from rotom.models import Story
     stories = Story.objects.filter(published=True).order_by('order', '-created_at')
-    return render(request, 'rotom/stories.html', {'stories': stories})
+    content = _page_content('stories')
+    navbar_content = _page_content('navbar')
+    return render(request, 'rotom/stories.html', {'stories': stories, 'content': content, 'navbar_content': navbar_content})
 
 def blog(request):
     from .models import BlogPost

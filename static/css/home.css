@@ -43,26 +43,20 @@ body {
 
 /* Elegant Divider */
 .elegant-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 1.5rem 0 2rem;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    margin: 1rem auto 2rem;
 }
 
 .elegant-divider::before,
 .elegant-divider::after {
-    content: '';
-    height: 1px;
-    width: 80px;
-    background: linear-gradient(90deg, transparent, rgba(28, 101, 27, 0.3), transparent);
+    display: none;
 }
 
 .elegant-divider .diamond {
-    width: 8px;
-    height: 8px;
-    background: var(--accent-color);
-    transform: rotate(45deg);
+    display: none;
 }
 
 /* General Utilities */

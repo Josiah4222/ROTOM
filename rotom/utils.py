@@ -7,18 +7,9 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
 
 
-def compress_image(image_field, max_width=1920, max_height=1080, quality=85):
+def compress_image(image_field, max_width=1920, max_height=1080, quality=80):
     """
-    Compress and resize uploaded images automatically.
-    
-    Args:
-        image_field: Django ImageField
-        max_width: Maximum width in pixels (default: 1920)
-        max_height: Maximum height in pixels (default: 1080)
-        quality: JPEG quality 1-100 (default: 85)
-    
-    Returns:
-        Compressed image file
+    Compress and resize uploaded images automatically, converting to WebP for best performance.
     """
     if not image_field:
         return image_field
@@ -27,15 +18,12 @@ def compress_image(image_field, max_width=1920, max_height=1080, quality=85):
         # Open the image
         img = Image.open(image_field)
         
-        # Convert RGBA to RGB if necessary (for PNG with transparency)
+        # Handle transparency for WebP
         if img.mode in ('RGBA', 'LA', 'P'):
-            # Create a white background
-            background = Image.new('RGB', img.size, (255, 255, 255))
             if img.mode == 'P':
                 img = img.convert('RGBA')
-            background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
-            img = background
-        elif img.mode != 'RGB':
+            # Keep RGBA for WebP to preserve transparency
+        else:
             img = img.convert('RGB')
         
         # Get original dimensions
@@ -43,33 +31,27 @@ def compress_image(image_field, max_width=1920, max_height=1080, quality=85):
         
         # Calculate new dimensions while maintaining aspect ratio
         if width > max_width or height > max_height:
-            # Calculate scaling factor
-            width_ratio = max_width / width
-            height_ratio = max_height / height
-            ratio = min(width_ratio, height_ratio)
-            
+            ratio = min(max_width / width, max_height / height)
             new_width = int(width * ratio)
             new_height = int(height * ratio)
-            
-            # Resize image with high-quality resampling
             img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
         
-        # Save to BytesIO
+        # Save to BytesIO as WebP
         output = BytesIO()
-        img.save(output, format='JPEG', quality=quality, optimize=True)
+        img.save(output, format='WEBP', quality=quality, method=6)
         output.seek(0)
         
-        # Get original filename and change extension to .jpg
+        # Get original filename and change extension to .webp
         original_name = image_field.name
         name_without_ext = original_name.rsplit('.', 1)[0]
-        new_name = f"{name_without_ext}.jpg"
+        new_name = f"{name_without_ext}.webp"
         
         # Create new InMemoryUploadedFile
         compressed_image = InMemoryUploadedFile(
             output,
             'ImageField',
             new_name,
-            'image/jpeg',
+            'image/webp',
             sys.getsizeof(output),
             None
         )

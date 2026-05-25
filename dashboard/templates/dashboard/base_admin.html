@@ -568,6 +568,11 @@
                     <i class="fas fa-paper-plane"></i> Send Email
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{% url 'dashboard:manage_site_content' %}" class="nav-link {% if 'site_content' in request.resolver_match.url_name or 'page_content' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-edit"></i> Site Content
+                </a>
+            </li>
 
             <div class="nav-divider"></div>
 

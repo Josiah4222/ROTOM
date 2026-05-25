@@ -1,5 +1,7 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
+{% load image_tags %}
+{% load lang_tags %}
 
 {% block title %}Educational Support for Grandchildren and Dependents{% endblock %}
 
@@ -80,14 +82,11 @@
 {% include 'rotom/navbar.html' %}
 
 <section class="hero" style="position: relative; overflow: hidden;">
-    <picture>
-        <source srcset="{% static 'images/girls5-hero.webp' %}" type="image/webp">
-        <img src="{% static 'images/girls5-hero.jpg' %}" alt="" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-    </picture>
+    {% webp_picture 'images/girls5-hero.jpg' alt="" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" %}
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E&quot;); background-repeat: repeat; z-index: 1; pointer-events: none;"></div>
     <div class="hero-content" style="position: relative; z-index: 2;">
-        <h1>Educational Support for Grandchildren and Dependents</h1>
-        <p>Empowering the Younger Generation Through Education and Mentorship</p>
+        <h1>{{ content.hero_title|default:"Educational Support for Grandchildren and Dependents" }}</h1>
+        <p>{{ content.hero_subtitle|default:"Empowering the Younger Generation Through Education and Mentorship" }}</p>
     </div>
 </section>
 
@@ -105,8 +104,8 @@
             <div class="dashboard-icon">
                 <i class="fas fa-graduation-cap"></i>
             </div>
-            <div class="dashboard-number" data-target="45">45</div>
-            <div class="dashboard-label">Graduates</div>
+            <div class="dashboard-number" data-target="{{ content.stat1_num|default:'45' }}">{{ content.stat1_num|default:"45" }}</div>
+            <div class="dashboard-label">{{ content.stat1_label|default:"Graduates" }}</div>
             <div class="dashboard-description">Students who have successfully completed their education with our support
             </div>
         </div>
@@ -114,24 +113,24 @@
             <div class="dashboard-icon">
                 <i class="fas fa-users"></i>
             </div>
-            <div class="dashboard-number" data-target="120">120</div>
-            <div class="dashboard-label">Grandchildren Supported</div>
+            <div class="dashboard-number" data-target="{{ content.stat2_num|default:'120' }}">{{ content.stat2_num|default:"120" }}</div>
+            <div class="dashboard-label">{{ content.stat2_label|default:"Grandchildren Supported" }}</div>
             <div class="dashboard-description">Young people currently receiving educational and personal support</div>
         </div>
         <div class="dashboard-card">
             <div class="dashboard-icon">
                 <i class="fas fa-university"></i>
             </div>
-            <div class="dashboard-number" data-target="15">15</div>
-            <div class="dashboard-label">University Students</div>
+            <div class="dashboard-number" data-target="{{ content.stat3_num|default:'15' }}">{{ content.stat3_num|default:"15" }}</div>
+            <div class="dashboard-label">{{ content.stat3_label|default:"University Students" }}</div>
             <div class="dashboard-description">Students who have progressed to higher education</div>
         </div>
         <div class="dashboard-card">
             <div class="dashboard-icon">
                 <i class="fas fa-briefcase"></i>
             </div>
-            <div class="dashboard-number" data-target="28">28</div>
-            <div class="dashboard-label">Employed Graduates</div>
+            <div class="dashboard-number" data-target="{{ content.stat4_num|default:'28' }}">{{ content.stat4_num|default:"28" }}</div>
+            <div class="dashboard-label">{{ content.stat4_label|default:"Employed Graduates" }}</div>
             <div class="dashboard-description">Former students now contributing to the workforce</div>
         </div>
         <!-- <div class="dashboard-card">
@@ -147,7 +146,7 @@
 
     <section class="section ethiopian-section-border"></section>
     <div class="section-header">
-        <h2>Our Initiatives</h2>
+        <h2>{{ content.initiatives_title|default:"Our Initiatives" }}</h2>
         <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
         <p>ROTOM Ethiopia is dedicated to empowering grandchildren and girls through comprehensive educational
             support, fostering dignity, empowerment, and community:</p>
@@ -189,7 +188,7 @@
             <div class="story-card {% if champion.layout == 'reverse' %}reverse{% endif %}">
                 <div class="story-image">
                     {% if champion.image %}
-                    <img src="{{ champion.image.url }}" alt="{{ champion.name }}" loading="lazy">
+                    {% webp_picture champion.image.url alt=champion.name loading="lazy" %}
                     {% endif %}
                     <div class="story-badge">
                         <i class="fas fa-star"></i> Success Story
@@ -224,10 +223,9 @@
 
     <section class="section ethiopian-section-border corner-motif">
         <div class="section-header">
-            <h2>Gallery</h2>
+            <h2>{{ content.gallery_title|default:"Gallery" }}</h2>
             <div class="gold-accent" style="margin: 1rem 0 1.5rem;"></div>
-            <p>Explore moments from our educational programs, showcasing the joy, growth, and achievements of our
-                students.</p>
+            <p>{{ content.gallery_intro|default:"Explore moments from our educational programs, showcasing the joy, growth, and achievements of our students." }}</p>
         </div>
 
         <div class="gallery-grid">

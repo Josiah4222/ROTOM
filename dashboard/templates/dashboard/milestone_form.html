@@ -3,134 +3,96 @@
 {% block title %}{% if form.instance.pk %}Edit{% else %}Add{% endif %} Milestone{% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h1 class="page-title">{% if form.instance.pk %}Edit{% else %}Add New{% endif %} Milestone</h1>
-    <p class="page-subtitle">Manage timeline milestones for the Our Story page</p>
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title">{% if form.instance.pk %}Edit{% else %}Add New{% endif %} Milestone</h1>
+        <p class="page-subtitle">Manage timeline milestones for the Our Story page</p>
+    </div>
+    <a href="{% url 'dashboard:manage_milestones' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i> Back
+    </a>
 </div>
 
-<div class="row">
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            {{ form.non_field_errors }}
-                        </div>
+<div class="alert alert-info py-2 mb-4">
+    <i class="fas fa-language me-2"></i>
+    Fields marked <strong>🇪🇹 አማርኛ</strong> are Amharic translations — all optional.
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <!-- Year, Position, Image -->
+            <div class="row mb-3">
+                <div class="col-md-2">
+                    <label class="form-label">Year *</label>
+                    {{ form.year }}
+                    {% if form.year.errors %}<div class="text-danger small">{{ form.year.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Position *</label>
+                    {{ form.position }}
+                    {% if form.position.errors %}<div class="text-danger small">{{ form.position.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Image *</label>
+                    {{ form.image }}
+                    {% if form.instance.image %}
+                    <img src="{{ form.instance.image.url }}" style="max-width:120px; border-radius:6px; margin-top:6px;">
                     {% endif %}
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="{{ form.year.id_for_label }}" class="form-label">Year *</label>
-                            {{ form.year }}
-                            {% if form.year.errors %}
-                                <div class="text-danger small mt-1">{{ form.year.errors }}</div>
-                            {% endif %}
-                            <small class="form-text text-muted">e.g., 2017</small>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label for="{{ form.position.id_for_label }}" class="form-label">Position *</label>
-                            {{ form.position }}
-                            {% if form.position.errors %}
-                                <div class="text-danger small mt-1">{{ form.position.errors }}</div>
-                            {% endif %}
-                            <small class="form-text text-muted">Timeline position (alternates left/right)</small>
-                        </div>
+                    {% if form.image.errors %}<div class="text-danger small">{{ form.image.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-3 d-flex align-items-end gap-3 pb-1">
+                    <div>
+                        <label class="form-label">Order</label>
+                        {{ form.order }}
                     </div>
-
-                    <div class="mb-3">
-                        <label for="{{ form.title.id_for_label }}" class="form-label">Title *</label>
-                        {{ form.title }}
-                        {% if form.title.errors %}
-                            <div class="text-danger small mt-1">{{ form.title.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">Main heading for the milestone</small>
+                    <div class="form-check mt-4">
+                        {{ form.is_active }}
+                        <label class="form-check-label" for="{{ form.is_active.id_for_label }}">Active</label>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="{{ form.description.id_for_label }}" class="form-label">Description *</label>
-                        {{ form.description }}
-                        {% if form.description.errors %}
-                            <div class="text-danger small mt-1">{{ form.description.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">Detailed description of the milestone</small>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="{{ form.image.id_for_label }}" class="form-label">Image *</label>
-                        {{ form.image }}
-                        {% if form.image.errors %}
-                            <div class="text-danger small mt-1">{{ form.image.errors }}</div>
-                        {% endif %}
-                        {% if form.instance.image %}
-                            <div class="mt-2">
-                                <p class="small text-muted">Current image:</p>
-                                {% if form.instance.image.name|slice:":7" == "images/" %}
-                                    {% load static %}
-                                    <img src="{{ form.instance.image.url }}" alt="{{ form.instance.title }}" style="max-width: 200px; border-radius: 8px;">
-                                {% else %}
-                                    <img src="{{ form.instance.image.url }}" alt="{{ form.instance.title }}" style="max-width: 200px; border-radius: 8px;">
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="{{ form.order.id_for_label }}" class="form-label">Display Order</label>
-                            {{ form.order }}
-                            {% if form.order.errors %}
-                                <div class="text-danger small mt-1">{{ form.order.errors }}</div>
-                            {% endif %}
-                            <small class="form-text text-muted">Lower numbers appear first</small>
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Status</label>
-                            <div class="form-check">
-                                {{ form.is_active }}
-                                <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
-                                    Active (visible on website)
-                                </label>
-                            </div>
-                            {% if form.is_active.errors %}
-                                <div class="text-danger small mt-1">{{ form.is_active.errors }}</div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Save Milestone
-                        </button>
-                        <a href="{% url 'dashboard:manage_milestones' %}" class="btn btn-outline-secondary">
-                            <i class="fas fa-times"></i> Cancel
-                        </a>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <i class="fas fa-info-circle"></i> Tips
+            <!-- Title -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Title <span class="text-muted fw-normal">(English)</span> *</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}<div class="text-danger small">{{ form.title.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">🇪🇹 አማርኛ — Title</label>
+                    {{ form.title_am }}
+                    {% if form.title_am.errors %}<div class="text-danger small">{{ form.title_am.errors }}</div>{% endif %}
+                </div>
             </div>
-            <div class="card-body">
-                <ul class="small mb-0">
-                    <li>Year should be a 4-digit year (e.g., 2017)</li>
-                    <li>Position alternates left/right on the timeline</li>
-                    <li>Use high-quality images for best results</li>
-                    <li>Recommended image size: 800x600px or larger</li>
-                    <li>Use the order field to control display sequence</li>
-                    <li>Inactive milestones won't appear on the website</li>
-                </ul>
+
+            <!-- Description -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Description <span class="text-muted fw-normal">(English)</span> *</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}<div class="text-danger small">{{ form.description.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">🇪🇹 አማርኛ — Description</label>
+                    {{ form.description_am }}
+                    {% if form.description_am.errors %}<div class="text-danger small">{{ form.description_am.errors }}</div>{% endif %}
+                </div>
             </div>
-        </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Milestone
+                </button>
+                <a href="{% url 'dashboard:manage_milestones' %}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

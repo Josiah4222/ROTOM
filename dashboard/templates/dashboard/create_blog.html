@@ -6,52 +6,82 @@
 <div class="page-header d-flex justify-content-between align-items-center">
     <div>
         <h1 class="page-title">{% if post %}Edit Post{% else %}New Blog Post{% endif %}</h1>
-        <p class="page-subtitle">{% if post %}Update your blog post{% else %}Create a new blog post for the public blog page{% endif %}</p>
+        <p class="page-subtitle">{% if post %}Update your blog post{% else %}Create a new blog post{% endif %}</p>
     </div>
     <a href="{% url 'dashboard:manage_blog' %}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left me-1"></i> Back
     </a>
 </div>
 
-<div class="card" style="max-width: 800px;">
+<div class="alert alert-info py-2 mb-4">
+    <i class="fas fa-language me-2"></i>
+    Fields marked <strong>🇪🇹 አማርኛ</strong> are Amharic translations — all optional.
+</div>
+
+<div class="card" style="max-width: 960px;">
     <div class="card-body">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">{{ form.title.label }}</label>
-                {{ form.title }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">{{ form.summary.label }}</label>
-                {{ form.summary }}
-                <small class="text-muted">This appears as a preview on the blog page</small>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">{{ form.content.label }}</label>
-                {{ form.content }}
-                <small class="text-muted">Write naturally - press Enter twice for new paragraphs. No HTML needed.</small>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">{{ form.image.label }}</label>
-                {{ form.image }}
-                {% if post.image %}
-                <div class="mt-2">
-                    <img src="{{ post.image.url }}" alt="Current image" style="height: 80px; border-radius: 6px;">
-                    <small class="text-muted ms-2">Current image</small>
+            <!-- Title -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Title <span class="text-muted fw-normal">(English)</span></label>
+                    {{ form.title }}
                 </div>
-                {% endif %}
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">🇪🇹 አማርኛ — Title</label>
+                    {{ form.title_am }}
+                </div>
             </div>
 
-            <div class="mb-4">
-                <div class="form-check">
-                    {{ form.published }}
-                    <label class="form-check-label fw-semibold ms-2">{{ form.published.label }}</label>
+            <!-- Summary -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Short Description <span class="text-muted fw-normal">(English)</span></label>
+                    {{ form.summary }}
+                    <small class="text-muted">Preview shown on the blog page</small>
                 </div>
-                <small class="text-muted">Uncheck to save as draft (won't appear on blog page)</small>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">🇪🇹 አማርኛ — Short Description</label>
+                    {{ form.summary_am }}
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Content <span class="text-muted fw-normal">(English)</span></label>
+                    {{ form.content }}
+                    <small class="text-muted">Press Enter twice for new paragraphs. No HTML needed.</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">🇪🇹 አማርኛ — Content</label>
+                    {{ form.content_am }}
+                </div>
+            </div>
+
+            <!-- Image & Publish -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">{{ form.image.label }}</label>
+                    {{ form.image }}
+                    {% if post.image %}
+                    <div class="mt-2">
+                        <img src="{{ post.image.url }}" alt="Current image" style="height: 80px; border-radius: 6px;">
+                        <small class="text-muted ms-2">Current image</small>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 d-flex align-items-end pb-1">
+                    <div>
+                        <div class="form-check">
+                            {{ form.published }}
+                            <label class="form-check-label fw-semibold ms-2">{{ form.published.label }}</label>
+                        </div>
+                        <small class="text-muted">Uncheck to save as draft</small>
+                    </div>
+                </div>
             </div>
 
             <div class="d-flex gap-2">

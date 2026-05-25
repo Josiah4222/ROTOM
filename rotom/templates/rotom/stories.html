@@ -1,6 +1,8 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
+{% load image_tags %}
 {% load story_filters %}
+{% load lang_tags %}
 
 {% block title %}Transformation Stories - ROTOM Ethiopia{% endblock %}
 
@@ -18,26 +20,22 @@
 
 <!-- Hero Section -->
 <section class="hero" style="position: relative; overflow: hidden;">
-    <picture>
-        <source srcset="{% static 'images/stories-hero.webp' %}" type="image/webp">
-        <img src="{% static 'images/stories-hero.jpg' %}" alt="" fetchpriority="high" class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-    </picture>
+    {% webp_picture 'images/stories-hero.jpg' alt="" fetchpriority="high" img_class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" %}
     <!-- Green Overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28, 101, 27, 0.75); z-index: 0;"></div>
     <!-- Pattern Overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E&quot;); background-repeat: repeat; z-index: 1; pointer-events: none;"></div>
     <div class="hero-content" style="position: relative; z-index: 2;">
-        <h1>Transformation Stories</h1>
-        <p>Witness the incredible journeys of our seniors - from struggle to hope, from isolation to community.</p>
+        <h1>{{ content.hero_title|default:"Transformation Stories" }}</h1>
+        <p>{{ content.hero_subtitle|default:"Witness the incredible journeys of our seniors - from struggle to hope, from isolation to community." }}</p>
     </div>
 </section>
 
 <!-- Intro Section -->
 <section class="intro-section">
-    <h2 class="section-title">Lives Changed Through Love</h2>
+    <h2 class="section-title">{{ content.intro_title|default:"Lives Changed Through Love" }}</h2>
     <div class="gold-accent"></div>
-    <p class="section-subtitle">Every elder who comes to ROTOM has a unique story. Here are just a few of the remarkable
-        transformations we've witnessed through the power of care, community, and compassion.</p>
+    <p class="section-subtitle">{{ content.intro_subtitle|default:"Every elder who comes to ROTOM has a unique story. Here are just a few of the remarkable transformations we've witnessed through the power of care, community, and compassion." }}</p>
 </section>
 
 <!-- Stories -->
@@ -47,54 +45,61 @@
         <div class="story-images">
             <div class="image-wrapper" onclick="openLightbox(this)">
                 {% if story.image_1.name|slice:":7" == "images/" %}
-                <img src="{% static story.image_1.name %}" alt="{{ story.name }} - {{ story.image_1_label }}" loading="lazy">
+                    {% webp_picture story.image_1.name alt=story.name|add:" - "|add:story.image_1_label loading="lazy" %}
                 {% else %}
-                <img src="{{ story.image_1.url }}" alt="{{ story.name }} - {{ story.image_1_label }}" loading="lazy">
+                    {% webp_picture story.image_1.url alt=story.name|add:" - "|add:story.image_1_label loading="lazy" %}
                 {% endif %}
-                <span class="image-label before">{{ story.image_1_label }}</span>
+                <span class="image-label before">{% bilingual story.image_1_label story.image_1_label_am %}</span>
                 <div class="image-hover"><i class="fas fa-expand"></i></div>
             </div>
             <div class="image-wrapper" onclick="openLightbox(this)">
                 {% if story.image_2.name|slice:":7" == "images/" %}
-                <img src="{% static story.image_2.name %}" alt="{{ story.name }} - {{ story.image_2_label }}" loading="lazy">
+                    {% webp_picture story.image_2.name alt=story.name|add:" - "|add:story.image_2_label loading="lazy" %}
                 {% else %}
-                <img src="{{ story.image_2.url }}" alt="{{ story.name }} - {{ story.image_2_label }}" loading="lazy">
+                    {% webp_picture story.image_2.url alt=story.name|add:" - "|add:story.image_2_label loading="lazy" %}
                 {% endif %}
-                <span class="image-label after">{{ story.image_2_label }}</span>
+                <span class="image-label after">{% bilingual story.image_2_label story.image_2_label_am %}</span>
                 <div class="image-hover"><i class="fas fa-expand"></i></div>
             </div>
             <div class="image-wrapper" onclick="openLightbox(this)">
                 {% if story.image_3.name|slice:":7" == "images/" %}
-                <img src="{% static story.image_3.name %}" alt="{{ story.name }} - {{ story.image_3_label }}" loading="lazy">
+                    {% webp_picture story.image_3.name alt=story.name|add:" - "|add:story.image_3_label loading="lazy" %}
                 {% else %}
-                <img src="{{ story.image_3.url }}" alt="{{ story.name }} - {{ story.image_3_label }}" loading="lazy">
+                    {% webp_picture story.image_3.url alt=story.name|add:" - "|add:story.image_3_label loading="lazy" %}
                 {% endif %}
-                <span class="image-label after">{{ story.image_3_label }}</span>
+                <span class="image-label after">{% bilingual story.image_3_label story.image_3_label_am %}</span>
                 <div class="image-hover"><i class="fas fa-expand"></i></div>
             </div>
         </div>
         <div class="story-content">
-            <span class="story-tag">{{ story.tag }}</span>
-            <h2>{{ story.name }} - {{ story.title }}</h2>
+            <span class="story-tag">{% bilingual story.tag story.tag_am %}</span>
+            <h2>{{ story.name }} - {% bilingual story.title story.title_am %}</h2>
             <div class="story-meta">
-                <span><i class="fas fa-calendar-alt"></i> {{ story.date_info }}</span>
-                <span><i class="fas fa-map-marker-alt"></i> {{ story.location_info }}</span>
+                <span><i class="fas fa-calendar-alt"></i> {% bilingual story.date_info story.date_info_am %}</span>
+                <span><i class="fas fa-map-marker-alt"></i> {% bilingual story.location_info story.location_info_am %}</span>
             </div>
-            {% for paragraph in story.content|split_paragraphs %}
-            <p>{{ paragraph }}</p>
-            {% endfor %}
+            {% if story.content_am %}
+                <span class="lang-en">
+                    {% for paragraph in story.content|split_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+                </span>
+                <span class="lang-am" style="display:none">
+                    {% for paragraph in story.content_am|split_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+                </span>
+            {% else %}
+                {% for paragraph in story.content|split_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+            {% endif %}
             <div class="story-stats">
                 <div class="stat">
                     <span class="stat-num">{{ story.stat_1_number }}</span>
-                    <span class="stat-text">{{ story.stat_1_text }}</span>
+                    <span class="stat-text">{% bilingual story.stat_1_text story.stat_1_text_am %}</span>
                 </div>
                 <div class="stat">
                     <span class="stat-num">{{ story.stat_2_number }}</span>
-                    <span class="stat-text">{{ story.stat_2_text }}</span>
+                    <span class="stat-text">{% bilingual story.stat_2_text story.stat_2_text_am %}</span>
                 </div>
                 <div class="stat">
                     <span class="stat-num">{{ story.stat_3_number }}</span>
-                    <span class="stat-text">{{ story.stat_3_text }}</span>
+                    <span class="stat-text">{% bilingual story.stat_3_text story.stat_3_text_am %}</span>
                 </div>
             </div>
         </div>
@@ -108,11 +113,11 @@
 
 <!-- CTA Section -->
 <section class="cta-section">
-    <h2>Help Us Write More Success Stories</h2>
-    <p>Your support can transform the life of an elder in need.</p>
+    <h2>{{ content.cta_title|default:"Help Us Write More Success Stories" }}</h2>
+    <p>{{ content.cta_subtitle|default:"Your support can transform the life of an elder in need." }}</p>
     <div class="cta-buttons">
-        <a href="{% url 'donate' %}" class="btn btn-primary"><i class="fas fa-heart"></i> Donate Now</a>
-        <a href="{% url 'volunteer' %}" class="btn btn-outline"><i class="fas fa-hands-helping"></i> Volunteer</a>
+        <a href="{% url 'donate' %}" class="btn btn-primary"><i class="fas fa-heart"></i> {{ content.cta_btn_donate|default:"Donate Now" }}</a>
+        <a href="{% url 'volunteer' %}" class="btn btn-outline"><i class="fas fa-hands-helping"></i> {{ content.cta_btn_volunteer|default:"Volunteer" }}</a>
     </div>
 </section>
 

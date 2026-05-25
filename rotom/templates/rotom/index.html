@@ -1,5 +1,6 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
+{% load image_tags %}
 
 {% block title %}ROTOM Ethiopia - Empowering Communities{% endblock %}
 
@@ -17,16 +18,13 @@
 
 <!-- Hero Section -->
 <header class="hero">
-    <picture>
-        <source srcset="{% static 'images/herosection-hero.webp' %}" type="image/webp">
-        <img src="{% static 'images/herosection-hero.jpg' %}" alt="ROTOM Ethiopia Community" class="hero-background" loading="eager" fetchpriority="high">
-    </picture>
+    {% webp_picture 'images/herosection-hero.jpg' alt="ROTOM Ethiopia Community" img_class="hero-background" loading="eager" fetchpriority="high" %}
     <div class="hero-content">
-        <h1 class="hero-title">ROTOM-Ethiopia</h1>
-        <p class="hero-subtitle">Older persons and their dependents living dignified and fulfilling lives.</p>
+        <h1 class="hero-title">{{ content.hero_title|default:"ROTOM-Ethiopia" }}</h1>
+        <p class="hero-subtitle">{{ content.hero_subtitle|default:"Older persons and their dependents living dignified and fulfilling lives." }}</p>
         <div class="hero-cta">
-            <a href="{% url 'ourstory' %}" class="btn btn-primary">Discover</a>
-            <a href="#about" class="btn btn-secondary">Learn More</a>
+            <a href="{% url 'ourstory' %}" class="btn btn-primary">{{ content.hero_btn_discover|default:"Discover" }}</a>
+            <a href="#about" class="btn btn-secondary">{{ content.hero_btn_learn|default:"Learn More" }}</a>
         </div>
     </div>
 </header>
@@ -38,33 +36,33 @@
 {% endif %}
 
 <section id="impacts" class="impacts section">
-    <h2 class="section-title">Our Impact</h2>
+    <h2 class="section-title">{{ content.impact_title|default:"Our Impact" }}</h2>
     <div class="gold-accent"></div>
     <div class="wrapper">
         <div class="container">
             <i class="fas fa-users"></i>
-            <span class="num" data-val="120">120+</span>
-            <span class="text">Elders Reached</span>
+            <span class="num" data-val="{{ content.impact_stat1_num|default:'120+'|cut:'+' }}">{{ content.impact_stat1_num|default:"120+" }}</span>
+            <span class="text">{{ content.impact_stat1_label|default:"Elders Reached" }}</span>
         </div>
         <div class="container">
             <i class="fas fa-child"></i>
-            <span class="num" data-val="70">70+</span>
-            <span class="text">Grandchildren & Dependents</span>
+            <span class="num" data-val="{{ content.impact_stat2_num|default:'70+'|cut:'+' }}">{{ content.impact_stat2_num|default:"70+" }}</span>
+            <span class="text">{{ content.impact_stat2_label|default:"Grandchildren & Dependents" }}</span>
         </div>
         <div class="container">
             <i class="fas fa-building"></i>
-            <span class="num" data-val="30">30+</span>
-            <span class="text">Seniors in Center</span>
+            <span class="num" data-val="{{ content.impact_stat3_num|default:'30+'|cut:'+' }}">{{ content.impact_stat3_num|default:"30+" }}</span>
+            <span class="text">{{ content.impact_stat3_label|default:"Seniors in Center" }}</span>
         </div>
         <div class="container">
             <i class="fas fa-hands-helping"></i>
-            <span class="num" data-val="500">500+</span>
-            <span class="text">Volunteers</span>
+            <span class="num" data-val="{{ content.impact_stat4_num|default:'500+'|cut:'+' }}">{{ content.impact_stat4_num|default:"500+" }}</span>
+            <span class="text">{{ content.impact_stat4_label|default:"Volunteers" }}</span>
         </div>
         <div class="container">
             <i class="fas fa-people-arrows"></i>
-            <span class="num" data-val="200">200+</span>
-            <span class="text">Indirectly Supported</span>
+            <span class="num" data-val="{{ content.impact_stat5_num|default:'200+'|cut:'+' }}">{{ content.impact_stat5_num|default:"200+" }}</span>
+            <span class="text">{{ content.impact_stat5_label|default:"Indirectly Supported" }}</span>
         </div>
     </div>
 </section>
@@ -72,55 +70,51 @@
 <section id="about" class="about-us section">
     <div class="about-container">
         <div class="about-image">
-            <img src="{% static 'images/ourstory.jpg' %}" alt="ROTOM Ethiopia team in action" loading="lazy">
+            {% webp_picture 'images/ourstory.jpg' alt="ROTOM Ethiopia team in action" loading="lazy" width="600" height="400" %}
         </div>
         <div class="about-content">
-            <h2>Our Story</h2>
-            <div class="elegant-divider"><span class="diamond"></span></div>
-            <p>
-                Reach One Touch One Mission (ROTOM) Ethiopia began in 2017, born from a deep belief in the transformative power of compassion and good deeds. Founded by a dedicated volunteer with a heart for the forgotten, our organization was built to be a lifeline for those who need it most. ROTOM Ethiopia is a fully registered civil society organization (Certificate number 3764) operating out of our main office in Bishoftu, Ethiopia.
-            </p>
-            <p>
-                We provide holistic support to vulnerable older adults who have rendered Great Service to the Nation and their dependents, working tirelessly to elevate their dignity, improve their living conditions, and ensure they live out their years with the respect and care they deserve.
-            </p>
+            <h2>{{ content.about_title|default:"Our Story" }}</h2>
+            <div class="elegant-divider"></div>
+            <p>{{ content.about_para1|default:"Reach One Touch One Mission (ROTOM) Ethiopia began in 2017, born from a deep belief in the transformative power of compassion and good deeds. Founded by a dedicated volunteer with a heart for the forgotten, our organization was built to be a lifeline for those who need it most. ROTOM Ethiopia is a fully registered civil society organization (Certificate number 3764) operating out of our main office in Bishoftu, Ethiopia." }}</p>
+            <p>{{ content.about_para2|default:"We provide holistic support to vulnerable older adults who have rendered Great Service to the Nation and their dependents, working tirelessly to elevate their dignity, improve their living conditions, and ensure they live out their years with the respect and care they deserve." }}</p>
         </div>
     </div>
 </section>
 
 <section id="projects" class="projects section">
-    <h2 class="section-title">Our Pillars of Care</h2>
+    <h2 class="section-title">{{ content.pillars_title|default:"Our Pillars of Care" }}</h2>
     <div class="gold-accent"></div>
     <p class="text-center pillars-intro" style="color: var(--text-muted); max-width: 900px; margin: 0 auto 3rem; font-size: 1.05rem; line-height: 1.8; text-align: center;">
-        Our holistic, multigenerational care model relies on three essential pillars:
+        {{ content.pillars_intro|default:"Our holistic, multigenerational care model relies on three essential pillars:" }}
     </p>
     <div class="project-cards">
         <a href="{% url 'homebased' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/homebasedproject.jpg' %}" alt="Home Based Care Program" loading="lazy">
+                {% webp_picture 'images/homebasedproject.jpg' alt="Home Based Care Program" loading="lazy" width="400" height="300" %}
             </div>
             <div class="card-content">
-                <h3>Home-Based Care</h3>
-                <p>We meet elders where they are, providing crucial access to medical care, safe housing, hygiene resources, monthly nutritional supplements, and livelihood support.</p>
+                <h3>{{ content.pillar1_title|default:"Home-Based Care" }}</h3>
+                <p>{{ content.pillar1_desc|default:"We meet elders where they are, providing crucial access to medical care, safe housing, hygiene resources, monthly nutritional supplements, and livelihood support." }}</p>
                 <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
             </div>
         </a>
         <a href="{% url 'champion' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/championsproject.jpg' %}" alt="Champions Project" loading="lazy">
+                {% webp_picture 'images/championsproject.jpg' alt="Champions Project" loading="lazy" width="400" height="300" %}
             </div>
             <div class="card-content">
-                <h3>Grandchildren Support</h3>
-                <p>We invest in the future by delivering complete educational support to the grandchildren raised by our elderly beneficiaries.</p>
+                <h3>{{ content.pillar2_title|default:"Grandchildren Support" }}</h3>
+                <p>{{ content.pillar2_desc|default:"We invest in the future by delivering complete educational support to the grandchildren raised by our elderly beneficiaries." }}</p>
                 <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
             </div>
         </a>
         <a href="{% url 'centerbased' %}" class="card">
             <div class="card-image">
-                <img src="{% static 'images/centerproject.png' %}" alt="Senior Center" loading="lazy">
+                {% webp_picture 'images/centerproject.png' alt="Senior Center" loading="lazy" width="400" height="300" %}
             </div>
             <div class="card-content">
-                <h3>Center-Based Care</h3>
-                <p>We provide a loving, fully-equipped residential haven for formerly homeless, abandoned, and severely ill older persons, restoring their health and dignity.</p>
+                <h3>{{ content.pillar3_title|default:"Center-Based Care" }}</h3>
+                <p>{{ content.pillar3_desc|default:"We provide a loving, fully-equipped residential haven for formerly homeless, abandoned, and severely ill older persons, restoring their health and dignity." }}</p>
                 <span class="card-learn-more">Learn More <i class="fas fa-arrow-right"></i></span>
             </div>
         </a>
@@ -128,13 +122,13 @@
 </section>
 
 <section id="testimonials" class="testimonials section">
-    <h2 class="section-title">What People Say</h2>
+    <h2 class="section-title">{{ content.testimonials_title|default:"What People Say" }}</h2>
     <div class="testimonials-slider">
         <div class="testimonial-container">
             <div class="testimonial active">
                 <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/tsige niguse.PNG' %}')">
-                        <img src="{% static 'images/tsige niguse.PNG' %}" alt="Senior Tsige" loading="lazy">
+                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/tsige niguse.webp' %}')">
+                        {% webp_picture 'images/tsige niguse.PNG' alt="Senior Tsige" loading="lazy" width="100" height="100" %}
                     </div>
                     <div class="testimonial-text">
                         <p>"My children thank you so much. You've given me the privilege to see the outside. I haven't
@@ -147,8 +141,8 @@
             </div>
             <div class="testimonial">
                 <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/adanech.PNG' %}')">
-                        <img src="{% static 'images/adanech.PNG' %}" alt="Beneficiary Testimonial" loading="lazy">
+                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/adanech.webp' %}')">
+                        {% webp_picture 'images/adanech.PNG' alt="Beneficiary Testimonial" loading="lazy" width="100" height="100" %}
                     </div>
                     <div class="testimonial-text">
                         <p>"The care and support I receive from ROTOM Ethiopia has given me a new lease on life. I feel
@@ -160,8 +154,8 @@
             </div>
             <div class="testimonial">
                 <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/fasikaw.jpg' %}')">
-                        <img src="{% static 'images/fasikaw.jpg' %}" alt="Ato Fasikaw Mola" loading="lazy">
+                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/fasikaw.webp' %}')">
+                        {% webp_picture 'images/fasikaw.jpg' alt="Ato Fasikaw Mola" loading="lazy" width="100" height="100" %}
                     </div>
                     <div class="testimonial-text">
                         <p>"We are truly impressed by the remarkable work being done at Rotom Ethiopia. The dignity, cleanliness, and quality of care provided to the elderly are exceptional and set a powerful example for others. Your commitment to compassionate service and the involvement of dedicated volunteers is inspiring. We sincerely appreciate your efforts and proudly stand in support of your mission."</p>
@@ -179,21 +173,21 @@
 </section>
 
 <section id="partners" class="partners section">
-    <h2 class="section-title">Our Partners</h2>
+    <h2 class="section-title">{{ content.partners_title|default:"Our Partners" }}</h2>
     <p class="text-center partners-intro" style="color: var(--text-muted); max-width: 800px; margin: 0 auto 1rem; font-size: 1.05rem; line-height: 1.8; text-align: center;">
-        A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders.
+        {{ content.partners_intro|default:"A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders." }}
     </p>
     {% if partners %}
     <div class="partners-slider">
         <div class="slider-track">
             {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="eager" fetchpriority="low">
+                {% webp_picture partner.logo.url alt=partner.name loading="eager" fetchpriority="low" %}
             </div>
             {% endfor %}
             {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="eager" fetchpriority="low">
+                {% webp_picture partner.logo.url alt=partner.name loading="eager" fetchpriority="low" %}
             </div>
             {% endfor %}
         </div>
@@ -206,18 +200,18 @@
 </section>
 
 <section id="contact" class="contact-us section">
-    <h2 class="section-title">Contact Us</h2>
+    <h2 class="section-title">{{ content.contact_title|default:"Contact Us" }}</h2>
     <div class="gold-accent"></div>
     <div class="contact-container">
         <div class="contact-info">
-            <h3>Get in Touch</h3>
+            <h3>{{ content.contact_get_in_touch|default:"Get in Touch" }}</h3>
             <ul>
-                <li><i class="fas fa-envelope"></i> rotomethiopia@reachone-touchone.org</li>
-                <li><i class="fas fa-phone"></i> +251 989707777</li>
+                <li><i class="fas fa-envelope"></i> {{ content.contact_email|default:"rotomethiopia@reachone-touchone.org" }}</li>
+                <li><i class="fas fa-phone"></i> {{ content.contact_phone|default:"+251 989707777" }}</li>
             </ul>
         </div>
         <div class="contact-form">
-            <h3>Send Us a Message</h3>
+            <h3>{{ content.contact_form_heading|default:"Send Us a Message" }}</h3>
             <div id="form-messages"></div>
             <form method="POST" id="contactForm" action="{% url 'home' %}">
                 {% csrf_token %}
@@ -251,8 +245,8 @@
             </form>
         </div>
         <div class="contact-map">
-            <h3>Find Us</h3>
-            <p class="map-description">Visit our center in the heart of Bishoftu</p>
+            <h3>{{ content.contact_map_heading|default:"Find Us" }}</h3>
+            <p class="map-description">{{ content.contact_map_desc|default:"Visit our center in the heart of Bishoftu" }}</p>
             <div class="map-container">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.217826069276!2d38.973441745193114!3d8.765565670677391!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b73004e3b9505%3A0xfdb5b82590291fba!2sReach%20One%20Touch%20One%20mission!5e0!3m2!1sen!2set!4v1766563379966!5m2!1sen!2set"
@@ -261,7 +255,7 @@
             </div>
             <div class="map-address">
                 <i class="fas fa-map-marker-alt"></i>
-                Ethiopia, Oromiya, Bishoftu Kebele 05
+                {{ content.contact_address|default:"Ethiopia, Oromiya, Bishoftu Kebele 05" }}
             </div>
         </div>
     </div>

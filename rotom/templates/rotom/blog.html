@@ -1,5 +1,6 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
+{% load image_tags %}
 
 {% block title %}Blog | ROTOM Ethiopia{% endblock %}
 
@@ -17,10 +18,7 @@
 
 <!-- Hero Section -->
 <section class="hero" style="position: relative; overflow: hidden;">
-    <picture>
-        <source srcset="{% static 'images/bloghero-hero.webp' %}" type="image/webp">
-        <img src="{% static 'images/bloghero-hero.jpg' %}" alt="" fetchpriority="high" class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-    </picture>
+    {% webp_picture 'images/bloghero-hero.jpg' alt="" fetchpriority="high" img_class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" %}
     <!-- Green Overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28, 101, 27, 0.75); z-index: 0;"></div>
     <!-- Pattern Overlay -->
@@ -45,7 +43,7 @@
             <div class="blog-visual" onclick="openLightbox('{{ newsletter.image.url }}')">
                 {% if newsletter.image %}
                 <div class="blog-image">
-                    <img src="{{ newsletter.image.url }}" alt="{{ newsletter.title }}" loading="lazy">
+                    {% webp_picture newsletter.image.url alt=newsletter.title loading="lazy" %}
                 </div>
                 {% else %}
                 <div class="blog-icon">

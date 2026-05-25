@@ -12,65 +12,81 @@
         </a>
     </div>
 
+    <div class="alert alert-info py-2 mb-4">
+        <i class="fas fa-language me-2"></i>
+        Fields marked <strong>🇪🇹 አማርኛ</strong> are Amharic translations — all optional.
+    </div>
+
     <div class="card">
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
-                
-                <div class="row">
-                    <div class="col-md-8 mb-3">
-                        <label class="form-label">{{ form.title.label }}</label>
+
+                <!-- Title -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Title <span class="text-muted fw-normal">(English)</span></label>
                         {{ form.title }}
-                        {% if form.title.errors %}
-                        <div class="text-danger">{{ form.title.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                        {% if form.title.errors %}<div class="text-danger">{{ form.title.errors }}</div>{% endif %}
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">{{ form.amount.label }}</label>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Title</label>
+                        {{ form.title_am }}
+                        {% if form.title_am.errors %}<div class="text-danger">{{ form.title_am.errors }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <!-- Amount -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Amount (ETB)</label>
                         {{ form.amount }}
-                        {% if form.amount.errors %}
-                        <div class="text-danger">{{ form.amount.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">Amount in Ethiopian Birr (ETB)</small>
+                        {% if form.amount.errors %}<div class="text-danger">{{ form.amount.errors }}</div>{% endif %}
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">{{ form.description.label }}</label>
-                    {{ form.description }}
-                    {% if form.description.errors %}
-                    <div class="text-danger">{{ form.description.errors }}</div>
-                    {% endif %}
-                    <small class="form-text text-muted">{{ form.description.help_text }}</small>
+                <!-- Description -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Description <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.description }}
+                        {% if form.description.errors %}<div class="text-danger">{{ form.description.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Description</label>
+                        {{ form.description_am }}
+                        {% if form.description_am.errors %}<div class="text-danger">{{ form.description_am.errors }}</div>{% endif %}
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">{{ form.features.label }}</label>
-                    {{ form.features }}
-                    {% if form.features.errors %}
-                    <div class="text-danger">{{ form.features.errors }}</div>
-                    {% endif %}
-                    <small class="form-text text-muted">{{ form.features.help_text }}</small>
+                <!-- Features -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Features <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.features }}
+                        <small class="text-muted">One feature per line</small>
+                        {% if form.features.errors %}<div class="text-danger">{{ form.features.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Features</label>
+                        {{ form.features_am }}
+                        <small class="text-muted">One Amharic feature per line</small>
+                        {% if form.features_am.errors %}<div class="text-danger">{{ form.features_am.errors }}</div>{% endif %}
+                    </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                <!-- Order & Active -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
                         <label class="form-label">{{ form.order.label }}</label>
                         {{ form.order }}
-                        {% if form.order.errors %}
-                        <div class="text-danger">{{ form.order.errors }}</div>
-                        {% endif %}
-                        <small class="form-text text-muted">{{ form.order.help_text }}</small>
+                        <small class="text-muted">{{ form.order.help_text }}</small>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check mt-4">
+                    <div class="col-md-4 d-flex align-items-end pb-1">
+                        <div class="form-check">
                             {{ form.is_active }}
-                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
-                                {{ form.is_active.label }}
-                            </label>
+                            <label class="form-check-label" for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label>
                         </div>
-                        <small class="form-text text-muted">{{ form.is_active.help_text }}</small>
                     </div>
                 </div>
 
@@ -78,7 +94,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-save"></i> Save Package
                     </button>
-                    <a href="{% url 'dashboard:manage_packages' %}" class="btn btn-secondary">Cancel</a>
+                    <a href="{% url 'dashboard:manage_packages' %}" class="btn btn-secondary ms-2">Cancel</a>
                 </div>
             </form>
         </div>
