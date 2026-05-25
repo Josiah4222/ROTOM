@@ -392,15 +392,15 @@ img {
         height: 80px;
     }
 
-    /* Partners slider */
-    .partners-slider {
-        padding: 2rem 2.5rem;
+    /* Partners */
+    .partners-grid {
+        gap: 1rem;
+        padding: 1.5rem 0.75rem;
     }
 
     .partner-logo {
         width: 120px;
         height: 80px;
-        margin: 0 0.5rem;
     }
 
 

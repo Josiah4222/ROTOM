@@ -683,24 +683,20 @@ body {
     position: relative;
 }
 
-.partners-slider {
-    overflow: hidden;
-    position: relative;
+.partners-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 3rem;
-}
-
-.slider-track {
-    display: flex;
-    transition: transform 0.5s ease;
+    padding: 2rem 1rem;
 }
 
 .partner-logo {
-    flex: 0 0 auto;
-    width: 180px;
+    width: 160px;
     height: 100px;
-    margin: 0 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
