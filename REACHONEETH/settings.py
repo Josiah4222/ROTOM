@@ -172,3 +172,9 @@ else:
     LOGIN_REDIRECT_URL = '/rotom/dashboard/admin-dashboard/'
     LOGIN_URL = '/rotom/dashboard/login/'
     LOGOUT_REDIRECT_URL = '/rotom/dashboard/login/'
+
+    # Allow CSRF from the production domain (required when behind Nginx/Docker proxy)
+    CSRF_TRUSTED_ORIGINS = config(
+        'CSRF_TRUSTED_ORIGINS',
+        default='https://rotomethiopia.org,https://www.rotomethiopia.org'
+    ).split(',')
