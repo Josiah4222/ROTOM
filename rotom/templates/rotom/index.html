@@ -186,8 +186,6 @@
             </div>
             {% endfor %}
         </div>
-        <button class="slide-btn slide-prev" aria-label="Previous">&#10094;</button>
-        <button class="slide-btn slide-next" aria-label="Next">&#10095;</button>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -205,9 +203,6 @@
                 current = Math.max(0, Math.min(index, max));
                 track.style.transform = 'translateX(-' + (current * logoWidth) + 'px)';
             }
-
-            container.querySelector('.slide-prev').addEventListener('click', function() { goTo(current - 1); });
-            container.querySelector('.slide-next').addEventListener('click', function() { goTo(current + 1); });
 
             var interval = setInterval(function() {
                 if (current >= max) { goTo(0); }
