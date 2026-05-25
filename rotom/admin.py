@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django.utils.html import mark_safe
 from .models import (
     VolunteerProfile, Day, InterestCategory, Contact, 
     Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, NavbarPattern, Partner, Testimonial, VolunteerGallery
@@ -473,14 +474,14 @@ class NavbarPatternAdmin(admin.ModelAdmin):
 
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'order', 'is_active', 'has_website', 'created_at')
+    list_display = ('logo_thumb', 'name', 'order', 'is_active', 'has_website', 'created_at')
     list_filter = ('is_active', 'created_at')
     search_fields = ('name', 'description')
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('logo_preview', 'created_at', 'updated_at')
     list_editable = ('order', 'is_active')
     fieldsets = (
         ('Partner Information', {
-            'fields': ('name', 'logo', 'website', 'description'),
+            'fields': ('name', 'logo_preview', 'logo', 'website', 'description'),
             'description': 'Add partner organization details. Logo should be a transparent PNG for best results.'
         }),
         ('Display Settings', {
@@ -492,6 +493,18 @@ class PartnerAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         })
     )
+
+    @admin.display(description='Logo')
+    def logo_thumb(self, obj):
+        if obj.logo:
+            return mark_safe(f'<img src="{obj.logo.url}" width="48" height="48" style="object-fit:contain;border-radius:4px;" />')
+        return ''
+
+    @admin.display(description='Current Logo')
+    def logo_preview(self, obj):
+        if obj.logo:
+            return mark_safe(f'<img src="{obj.logo.url}" width="200" style="object-fit:contain;border-radius:6px;max-height:120px;" />')
+        return 'No logo uploaded'
 
     def has_website(self, obj):
         return bool(obj.website)
