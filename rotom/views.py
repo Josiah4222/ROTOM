@@ -22,6 +22,14 @@ def _page_content(page):
     return {obj.key: obj.value for obj in SiteContent.objects.filter(page=page)}
 
 
+def content_check(request):
+    """Return the latest SiteContent update timestamp as JSON."""
+    from django.db.models import Max
+    latest = SiteContent.objects.aggregate(Max('updated_at'))
+    ts = latest['updated_at__max']
+    return JsonResponse({'updated_at': ts.isoformat() if ts else None})
+
+
 def rate_limit(key_prefix, limit=5, period=60):
     """Simple rate limiting decorator. Limits requests per IP."""
     def decorator(view_func):

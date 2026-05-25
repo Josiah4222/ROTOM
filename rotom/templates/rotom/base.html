@@ -120,6 +120,27 @@
     <script src="{% static 'js/animations.js' %}" defer></script>
 
     {% block extra_js %}{% endblock %}
+
+    {% if not request.user.is_staff %}
+    <script>
+    (function() {
+        var lastChecked = null;
+        setInterval(function() {
+            fetch('/content-check/')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.updated_at) {
+                        if (lastChecked && lastChecked !== data.updated_at) {
+                            location.reload();
+                        }
+                        lastChecked = data.updated_at;
+                    }
+                })
+                .catch(function() {});
+        }, 5000);
+    })();
+    </script>
+    {% endif %}
 </body>
 
 </html>

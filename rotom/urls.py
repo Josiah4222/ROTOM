@@ -22,4 +22,5 @@ urlpatterns = [
     path('stories/', views.stories, name='stories'),
     path('blog/', views.blog, name='blog'),
     path('blog/<int:post_id>/', views.blog_detail, name='blog_detail'),
+    path('content-check/', views.content_check, name='content_check'),
 ]
