@@ -86,6 +86,30 @@
                     </tbody>
                 </table>
             </div>
+
+            {% if milestones.has_other_pages %}
+            <div class="d-flex justify-content-center py-3">
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        {% if milestones.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?search={{ search }}&page={{ milestones.previous_page_number }}">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        {% for num in milestones.paginator.page_range %}
+                        <li class="page-item {% if milestones.number == num %}active{% endif %}">
+                            <a class="page-link" href="?search={{ search }}&page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        {% if milestones.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?search={{ search }}&page={{ milestones.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
         {% else %}
             <div class="empty-state">
                 <i class="fas fa-flag-checkered"></i>

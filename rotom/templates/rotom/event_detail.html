@@ -3,149 +3,154 @@
 
 {% block title %}{{ event.title }} | ROTOM Ethiopia{% endblock %}
 
+{% block og_title %}{{ event.title }} | ROTOM Ethiopia{% endblock %}
+{% block og_description %}{{ event.description|truncatechars:150 }}{% endblock %}
+{% block og_image %}{% if event.story_poster %}{{ event.story_poster.url }}{% else %}{{ event.image.url }}{% endif %}{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/event_detail.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/event_detail.css' %}?v=4">
 {% endblock %}
 
 {% block content %}
 {% include 'rotom/navbar.html' %}
 
-<!-- Event Hero -->
-<section class="event-hero">
-    <img src="{{ event.image.url }}" alt="{{ event.title }}" loading="lazy">
-    <div class="event-hero-overlay"></div>
-    <div class="event-hero-content">
-        <span class="event-date-badge">
-            <i class="far fa-calendar-alt"></i>
-            {{ event.event_date|date:"F j, Y" }}
-        </span>
-        <h1 class="event-hero-title">{{ event.title }}</h1>
-    </div>
-</section>
-
-<!-- Event Content -->
-<div class="event-content-wrapper">
-    <main class="event-main">
-        <a href="{% url 'events' %}" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Events
-        </a>
-
-        <div class="event-meta">
-            <div class="meta-item">
-                <i class="far fa-calendar-alt"></i>
-                <div>
-                    <span class="meta-label">Date</span>
-                    <div class="meta-value">{{ event.event_date|date:"l, F j, Y" }}</div>
+<article class="event-article">
+    <!-- Immersive Hero -->
+    <header class="event-header-immersive">
+        <div class="event-hero-bg">
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="hero-img">
+            <div class="hero-overlay"></div>
+        </div>
+        
+        <div class="event-header-content">
+            <div class="container">
+                <a href="{% url 'events' %}" class="minimal-back">
+                    <i class="fas fa-chevron-left"></i> All Events
+                </a>
+                <div class="header-tags">
+                    <span class="tag-date">{{ event.event_date|date:"F j, Y" }}</span>
+                    <span class="tag-status">Upcoming</span>
                 </div>
-            </div>
-            <div class="meta-item">
-                <i class="far fa-clock"></i>
-                <div>
-                    <span class="meta-label">Time</span>
-                    <div class="meta-value">{{ event.event_date|time:"g:i A" }}</div>
-                </div>
-            </div>
-            <div class="meta-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                    <span class="meta-label">Location</span>
-                    <div class="meta-value">Bishoftu, Ethiopia</div>
-                </div>
+                <h1 class="event-display-title">{{ event.title }}</h1>
             </div>
         </div>
+    </header>
 
-        <div class="event-description">
-            <p>{{ event.description }}</p>
-            <p>Join us for this special event as we continue our mission to support and empower seniors in our
-                community. Your participation makes a difference!</p>
-        </div>
-
-        <div class="event-actions">
-            <a href="{% url 'volunteer' %}" class="btn btn-primary">
-                <i class="fas fa-hand-holding-heart"></i> Register to Volunteer
-            </a>
-            <a href="{% url 'donate' %}" class="btn btn-outline">
-                <i class="fas fa-heart"></i> Support This Event
-            </a>
-        </div>
-    </main>
-
-    <aside class="event-sidebar">
-        <!-- Share Card -->
-        <div class="sidebar-card">
-            <h3 class="sidebar-title">Share This Event</h3>
-
-            <!-- Story Card Preview -->
-            <div class="story-card-preview" id="storyCardPreview">
-                <div class="story-card-inner" id="storyCardInner">
-                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="story-bg-image">
-                    <div class="story-overlay"></div>
-                    <div class="story-content">
-                        <div class="story-logo">ROTOM Ethiopia</div>
-                        <div class="story-badge">Upcoming Event</div>
-                        <h3 class="story-title">{{ event.title }}</h3>
-                        <div class="story-date">
-                            <i class="far fa-calendar-alt"></i>
-                            {{ event.event_date|date:"M j, Y" }}
-                        </div>
-                        <div class="story-cta">Join Us!</div>
+    <!-- Main Content Container -->
+    <div class="immersive-container">
+        <div class="event-grid-layout">
+            <!-- Left: Quick Info -->
+            <aside class="event-quick-info">
+                <div class="info-card glass">
+                    <div class="info-item">
+                        <span class="label">Date & Time</span>
+                        <span class="value">{{ event.event_date|date:"l, F j" }}</span>
+                        <span class="sub-value">{{ event.event_date|time:"g:i A" }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Location</span>
+                        <span class="value">Bishoftu, Ethiopia</span>
+                        <span class="sub-value">ROTOM Center</span>
+                    </div>
+                    <div class="info-actions">
+                        <a href="{% url 'volunteer' %}" class="action-btn primary">Register Now</a>
+                        <a href="{% url 'donate' %}" class="action-btn outline">Donate</a>
                     </div>
                 </div>
-            </div>
 
-            <button onclick="downloadStoryCard()" class="download-story-btn">
-                <i class="fas fa-share-alt"></i> Share to Stories
-            </button>
-
-            <div class="share-divider"><span>or share directly</span></div>
-
-            <div class="share-buttons" style="display: flex !important; gap: 0.5rem; margin-top: 1rem; justify-content: center;">
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"
-                    class="share-btn facebook" aria-label="Share on Facebook" style="display: flex !important; align-items: center; justify-content: center; width: 32px !important; height: 32px !important; min-height: 32px !important; border-radius: 50% !important; padding: 0 !important;">
-                    <i class="fab fa-facebook-f" style="font-size: 14px;"></i>
-                </a>
-                <a href="https://wa.me/?text={{ event.title }}%20{{ request.build_absolute_uri }}" target="_blank"
-                    class="share-btn whatsapp" aria-label="Share on WhatsApp" style="display: flex !important; align-items: center; justify-content: center; width: 32px !important; height: 32px !important; min-height: 32px !important; border-radius: 50% !important; padding: 0 !important;">
-                    <i class="fab fa-whatsapp" style="font-size: 14px;"></i>
-                </a>
-                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text={{ event.title }}"
-                    target="_blank" class="share-btn telegram" aria-label="Share on Telegram" style="display: flex !important; align-items: center; justify-content: center; width: 32px !important; height: 32px !important; min-height: 32px !important; border-radius: 50% !important; padding: 0 !important;">
-                    <i class="fab fa-telegram-plane" style="font-size: 14px;"></i>
-                </a>
-                <button onclick="copyEventLink()" class="share-btn copy-link" aria-label="Copy Link" style="display: flex !important; align-items: center; justify-content: center; width: 32px !important; height: 32px !important; min-height: 32px !important; border-radius: 50% !important; padding: 0 !important; border: none; cursor: pointer;">
-                    <i class="fas fa-link" style="font-size: 14px;"></i>
-                </button>
-            </div>
-            <div id="copyNotification" class="copy-notification">Link copied!</div>
-        </div>
-
-        {% if other_events %}
-        <!-- Other Events Card -->
-        <div class="sidebar-card">
-            <h3 class="sidebar-title">Other Upcoming Events</h3>
-            {% for other in other_events %}
-            <a href="{% url 'event_detail' other.id %}" class="other-event">
-                <img src="{{ other.image.url }}" alt="{{ other.title }}" class="other-event-img">
-                <div class="other-event-info">
-                    <h4>{{ other.title }}</h4>
-                    <span><i class="far fa-calendar-alt"></i> {{ other.event_date|date:"M j, Y" }}</span>
+                <!-- Hidden Story Card Actions (Cleanly integrated) -->
+                <div class="story-actions-minimal">
+                    <p>Share this event</p>
+                    <div class="share-minimal-grid">
+                        <button onclick="downloadStoryCard()" class="share-icon-btn instagram" title="Share to Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </button>
+                        <button onclick="toggleQRCode()" class="share-icon-btn" title="QR Code">
+                            <i class="fas fa-qrcode"></i>
+                        </button>
+                        <button onclick="copyEventLink()" class="share-icon-btn" title="Copy Link">
+                            <i class="fas fa-link"></i>
+                        </button>
+                        <button onclick="shareNative()" class="share-icon-btn highlight" title="Share">
+                            <i class="fas fa-share-nodes"></i>
+                        </button>
+                    </div>
                 </div>
-            </a>
-            {% endfor %}
+            </aside>
+
+            <!-- Right: Full Content -->
+            <div class="event-full-description">
+                <div class="content-body">
+                    <p class="lead">{{ event.description }}</p>
+                    <div class="description-text">
+                        <p>We invite you to be part of this meaningful gathering. At ROTOM Ethiopia, our events are more than just meetings—they are celebrations of life, wisdom, and community. Your presence and support help us continue our mission of empowering seniors to live dignified, fulfilling lives.</p>
+                        <p>During this event, you'll have the opportunity to engage directly with our community members, learn about our ongoing projects, and see firsthand the impact of your generosity.</p>
+                    </div>
+                    
+                    <!-- Share Footer -->
+                    <footer class="content-footer">
+                        <div class="share-row">
+                            <span>Share this:</span>
+                            <div class="social-links">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://wa.me/?text={{ event.title }}%20{{ request.build_absolute_uri }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text={{ event.title }}" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+
+                <!-- Related Events -->
+                {% if other_events %}
+                <section class="related-events">
+                    <h3 class="related-title">More Events</h3>
+                    <div class="related-grid">
+                        {% for other in other_events %}
+                        <a href="{% url 'event_detail' other.id %}" class="related-card">
+                            <div class="related-img">
+                                <img src="{{ other.image.url }}" alt="{{ other.title }}">
+                            </div>
+                            <div class="related-info">
+                                <h4>{{ other.title }}</h4>
+                                <span>{{ other.event_date|date:"M j, Y" }}</span>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+            </div>
         </div>
-        {% endif %}
-    </aside>
+    </div>
+</article>
+
+<!-- QR Code Modal -->
+<div id="qrModal" class="qr-modal-modern">
+    <div class="qr-content-glass">
+        <button class="qr-close-btn" onclick="toggleQRCode()">&times;</button>
+        <h3>Scan to Share</h3>
+        <div id="qrcode"></div>
+        <p>Point your camera to share this event instantly.</p>
+    </div>
 </div>
+
+<div id="copyNotification" class="notification-toast">Link copied!</div>
 
 <script>
     window.eventData = {
         title: "{{ event.title|escapejs }}",
         url: "{{ request.build_absolute_uri }}",
         date: "{{ event.event_date|date:'M j, Y' }}",
-        imageUrl: "{{ event.image.url }}"
+        imageUrl: "{{ event.image.url }}",
+        posterUrl: "{% if event.story_poster %}{{ event.story_poster.url }}{% endif %}"
     };
 </script>
-<script src="{% static 'js/event_detail.js' %}" defer></script>
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="{% static 'js/event_detail.js' %}?v=4" defer></script>
+{% endblock %}
 
 {% include 'rotom/footer.html' %}
 {% endblock %}

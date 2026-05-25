@@ -6,11 +6,17 @@
 <div class="page-header d-flex justify-content-between align-items-center">
     <div>
         <h1 class="page-title">Message from {{ contact.name }}</h1>
-        <p class="page-subtitle">Contact Form Submission</p>
+        <p class="page-subtitle">Contact Form Submission Details</p>
     </div>
-    <a href="{% url 'dashboard:manage_contacts' %}" class="btn btn-outline-primary">
-        <i class="fas fa-arrow-left me-1"></i> Back to List
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{% url 'dashboard:manage_contacts' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
+        <button type="button" class="btn btn-outline-danger" 
+                onclick="if(confirm('Are you sure you want to delete this message?')) window.location.href='{% url 'dashboard:delete_contact' contact.pk %}';">
+            <i class="fas fa-trash me-1"></i> Delete
+        </button>
+    </div>
 </div>
 
 <div class="row g-4">

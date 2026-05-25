@@ -6,11 +6,17 @@
 <div class="page-header d-flex justify-content-between align-items-center">
     <div>
         <h1 class="page-title">{{ volunteer.first_name }} {{ volunteer.last_name }}</h1>
-        <p class="page-subtitle">Volunteer Details</p>
+        <p class="page-subtitle">Volunteer Profile Details</p>
     </div>
-    <a href="{% url 'dashboard:manage_volunteers' %}" class="btn btn-outline-primary">
-        <i class="fas fa-arrow-left me-1"></i> Back to List
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{% url 'dashboard:manage_volunteers' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
+        <button type="button" class="btn btn-outline-danger" 
+                onclick="if(confirm('Are you sure you want to delete this volunteer?')) window.location.href='{% url 'dashboard:delete_volunteer' volunteer.pk %}';">
+            <i class="fas fa-trash me-1"></i> Delete
+        </button>
+    </div>
 </div>
 
 <div class="row g-4">

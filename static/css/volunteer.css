@@ -195,12 +195,11 @@
 }
 
 /* =========================================
-   Gallery Section
+   Gallery Section - Masonry Layout
    ========================================= */
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+    columns: 3 350px;
+    column-gap: 2rem;
     max-width: 1300px;
     margin: 0 auto;
 }
@@ -209,15 +208,17 @@
     position: relative;
     border-radius: 24px;
     overflow: hidden;
-    aspect-ratio: 4/3;
+    margin-bottom: 2rem;
+    break-inside: avoid;
     box-shadow: var(--shadow-md);
     cursor: pointer;
+    background: #eee;
 }
 
 .gallery-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
     transition: transform 0.8s ease;
 }
 
@@ -244,10 +245,15 @@
 }
 
 .gallery-caption h3 {
-    color: var(--accent-color);
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-caption p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .gallery-caption p {
@@ -257,8 +263,77 @@
 }
 
 /* =========================================
-   Form Section
+   Pagination Styling
    ========================================= */
+.pagination-wrapper {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+}
+
+.gallery-pagination {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: white;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    box-shadow: var(--shadow-md);
+}
+
+.page-btn {
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+.page-info {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 0 1rem;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.page-info span {
+    color: var(--main-color);
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .gallery {
+        columns: 1;
+        column-gap: 0;
+    }
+    
+    .gallery-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .gallery-pagination {
+        gap: 0.8rem;
+        padding: 0.6rem 1.2rem;
+    }
+
+    .page-info {
+        font-size: 0.8rem;
+    }
+
+    .page-btn span {
+        display: none; /* Hide 'Previous'/'Next' text on mobile, icons only */
+    }
+}
+
 .form-container {
     max-width: 900px;
     margin: 0 auto;

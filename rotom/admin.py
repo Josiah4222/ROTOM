@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 from .models import (
     VolunteerProfile, Day, InterestCategory, Contact, 
-    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, NavbarPattern, Partner, Testimonial
+    Event, PreviousEvent, Payment, FeedingRegistration, Subscriber, Newsletter, HouseRenovation, Story, DonationPackage, Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, NavbarPattern, Partner, Testimonial, VolunteerGallery
 )
 
 # Inline for VolunteerProfile
@@ -517,6 +517,29 @@ class TestimonialAdmin(admin.ModelAdmin):
         }),
         ('Metadata', {
             'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        })
+    )
+
+
+@admin.register(VolunteerGallery)
+class VolunteerGalleryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title',)
+    readonly_fields = ('created_at',)
+    list_editable = ('order', 'is_active')
+    fieldsets = (
+        ('Image Information', {
+            'fields': ('title', 'image'),
+            'description': 'Upload a photo for the volunteer gallery.'
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active'),
+            'description': 'Control the display order and visibility in the gallery.'
+        }),
+        ('Metadata', {
+            'fields': ('created_at',),
             'classes': ('collapse',)
         })
     )

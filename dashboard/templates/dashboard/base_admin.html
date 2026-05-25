@@ -479,8 +479,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'dashboard:manage_volunteers' %}" class="nav-link {% if 'volunteer' in request.resolver_match.url_name %}active{% endif %}">
+                <a href="{% url 'dashboard:manage_volunteers' %}" class="nav-link {% if 'volunteer' in request.resolver_match.url_name and 'gallery' not in request.resolver_match.url_name %}active{% endif %}">
                     <i class="fas fa-users"></i> Volunteers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'dashboard:manage_volunteer_gallery' %}" class="nav-link {% if 'volunteer_gallery' in request.resolver_match.url_name %}active{% endif %}">
+                    <i class="fas fa-camera-retro"></i> Volunteer Gallery
                 </a>
             </li>
             <li class="nav-item">

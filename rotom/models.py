@@ -128,13 +128,37 @@ class Event(models.Model):
     description_am = models.TextField(blank=True, help_text="Amharic translation of description (optional)")
     event_date = models.DateTimeField(db_index=True)
     image = models.ImageField(upload_to='event_images/')
+    story_poster = models.ImageField(upload_to='event_posters/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def save(self, *args, **kwargs):
         # Compress image before saving
         if self.image:
             self.image = compress_image(self.image)
+        
+        # Check if we need to generate/regenerate the story poster
+        # If it's a new event or the image/title has changed
+        is_new = self.pk is None
+        old_image = None
+        old_title = None
+        if not is_new:
+            try:
+                old_instance = Event.objects.get(pk=self.pk)
+                old_image = old_instance.image
+                old_title = old_instance.title
+            except Event.DoesNotExist:
+                pass
+
         super().save(*args, **kwargs)
+        
+        # Generate poster if needed (after saving the main image)
+        if is_new or old_image != self.image or old_title != self.title:
+            from .utils import generate_event_poster
+            poster = generate_event_poster(self)
+            if poster:
+                # Use update to avoid recursion in save()
+                self.story_poster = poster
+                Event.objects.filter(pk=self.pk).update(story_poster=poster)
 
     def __str__(self):
         return self.title
@@ -574,3 +598,23 @@ class Testimonial(models.Model):
     class Meta:
         ordering = ['order', '-created_at']
         verbose_name_plural = "Testimonials"
+
+
+class VolunteerGallery(models.Model):
+    title = models.CharField(max_length=200, help_text="Image title or description")
+    image = models.ImageField(upload_to='volunteer_gallery/', help_text="Volunteer activity photo")
+    order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
+    is_active = models.BooleanField(default=True, help_text="Check to display in gallery")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            self.image = compress_image(self.image, max_width=1200, max_height=1200, quality=85)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name_plural = "Volunteer Gallery"
