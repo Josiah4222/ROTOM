@@ -84,6 +84,11 @@ urlpatterns = [
     path('edit-newsletter/<int:pk>/', views.edit_newsletter, name='edit_newsletter'),
     path('newsletter/<int:pk>/', views.newsletter_detail, name='newsletter_detail'),
     path('newsletter/<int:pk>/preview/', views.preview_newsletter, name='preview_newsletter'),
+    # Volunteer Gallery
+    path('manage-volunteer-gallery/', views.manage_volunteer_gallery, name='manage_volunteer_gallery'),
+    path('create-volunteer-gallery-image/', views.create_volunteer_gallery_image, name='create_volunteer_gallery_image'),
+    path('edit-volunteer-gallery-image/<int:pk>/', views.edit_volunteer_gallery_image, name='edit_volunteer_gallery_image'),
+    path('delete-volunteer-gallery-image/<int:pk>/', views.delete_volunteer_gallery_image, name='delete_volunteer_gallery_image'),
     # Detail views
     path('volunteer/<int:pk>/', views.volunteer_detail, name='volunteer_detail'),
     path('contact/<int:pk>/', views.contact_detail, name='contact_detail'),

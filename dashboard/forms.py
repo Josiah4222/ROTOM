@@ -2,7 +2,7 @@ from django import forms
 from rotom.models import (
     Event, PreviousEvent, Newsletter, BlogPost, Story, DonationPackage,
     Champion, GalleryImage, Milestone, TeamMember, CenterPhoto, Partner,
-    Testimonial, HouseRenovation
+    Testimonial, HouseRenovation, VolunteerGallery
 )
 
 # ── Shared widget helpers ─────────────────────────────────────────────────────
@@ -445,5 +445,29 @@ class TestimonialForm(forms.ModelForm):
         }
         help_texts = {
             'image': 'Optional photo (will be auto-compressed to 800x800)',
+            'order': 'Lower numbers appear first (0, 1, 2...)',
+        }
+
+
+# ── Volunteer Gallery ─────────────────────────────────────────────────────────
+
+class VolunteerGalleryForm(forms.ModelForm):
+    class Meta:
+        model = VolunteerGallery
+        fields = ['title', 'image', 'order', 'is_active']
+        widgets = {
+            'title': text('e.g., Team Building Event'),
+            'image': file_input(),
+            'order': number(),
+            'is_active': checkbox(),
+        }
+        labels = {
+            'title': 'Image Title',
+            'image': 'Photo',
+            'order': 'Display Order',
+            'is_active': 'Active (Show on Website)',
+        }
+        help_texts = {
+            'image': 'Volunteer activity photo (will be auto-compressed)',
             'order': 'Lower numbers appear first (0, 1, 2...)',
         }

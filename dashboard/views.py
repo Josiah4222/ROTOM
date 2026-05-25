@@ -1260,3 +1260,56 @@ def edit_page_content(request, page_slug):
         'page_label': page_label,
         'form_fields': form_fields,
     })
+
+
+# ── Volunteer Gallery ─────────────────────────────────────────────────────────
+
+@staff_member_required(login_url='dashboard:login')
+def manage_volunteer_gallery(request):
+    from rotom.models import VolunteerGallery
+    search = request.GET.get('search', '')
+    images = VolunteerGallery.objects.all().order_by('order', '-created_at')
+    if search:
+        images = images.filter(title__icontains=search)
+    paginator = Paginator(images, 12)
+    images_paginated = paginator.get_page(request.GET.get('page'))
+    return render(request, 'dashboard/manage_volunteer_gallery.html', {
+        'gallery_images': images_paginated,
+        'search': search,
+    })
+
+@staff_member_required(login_url='dashboard:login')
+def create_volunteer_gallery_image(request):
+    from dashboard.forms import VolunteerGalleryForm
+    if request.method == 'POST':
+        form = VolunteerGalleryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Gallery image added successfully!')
+            return redirect('dashboard:manage_volunteer_gallery')
+    else:
+        form = VolunteerGalleryForm()
+    return render(request, 'dashboard/volunteer_gallery_form.html', {'form': form, 'title': 'Add Volunteer Gallery Image'})
+
+@staff_member_required(login_url='dashboard:login')
+def edit_volunteer_gallery_image(request, pk):
+    from dashboard.forms import VolunteerGalleryForm
+    from rotom.models import VolunteerGallery
+    image = get_object_or_404(VolunteerGallery, pk=pk)
+    if request.method == 'POST':
+        form = VolunteerGalleryForm(request.POST, request.FILES, instance=image)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Volunteer gallery image updated successfully!')
+            return redirect('dashboard:manage_volunteer_gallery')
+    else:
+        form = VolunteerGalleryForm(instance=image)
+    return render(request, 'dashboard/volunteer_gallery_form.html', {'form': form, 'title': 'Edit Volunteer Gallery Image', 'gallery_image': image})
+
+@staff_member_required(login_url='dashboard:login')
+def delete_volunteer_gallery_image(request, pk):
+    from rotom.models import VolunteerGallery
+    image = get_object_or_404(VolunteerGallery, pk=pk)
+    image.delete()
+    messages.success(request, 'Volunteer gallery image deleted successfully!')
+    return redirect('dashboard:manage_volunteer_gallery')
