@@ -178,7 +178,7 @@
         {{ content.partners_intro|default:"A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders." }}
     </p>
     {% if partners %}
-    <div class="partners-slider">
+    <div class="partners-slider" id="partnersSlider">
         <div class="slider-track" id="partnerTrack">
             {% for partner in partners %}
             <div class="partner-logo">
@@ -186,11 +186,41 @@
             </div>
             {% endfor %}
         </div>
+        <button class="slide-btn slide-prev" aria-label="Previous">&#10094;</button>
+        <button class="slide-btn slide-next" aria-label="Next">&#10095;</button>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var container = document.getElementById('partnersSlider');
             var track = document.getElementById('partnerTrack');
-            if (track) track.innerHTML += track.innerHTML;
+            if (!container || !track) return;
+            var logos = track.querySelectorAll('.partner-logo');
+            if (logos.length < 2) return;
+            var current = 0;
+            var logoWidth = logos[0].offsetWidth + parseInt(getComputedStyle(logos[0]).marginLeft) + parseInt(getComputedStyle(logos[0]).marginRight);
+            var visible = Math.max(1, Math.floor(container.offsetWidth / logoWidth));
+            var max = Math.max(0, logos.length - visible);
+
+            function goTo(index) {
+                current = Math.max(0, Math.min(index, max));
+                track.style.transform = 'translateX(-' + (current * logoWidth) + 'px)';
+            }
+
+            container.querySelector('.slide-prev').addEventListener('click', function() { goTo(current - 1); });
+            container.querySelector('.slide-next').addEventListener('click', function() { goTo(current + 1); });
+
+            var interval = setInterval(function() {
+                if (current >= max) { goTo(0); }
+                else { goTo(current + 1); }
+            }, 4000);
+
+            container.addEventListener('mouseenter', function() { clearInterval(interval); });
+            container.addEventListener('mouseleave', function() {
+                interval = setInterval(function() {
+                    if (current >= max) { goTo(0); }
+                    else { goTo(current + 1); }
+                }, 4000);
+            });
         });
     </script>
     {% else %}

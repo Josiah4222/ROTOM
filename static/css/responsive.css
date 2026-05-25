@@ -393,10 +393,20 @@ img {
     }
 
     /* Partners slider */
+    .partners-slider {
+        padding: 2rem 2.5rem;
+    }
+
     .partner-logo {
         width: 120px;
         height: 80px;
-        margin: 0 0.75rem;
+        margin: 0 0.5rem;
+    }
+
+    .slide-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
     }
 
     /* Buttons */
