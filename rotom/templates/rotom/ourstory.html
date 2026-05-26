@@ -1,6 +1,7 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
 {% load image_tags %}
+{% load lang_tags %}
 
 {% block title %}Our Journey - ROTOM Ethiopia{% endblock %}
 
@@ -64,9 +65,17 @@
     <div class="timeline-container">
         {% for milestone in milestones %}
         <div class="timeline-item">
-            <div class="card-image" onclick="openMilestoneLightbox('{{ milestone.image.url }}')">
-                <img src="{{ milestone.image.url }}" alt="{{ milestone.year }} - {{ milestone.title }}" loading="lazy" decoding="async">
-            </div>
+            {% if milestone.image %}
+                {% if milestone.image.name|slice:":7" == "images/" %}
+                    <div class="card-image" onclick="openMilestoneLightbox('{% static milestone.image.name %}')">
+                        <img src="{% static milestone.image.name %}" alt="{{ milestone.year }} - {{ milestone.title }}" loading="lazy" decoding="async">
+                    </div>
+                {% else %}
+                    <div class="card-image" onclick="openMilestoneLightbox('{{ milestone.image.url }}')">
+                        <img src="{{ milestone.image.url }}" alt="{{ milestone.year }} - {{ milestone.title }}" loading="lazy" decoding="async">
+                    </div>
+                {% endif %}
+            {% endif %}
             <div class="timeline-content">
                 <div class="year-badge">{{ milestone.year }}</div>
                 <h3>{{ milestone.title }}</h3>
@@ -101,7 +110,7 @@
                     </div>
                 {% endif %}
                 <div class="staff-info">
-                    <h3>{{ member.name }}</h3>
+                    <h3>{% bilingual member.name member.name_am %}</h3>
                     <p>{{ member.position }}</p>
                 </div>
             </div>
@@ -127,7 +136,7 @@
             </div>
             <div class="team-card">
                 <h3 class="team-card-title">{{ content.volunteers_title|default:"Our Volunteers" }}</h3>
-                <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteerteam.jpg' %}')">
+                <div class="group-photo-card" onclick="openTeamLightbox('{% static 'images/volunteers_group.JPG' %}')">
                     <picture class="team-picture">
                         <source srcset="{% static 'images/volunteerteam-thumb.webp' %}" type="image/webp">
                         <img src="{% static 'images/volunteerteam-thumb.jpg' %}" alt="ROTOM Volunteers" class="team-thumb-img" width="600" height="400">

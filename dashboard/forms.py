@@ -158,12 +158,13 @@ class StoryForm(forms.ModelForm):
     class Meta:
         model = Story
         fields = [
-            'name',
+            'name', 'name_am',
             'title', 'title_am',
             'tag', 'tag_am',
             'date_info', 'date_info_am',
             'location_info', 'location_info_am',
             'content', 'content_am',
+            'quote', 'quote_am',
             'image_1', 'image_1_label', 'image_1_label_am',
             'image_2', 'image_2_label', 'image_2_label_am',
             'image_3', 'image_3_label', 'image_3_label_am',
@@ -174,6 +175,7 @@ class StoryForm(forms.ModelForm):
         ]
         widgets = {
             'name': text('e.g., Aboye Waqjira'),
+            'name_am': text('ለምሳሌ፦ አቦዬ ዋቅጂራ'),
             'title': text('e.g., A Journey from Streets to Dignity'),
             'title_am': text('ለምሳሌ፦ ከጎዳና ወደ ክብር'),
             'tag': text('e.g., Miraculous Recovery'),
@@ -184,6 +186,8 @@ class StoryForm(forms.ModelForm):
             'location_info_am': text('ለምሳሌ፦ ሮቶም ማዕከል'),
             'content': textarea('Write the full story here...', rows=10),
             'content_am': textarea('ሙሉ ታሪኩን ይጻፉ...', rows=10),
+            'quote': textarea('Featured quote (e.g., "I never thought I would walk again.")', rows=2),
+            'quote_am': textarea('ዋና ጥቅስ በአማርኛ...', rows=2),
             'image_1': file_input(),
             'image_1_label': text('e.g., Before'),
             'image_1_label_am': text('ለምሳሌ፦ ከዚህ በፊት'),
@@ -349,9 +353,10 @@ class MilestoneForm(forms.ModelForm):
 class TeamMemberForm(forms.ModelForm):
     class Meta:
         model = TeamMember
-        fields = ['name', 'position', 'position_am', 'image', 'order', 'is_active']
+        fields = ['name', 'name_am', 'position', 'position_am', 'image', 'order', 'is_active']
         widgets = {
             'name': text('e.g., Hawi Belete'),
+            'name_am': text('ለምሳሌ፦ ሃዊ በለጠ'),
             'position': text('e.g., Director'),
             'position_am': text('ለምሳሌ፦ ዳይሬክተር'),
             'image': file_input(),
@@ -422,9 +427,10 @@ class PartnerForm(forms.ModelForm):
 class TestimonialForm(forms.ModelForm):
     class Meta:
         model = Testimonial
-        fields = ['name', 'role', 'role_am', 'quote', 'quote_am', 'image', 'order', 'is_active']
+        fields = ['name', 'name_am', 'role', 'role_am', 'quote', 'quote_am', 'image', 'order', 'is_active']
         widgets = {
             'name': text('e.g., Senior Tsige'),
+            'name_am': text('ለምሳሌ፦ ሲኒየር ፅጌ'),
             'role': text('e.g., Program Beneficiary'),
             'role_am': text('ለምሳሌ፦ የፕሮግራም ተጠቃሚ'),
             'quote': textarea('Enter their testimonial...', rows=6),
@@ -435,6 +441,7 @@ class TestimonialForm(forms.ModelForm):
         }
         labels = {
             'name': 'Name',
+            'name_am': 'Name' + AM_NOTE,
             'role': 'Role / Title (English)',
             'role_am': 'Role / Title' + AM_NOTE,
             'quote': 'Testimonial (English)',

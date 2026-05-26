@@ -28,9 +28,15 @@
 
             <!-- Name -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Full Name *</label>
+                <label class="form-label fw-semibold">Full Name (English) *</label>
                 {{ form.name }}
                 {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors }}</div>{% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">🇪🇹 አማርኛ — Full Name</label>
+                {{ form.name_am }}
+                {% if form.name_am.errors %}<div class="text-danger small">{{ form.name_am.errors }}</div>{% endif %}
             </div>
 
             <!-- Position -->

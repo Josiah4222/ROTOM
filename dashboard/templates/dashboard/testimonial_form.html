@@ -31,6 +31,14 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="{{ form.name_am.id_for_label }}" class="form-label">🇪🇹 አማርኛ — Name</label>
+                            {{ form.name_am }}
+                            {% if form.name_am.errors %}
+                            <div class="text-danger">{{ form.name_am.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
                             <label for="{{ form.role.id_for_label }}" class="form-label">{{ form.role.label }} <span class="text-danger">*</span></label>
                             {{ form.role }}
                             {% if form.role.help_text %}

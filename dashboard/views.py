@@ -1011,9 +1011,8 @@ SITE_CONTENT_DEFAULTS = [
     ('navbar', 'nav_about',     'Nav: About Us', 'ABOUT US'),
     ('navbar', 'nav_stories',   'Nav: Stories',  'STORIES'),
     ('navbar', 'nav_blog',      'Nav: Blog',     'BLOG'),
-    ('navbar', 'nav_takeaction','Nav: Take Action','TAKE ACTION'),
     ('navbar', 'nav_events',    'Nav: Events',   'EVENTS'),
-    ('navbar', 'nav_donate',    'Nav: Donate',   'DONATE'),
+    ('navbar', 'nav_donate',    'Nav: Engage',   'ENGAGE'),
 
     # ── Home Page ────────────────────────────────────────────────────────────
     ('home', 'hero_title',           'Hero Title',           'ROTOM-Ethiopia'),

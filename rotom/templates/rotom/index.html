@@ -1,6 +1,7 @@
 {% extends 'rotom/base.html' %}
 {% load static %}
 {% load image_tags %}
+{% load lang_tags %}
 
 {% block title %}ROTOM Ethiopia - Empowering Communities{% endblock %}
 
@@ -121,50 +122,37 @@
     <h2 class="section-title">{{ content.testimonials_title|default:"What People Say" }}</h2>
     <div class="testimonials-slider">
         <div class="testimonial-container">
+            {% for testimonial in testimonials %}
+            <div class="testimonial {% if forloop.first %}active{% endif %}">
+                <div class="testimonial-content">
+                    {% if testimonial.image %}
+                    <div class="testimonial-img" onclick="openTestimonialLightbox('{{ testimonial.image.url }}')">
+                        <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" loading="lazy" width="100" height="100">
+                    </div>
+                    {% endif %}
+                    <div class="testimonial-text">
+                        <p>"{% bilingual testimonial.quote testimonial.quote_am %}"</p>
+                    </div>
+                    <h4>{% bilingual testimonial.name testimonial.name_am %}</h4>
+                    <span class="testimonial-role">{% bilingual testimonial.role testimonial.role_am %}</span>
+                </div>
+            </div>
+            {% empty %}
             <div class="testimonial active">
                 <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/tsige niguse.webp' %}')">
-                        {% webp_picture 'images/tsige niguse.PNG' alt="Senior Tsige" loading="lazy" width="100" height="100" %}
-                    </div>
                     <div class="testimonial-text">
-                        <p>"My children thank you so much. You've given me the privilege to see the outside. I haven't
-                            seen the outside in over 30 years. You give me an opportunity to chat with people and see
-                            the fresh air. Be blessed. You give me dignity. I am speechless"</p>
+                        <p>"No testimonials available yet."</p>
                     </div>
-                    <h4>Senior Tsige</h4>
-                    <span class="testimonial-role">Program Beneficiary</span>
                 </div>
             </div>
-            <div class="testimonial">
-                <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/adanech.webp' %}')">
-                        {% webp_picture 'images/adanech.PNG' alt="Beneficiary Testimonial" loading="lazy" width="100" height="100" %}
-                    </div>
-                    <div class="testimonial-text">
-                        <p>"The care and support I receive from ROTOM Ethiopia has given me a new lease on life. I feel
-                            valued, respected, and part of a loving community."</p>
-                    </div>
-                    <h4>Senior Adanech Tafese</h4>
-                    <span class="testimonial-role">Program Beneficiary</span>
-                </div>
-            </div>
-            <div class="testimonial">
-                <div class="testimonial-content">
-                    <div class="testimonial-img" onclick="openTestimonialLightbox('{% static 'images/fasikaw.webp' %}')">
-                        {% webp_picture 'images/fasikaw.jpg' alt="Ato Fasikaw Mola" loading="lazy" width="100" height="100" %}
-                    </div>
-                    <div class="testimonial-text">
-                        <p>"We are truly impressed by the remarkable work being done at Rotom Ethiopia. The dignity, cleanliness, and quality of care provided to the elderly are exceptional and set a powerful example for others. Your commitment to compassionate service and the involvement of dedicated volunteers is inspiring. We sincerely appreciate your efforts and proudly stand in support of your mission."</p>
-                    </div>
-                    <h4>Ato Fasikaw Mola</h4>
-                    <span class="testimonial-role">Deputy Director General, Civil Society Organizations Authority</span>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        {% if testimonials|length > 1 %}
         <div class="testimonial-controls">
             <button class="control-prev"><i class="fas fa-chevron-left"></i></button>
             <button class="control-next"><i class="fas fa-chevron-right"></i></button>
         </div>
+        {% endif %}
     </div>
 </section>
 
@@ -174,11 +162,29 @@
         {{ content.partners_intro|default:"A sincere thank you to our global family of partners and supporters. Whether you are an organization or an individual, your contributions provide more than just help. They foster a sense of family for our seniors and a future for their grandchildren. Thank you for standing with us to improve life for Ethiopia's elders." }}
     </p>
     {% if partners %}
+    <style>
+    #partnerTrack {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        width: fit-content;
+        animation: scrollPartners 60s linear infinite;
+    }
+    @keyframes scrollPartners {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    </style>
     <div class="partners-slider" id="partnersSlider">
         <div class="slider-track" id="partnerTrack">
             {% for partner in partners %}
             <div class="partner-logo">
-                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="lazy">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="eager" decoding="async">
+            </div>
+            {% endfor %}
+            {% for partner in partners %}
+            <div class="partner-logo">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" loading="eager" decoding="async">
             </div>
             {% endfor %}
         </div>
@@ -191,39 +197,7 @@
     {% endif %}
 </section>
 
-<script>
-(function(){
-    var track = document.getElementById('partnerTrack');
-    if (!track) return;
-    var items = Array.from(track.children);
-    for (var i = 0; i < items.length; i++) {
-        var clone = items[i].cloneNode(true);
-        track.appendChild(clone);
-    }
-    var imgs = track.querySelectorAll('img');
-    var loaded = 0;
-    function startSlide() {
-        track.style.animationPlayState = 'running';
-    }
-    track.style.animationPlayState = 'paused';
-    for (var i = 0; i < imgs.length; i++) {
-        if (imgs[i].complete) {
-            loaded++;
-            if (loaded === imgs.length) startSlide();
-        } else {
-            imgs[i].addEventListener('load', function(){
-                loaded++;
-                if (loaded === imgs.length) startSlide();
-            });
-            imgs[i].addEventListener('error', function(){
-                loaded++;
-                if (loaded === imgs.length) startSlide();
-            });
-        }
-    }
-    if (imgs.length === 0) startSlide();
-})();
-</script>
+</section>
 
 <section id="contact" class="contact-us section">
     <h2 class="section-title">{{ content.contact_title|default:"Contact Us" }}</h2>

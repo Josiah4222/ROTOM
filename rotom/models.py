@@ -267,6 +267,7 @@ class FeedingRegistration(models.Model):
 
 class Story(models.Model):
     name = models.CharField(max_length=200, help_text="Name of the person (e.g., Aboye Waqjira)")
+    name_am = models.CharField(max_length=200, blank=True, help_text="Amharic translation of name (optional)")
     title = models.CharField(max_length=300, help_text="Story title (e.g., A Journey from Streets to Dignity)")
     title_am = models.CharField(max_length=300, blank=True, help_text="Amharic translation of title (optional)")
     tag = models.CharField(max_length=100, help_text="Story tag (e.g., Miraculous Recovery)")
@@ -277,6 +278,8 @@ class Story(models.Model):
     location_info_am = models.CharField(max_length=100, blank=True, help_text="Amharic translation of location info (optional)")
     content = models.TextField(help_text="Full story content - use paragraphs separated by blank lines")
     content_am = models.TextField(blank=True, help_text="Amharic translation of content (optional)")
+    quote = models.TextField(default="", help_text="Featured quote from the story (e.g., 'I never thought I would walk again.')")
+    quote_am = models.TextField(blank=True, help_text="Amharic translation of quote (optional)")
     image_1 = models.ImageField(upload_to='stories/', help_text="First image (Before)")
     image_1_label = models.CharField(max_length=50, default="Before")
     image_1_label_am = models.CharField(max_length=50, blank=True, help_text="Amharic label (optional)")
@@ -381,7 +384,7 @@ class Champion(models.Model):
 class GalleryImage(models.Model):
     title = models.CharField(max_length=200, help_text="Image title (e.g., Girls Empowerment)")
     title_am = models.CharField(max_length=200, blank=True, help_text="Amharic translation of title (optional)")
-    caption = models.TextField(help_text="Image caption/description")
+    caption = models.TextField(blank=True, help_text="Image caption/description (optional)")
     caption_am = models.TextField(blank=True, help_text="Amharic translation of caption (optional)")
     image = models.ImageField(upload_to='gallery/', help_text="Gallery photo")
     order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
@@ -435,6 +438,7 @@ class Milestone(models.Model):
 
 class TeamMember(models.Model):
     name = models.CharField(max_length=200, help_text="Team member's full name")
+    name_am = models.CharField(max_length=200, blank=True, help_text="Amharic translation of name (optional)")
     position = models.CharField(max_length=200, help_text="Job title/position (e.g., Director, Social Worker)")
     position_am = models.CharField(max_length=200, blank=True, help_text="Amharic translation of position (optional)")
     image = models.ImageField(upload_to='team/', help_text="Team member photo")
@@ -576,6 +580,7 @@ class SiteContent(models.Model):
 
 class Testimonial(models.Model):
     name = models.CharField(max_length=200, help_text="Person's name (e.g., John Doe)")
+    name_am = models.CharField(max_length=200, blank=True, help_text="Amharic translation of name (optional)")
     role = models.CharField(max_length=200, help_text="Role/Title (e.g., Volunteer, Donor, Partner)")
     role_am = models.CharField(max_length=200, blank=True, help_text="Amharic translation of role (optional)")
     quote = models.TextField(help_text="Their testimonial/feedback")

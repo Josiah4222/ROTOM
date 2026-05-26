@@ -12,7 +12,50 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/stories.css' %}">
+<link rel="stylesheet" href="{% static 'css/stories_v2.css' %}?v=2">
+<style>
+    .story-images {
+        display: block !important;
+    }
+    .story-images .image-wrapper {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .story-images .image-wrapper img {
+        height: 400px;
+        max-height: 400px;
+    }
+    .impact-grid {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1.5rem;
+        background: #f9fafb;
+        padding: 1.25rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--main-color);
+    }
+    .impact-val {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--main-color);
+        line-height: 1.2;
+    }
+    .impact-lab {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.25rem;
+        font-weight: 600;
+    }
+    @media (max-width: 900px) {
+        .impact-grid {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -21,104 +64,62 @@
 <!-- Hero Section -->
 <section class="hero" style="position: relative; overflow: hidden;">
     {% webp_picture 'images/stories-hero.jpg' alt="" fetchpriority="high" img_class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" %}
-    <!-- Green Overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28, 101, 27, 0.75); z-index: 0;"></div>
-    <!-- Pattern Overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.5'/%3E%3C/svg%3E&quot;); background-repeat: repeat; z-index: 1; pointer-events: none;"></div>
     <div class="hero-content" style="position: relative; z-index: 2;">
-        <h1>{{ content.hero_title|default:"Transformation Stories" }}</h1>
-        <p>{{ content.hero_subtitle|default:"Witness the incredible journeys of our seniors - from struggle to hope, from isolation to community." }}</p>
+        <h1>{{ content.hero_title|default:"Stories of Transformation" }}</h1>
+        <p>{{ content.hero_subtitle|default:"Meet some of the young lives transformed through our educational support programs." }}</p>
     </div>
 </section>
 
 <!-- Intro Section -->
 <section class="intro-section">
-    <h2 class="section-title">{{ content.intro_title|default:"Lives Changed Through Love" }}</h2>
-    <p class="section-subtitle">{{ content.intro_subtitle|default:"Every elder who comes to ROTOM has a unique story. Here are just a few of the remarkable transformations we've witnessed through the power of care, community, and compassion." }}</p>
+    <h2 class="section-title">{{ content.intro_title|default:"Empowering the Next Generation" }}</h2>
+    <p class="section-subtitle">{{ content.intro_subtitle|default:"Witness the measurable impact of our educational support programs through the success stories of our champions." }}</p>
 </section>
 
 <!-- Stories -->
 <div class="stories-container">
-    {% for story in stories %}
-    <section class="story {% if story.layout == 'reverse' %}reverse{% endif %}">
+    {% for champion in champions %}
+    <section class="story {% if champion.layout == 'reverse' %}reverse{% endif %}">
         <div class="story-images">
             <div class="image-wrapper" onclick="openLightbox(this)">
-                {% if story.image_1.name|slice:":7" == "images/" %}
-                    {% webp_picture story.image_1.name alt=story.name|add:" - "|add:story.image_1_label loading="lazy" %}
+                {% if champion.image %}
+                    <img src="{{ champion.image.url }}" alt="{{ champion.name }}" loading="lazy">
                 {% else %}
-                    {% webp_picture story.image_1.url alt=story.name|add:" - "|add:story.image_1_label loading="lazy" %}
+                    <div style="height: 400px; background: #eee; display: flex; align-items: center; justify-content: center; color: #ccc;">
+                        <i class="fas fa-user-graduate fa-5x"></i>
+                    </div>
                 {% endif %}
-                <span class="image-label before">{% bilingual story.image_1_label story.image_1_label_am %}</span>
-                <div class="image-hover"><i class="fas fa-expand"></i></div>
-            </div>
-            <div class="image-wrapper" onclick="openLightbox(this)">
-                {% if story.image_2.name|slice:":7" == "images/" %}
-                    {% webp_picture story.image_2.name alt=story.name|add:" - "|add:story.image_2_label loading="lazy" %}
-                {% else %}
-                    {% webp_picture story.image_2.url alt=story.name|add:" - "|add:story.image_2_label loading="lazy" %}
-                {% endif %}
-                <span class="image-label after">{% bilingual story.image_2_label story.image_2_label_am %}</span>
-                <div class="image-hover"><i class="fas fa-expand"></i></div>
-            </div>
-            <div class="image-wrapper" onclick="openLightbox(this)">
-                {% if story.image_3.name|slice:":7" == "images/" %}
-                    {% webp_picture story.image_3.name alt=story.name|add:" - "|add:story.image_3_label loading="lazy" %}
-                {% else %}
-                    {% webp_picture story.image_3.url alt=story.name|add:" - "|add:story.image_3_label loading="lazy" %}
-                {% endif %}
-                <span class="image-label after">{% bilingual story.image_3_label story.image_3_label_am %}</span>
                 <div class="image-hover"><i class="fas fa-expand"></i></div>
             </div>
         </div>
         <div class="story-content">
-            <span class="story-tag">{% bilingual story.tag story.tag_am %}</span>
-            <h2>{{ story.name }} - {% bilingual story.title story.title_am %}</h2>
-            <div class="story-meta">
-                <span><i class="fas fa-calendar-alt"></i> {% bilingual story.date_info story.date_info_am %}</span>
-                <span><i class="fas fa-map-marker-alt"></i> {% bilingual story.location_info story.location_info_am %}</span>
+            <div class="story-heading">
+                <div class="story-name">{% bilingual champion.name champion.name_am %}</div>
+                <div class="story-title">{% bilingual champion.role champion.role_am %}</div>
             </div>
-            {% if story.content_am %}
-                <span class="lang-en">
-                    {% for paragraph in story.content|split_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
-                </span>
-                <span class="lang-am" style="display:none">
-                    {% for paragraph in story.content_am|split_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
-                </span>
-            {% else %}
-                {% for paragraph in story.content|split_paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
-            {% endif %}
-            <div class="story-stats">
-                <div class="stat">
-                    <span class="stat-num">{{ story.stat_1_number }}</span>
-                    <span class="stat-text">{% bilingual story.stat_1_text story.stat_1_text_am %}</span>
+            <div class="story-text">
+                <p>{% bilingual champion.quote champion.quote_am %}</p>
+            </div>
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <div class="impact-val">{{ champion.years_supported }}</div>
+                    <div class="impact-lab">Years Supported</div>
                 </div>
-                <div class="stat">
-                    <span class="stat-num">{{ story.stat_2_number }}</span>
-                    <span class="stat-text">{% bilingual story.stat_2_text story.stat_2_text_am %}</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-num">{{ story.stat_3_number }}</span>
-                    <span class="stat-text">{% bilingual story.stat_3_text story.stat_3_text_am %}</span>
+                <div class="impact-item">
+                    <div class="impact-val">{% bilingual champion.achievement champion.achievement_am %}</div>
+                    <div class="impact-lab">Key Achievement</div>
                 </div>
             </div>
         </div>
     </section>
     {% empty %}
     <div class="text-center py-5">
-        <p>No stories available at the moment. Check back soon!</p>
+        <p>No champion stories available at the moment. Check back soon!</p>
     </div>
     {% endfor %}
 </div>
-
-<!-- CTA Section -->
-<section class="cta-section">
-    <h2>{{ content.cta_title|default:"Help Us Write More Success Stories" }}</h2>
-    <p>{{ content.cta_subtitle|default:"Your support can transform the life of an elder in need." }}</p>
-    <div class="cta-buttons">
-        <a href="{% url 'donate' %}" class="btn btn-primary"><i class="fas fa-heart"></i> {{ content.cta_btn_donate|default:"Donate Now" }}</a>
-        <a href="{% url 'volunteer' %}" class="btn btn-outline"><i class="fas fa-hands-helping"></i> {{ content.cta_btn_volunteer|default:"Volunteer" }}</a>
-    </div>
-</section>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -126,9 +127,42 @@
     <img src="" alt="Full size image" id="lightbox-img">
 </div>
 
+<!-- CTA Section -->
+<section class="cta-section">
+    <h2>{{ content.cta_title|default:"Help Us Write More Success Stories" }}</h2>
+    <div class="cta-buttons">
+        <a href="{% url 'donate' %}" class="btn btn-primary"><i class="fas fa-heart"></i> {{ content.cta_btn_donate|default:"Donate Now" }}</a>
+    </div>
+</section>
+
 {% include 'rotom/footer.html' %}
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/stories.js' %}" defer></script>
+<script>
+    function openLightbox(wrapper) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const img = wrapper.querySelector('img');
+        if (img && lightbox) {
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox) {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    });
+</script>
 {% endblock %}

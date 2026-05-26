@@ -29,10 +29,14 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label class="form-label">{{ form.name.label }}</label>
+                        <label class="form-label fw-semibold">Name <span class="text-muted fw-normal">(English)</span></label>
                         {{ form.name }}
-                        <small class="form-text text-muted">{{ form.name.help_text }}</small>
                         {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Name</label>
+                        {{ form.name_am }}
+                        {% if form.name_am.errors %}<div class="text-danger">{{ form.name_am.errors }}</div>{% endif %}
                     </div>
                 </div>
 
@@ -99,6 +103,20 @@
                         <label class="form-label fw-semibold">🇪🇹 አማርኛ — Content</label>
                         {{ form.content_am }}
                         {% if form.content_am.errors %}<div class="text-danger">{{ form.content_am.errors }}</div>{% endif %}
+                    </div>
+                </div>
+
+                <!-- Quote -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Quote <span class="text-muted fw-normal">(English)</span></label>
+                        {{ form.quote }}
+                        {% if form.quote.errors %}<div class="text-danger">{{ form.quote.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">🇪🇹 አማርኛ — Quote</label>
+                        {{ form.quote_am }}
+                        {% if form.quote_am.errors %}<div class="text-danger">{{ form.quote_am.errors }}</div>{% endif %}
                     </div>
                 </div>
 

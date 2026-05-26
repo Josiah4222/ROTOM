@@ -688,7 +688,6 @@ body {
     align-items: center;
     width: fit-content;
     animation: scrollPartners 40s linear infinite;
-    animation-play-state: paused;
 }
 
 
@@ -763,6 +762,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     position: relative;
     overflow: hidden;
 }
@@ -772,6 +772,19 @@ body {
     margin-bottom: 1rem;
     color: var(--accent-color);
     font-weight: 700;
+    text-align: center;
+}
+
+.contact-info ul {
+    padding: 0;
+    margin: 0;
+}
+
+.contact-info ul li {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
 }
 
 .contact-info ul li {

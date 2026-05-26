@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/take_action.css' %}">
+<link rel="stylesheet" href="{% static 'css/take_action.css' %}?v=2">
 {% endblock %}
 
 {% block content %}
@@ -58,15 +58,27 @@
                         {% if item %}<li>{{ item }}</li>{% endif %}
                         {% endfor %}
                     </ul>
-                    <a href="#contact" class="btn">Contact Us to Donate</a>
+                    <a href="{% url 'home' %}#contact" class="btn">Contact Us to Donate</a>
                 </div>
             </div>
 
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="financial-support" class="give-section-enhanced">
+    <div class="give-container">
+        <div class="give-intro">
+            <h2>Financial Support</h2>
+            <p>{{ content.financial_desc|default:"Monetary donations allow us to purchase specific items, maintain our center, and expand our services. Every contribution, big or small, makes a significant impact." }}</p>
+        </div>
+        <div class="give-cards-container">
             <div class="give-card-enhanced">
                 <div class="give-card-image" style="background-image: url('{% static 'images/centerbased.jpg' %}');">
                     <div class="image-overlay-content">
-                        <i class="fas fa-hands-helping"></i>
-                        <h4>Financial Impact</h4>
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h4>Financial Support</h4>
                         <p>Monetary support allows us to expand our reach and provide comprehensive care to more elders in need.</p>
                     </div>
                 </div>
@@ -81,8 +93,9 @@
 </section>
 
 <!-- Standalone Feeding Form Section -->
-<section id="feeding-form-section" class="feeding-form-section">
-    <div class="feeding-form-container">
+<section id="feeding-form-section" class="action-section">
+    <h2 class="section-title">Feed</h2>
+    <div class="feeding-form-container" style="border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg);">
         <div class="feeding-form-image" style="background-image: url('{% static 'images/service1.jpg' %}');">
             <div class="image-content">
                 <h4><i class="fas fa-utensils"></i> Nourishing Lives</h4>
@@ -236,32 +249,6 @@
     </div>
 </section>
 
-<!-- <section id="events" class="action-section events">
-    <h2 class="section-title">Attend Events / ዝግጅቶች ላይ መገኘት</h2>
-    <div class="action-grid">
-        <div class="action-card">
-            <div class="action-icon">
-                <i class="fas fa-calendar-alt"></i>
-            </div>
-            <h3>Upcoming Events / መጪ ዝግጅቶች</h3>
-            <p>Join us for our community events, fundraisers, awareness campaigns, and celebrations. It's a great way to connect, have fun, and support our cause. / ለማህበረሰብ ዝግጅቶቻችን፣ የገንዘብ ማሰባሰቢያዎች፣ የግንዛቤ ዘመቻዎች እና በዓላት ይቀላቀሉን። ለመገናኘት፣ መዝናናት እና ጉዳዮቻችንን ለመደገፍ ጥሩ መንገድ ነው።</p>
-            <p><strong>Stay Tuned / ተከታተሉ:</strong> Check back regularly or follow us on social media for announcements about upcoming events. / ስለ መጪ ዝግጅቶች ማስታወቂያዎች በየጊዜው ይመልከቱ ወይም በማህበራዊ ሚዲያ ይከተሉን።</p>
-            <p><strong>Get Involved / ይሳተፉ:</strong> Want to help organize an event or have an idea? Contact us! / ዝግጅት ለመደራጀት መርዳት ወይም ሀሳብ አሎት? ያነጋግሩን!</p>
-            <a href="mailto:rotomethiopia@reachone-touchone.org?subject=Event Inquiry" class="btn">Contact About Events / ስለ ዝግጅቶች ያነጋግሩ</a>
-        </div>
-
-        <div class="action-card">
-            <div class="action-icon">
-                <i class="fas fa-users"></i>
-            </div>
-            <h3>Past Events / ያለፉ ዝግጅቶች</h3>
-            <p>See highlights and photos from our previous successful events. Get a glimpse of the community spirit and impact we create together. / ከቀደሙ ስኬታማ ዝግጅቶቻችን ድምቀቶችን እና ፎቶዎችን ይመልከቱ። እኛ አብረን የምንፈጥረውን የማህበረሰብ መንፈስ እና ተጽእኖ ቅድመ እይታ ያግኙ።</p>
-            <p><em>Event gallery or summary link can go here if available. / የዝግጅት ጋለሪ ወይም ማጠቃለያ አገናኝ ከተገኘ እዚህ ሊቀመጥ ይችላል።</em></p>
-            <a href="#" class="btn">View Past Events / ያለፉ ዝግጅቶችን ይመልከቱ</a>
-        </div>
-    </div>
-</section> -->
-
 <section id="volunteer" class="action-section volunteer">
     <h2 class="section-title">{{ content.volunteer_title|default:"Volunteer" }}</h2>
     <div class="action-grid">
@@ -269,8 +256,6 @@
             <div class="action-icon">
                 <i class="fas fa-hands-helping"></i>
             </div>
-            <h3>{{ content.volunteer_intro|default:"Make a Difference" }}</h3>
-            <p>Join our dedicated team of volunteers. Whether it's helping at our center, providing home-based care, supporting our events, or offering your professional skills, your time and talents are invaluable.</p>
             <p><strong>Volunteer Opportunities Include:</strong></p>
             <ul>
                 {% for item in content.volunteer_opps|default:"Daily care and companionship\nAdministrative and office support\nEvent planning and organization\nMaintenance and handyman tasks\nFundraising activities\nProfessional skills (legal, medical, IT, etc.)"|splitlines %}
@@ -297,33 +282,4 @@
         }
     });
 </script>
-
-<!-- <script>
-    document.getElementById('feeding-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission for demo
-
-        // Basic client-side validation
-        const form = this;
-        const fullName = form.querySelector('#full-name').value.trim();
-        const email = form.querySelector('#email').value.trim();
-        const phone = form.querySelector('#phone').value.trim();
-        const mealType = form.querySelector('#meal-type').value;
-        const location = form.querySelector('#location').value;
-        const preferredDate = form.querySelector('#preferred-date').value;
-
-        if (!fullName || !email || !phone || !mealType || !location || !preferredDate) {
-            alert('Please fill out all required fields, including meal type and location. / እባክዎ ሁሉንም አስፈላጊ መስኮች፣ የምግብ አይነት እና ቦታን ጨምሮ ይሙሉ።');
-            return;
-        }
-
-        // Simulate form submission (replace with actual AJAX or form submission logic)
-        setTimeout(() => {
-            form.reset(); // Clear the form
-            document.getElementById('form-success').style.display = 'block'; // Show success message
-            setTimeout(() => {
-                document.getElementById('form-success').style.display = 'none'; // Hide after 5 seconds
-            }, 5000);
-        }, 1000);
-    });
-</script> -->
 {% endblock %}

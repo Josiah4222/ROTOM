@@ -16,9 +16,8 @@
         <li><a href="{% url 'ourstory' %}">{{ navbar_content.nav_about|default:"ABOUT US" }}</a></li>
         <li><a href="{% url 'stories' %}">{{ navbar_content.nav_stories|default:"STORIES" }}</a></li>
         <li><a href="{% url 'blog' %}">{{ navbar_content.nav_blog|default:"BLOG" }}</a></li>
-        <li><a href="{% url 'take_action' %}">{{ navbar_content.nav_takeaction|default:"TAKE ACTION" }}</a></li>
         <li><a href="{% url 'events' %}">{{ navbar_content.nav_events|default:"EVENTS" }}</a></li>
-        <li><a href="{% url 'donate' %}" class="donate-btn"><span>{{ navbar_content.nav_donate|default:"DONATE" }}</span></a></li>
+        <li><a href="{% url 'take_action' %}" class="donate-btn"><span>{{ navbar_content.nav_donate|default:"ENGAGE" }}</span></a></li>
     </ul>
 
     <!-- Language Toggle -->
