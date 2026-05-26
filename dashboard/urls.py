@@ -91,6 +91,7 @@ urlpatterns = [
     path('delete-volunteer-gallery-image/<int:pk>/', views.delete_volunteer_gallery_image, name='delete_volunteer_gallery_image'),
     # Detail views
     path('volunteer/<int:pk>/', views.volunteer_detail, name='volunteer_detail'),
+    path('delete-volunteer/<int:pk>/', views.delete_volunteer, name='delete_volunteer'),
     path('contact/<int:pk>/', views.contact_detail, name='contact_detail'),
     path('payment/<int:pk>/', views.payment_detail, name='payment_detail'),
     path('registration/<int:pk>/', views.registration_detail, name='registration_detail'),

@@ -77,30 +77,42 @@
         }
 
         @keyframes heroFadeUp {
-            0% { opacity: 0; transform: translateY(30px); }
+            0% { opacity: 0; transform: translateY(40px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        .hero, .event-hero, .take-action-hero, .success-hero {
-            background-color: #1C651B;
-            animation: heroFadeIn 0.35s ease-out;
+        /* Target all hero-like sections */
+        .hero, 
+        .event-hero, 
+        .take-action-hero, 
+        .success-hero, 
+        .journey-hero,
+        .blog-hero-bg,
+        .event-hero-bg {
+            animation: heroFadeIn 0.8s ease-in-out;
             will-change: opacity;
         }
         
+        /* Hero backgrounds and images */
         .hero-background,
+        .hero-bg-img,
+        .hero img,
         .event-hero img,
-        .event-hero-background {
-            animation: heroFadeIn 0.35s ease-out;
+        .event-hero-background,
+        .event-hero-bg img,
+        .blog-hero-bg img {
+            animation: heroFadeIn 0.8s ease-in-out;
             will-change: opacity;
         }
         
-        .hero-content, .event-hero-content, .take-action-hero-content {
-            animation: heroFadeUp 0.4s ease-out 0.1s both;
+        /* Hero content with slide-up effect */
+        .hero-content, 
+        .event-hero-content, 
+        .take-action-hero-content, 
+        .hero-content-wrapper,
+        .success-hero-content {
+            animation: heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
             will-change: opacity, transform;
-        }
-
-        .hero img, .event-hero img, .hero-background img {
-            animation: heroFadeIn 0.35s ease-out;
         }
     </style>
 </head>

@@ -256,6 +256,13 @@ def volunteer_detail(request, pk):
     return render(request, 'dashboard/volunteer_detail.html', {'volunteer': volunteer})
 
 @staff_member_required(login_url='dashboard:login')
+def delete_volunteer(request, pk):
+    volunteer = get_object_or_404(VolunteerProfile, pk=pk)
+    volunteer.delete()
+    messages.success(request, 'Volunteer deleted successfully!')
+    return redirect('dashboard:manage_volunteers')
+
+@staff_member_required(login_url='dashboard:login')
 def contact_detail(request, pk):
     contact = get_object_or_404(Contact, pk=pk)
     return render(request, 'dashboard/contact_detail.html', {'contact': contact})

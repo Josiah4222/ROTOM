@@ -3,7 +3,7 @@
 
 <!-- Navbar -->
 <nav class="navbar" id="mainNavbar">
-    <a href="{{ SCRIPT_NAME }}/" class="navbar-brand">
+    <a href="{% url 'home' %}" class="navbar-brand">
         {% webp_picture 'images/logo.png' alt="ROTOM Logo" loading="eager" fetchpriority="high" %}
         <div class="brand-text">
             <span class="brand-name">{{ navbar_content.brand_name|default:"ROTOM Ethiopia" }}</span>
@@ -12,13 +12,13 @@
     </a>
 
     <ul class="navbar-nav">
-        <li><a href="{{ SCRIPT_NAME }}/">{{ navbar_content.nav_home|default:"HOME" }}</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'ourstory' %}">{{ navbar_content.nav_about|default:"ABOUT US" }}</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'stories' %}">{{ navbar_content.nav_stories|default:"STORIES" }}</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'blog' %}">{{ navbar_content.nav_blog|default:"BLOG" }}</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'take_action' %}">{{ navbar_content.nav_takeaction|default:"TAKE ACTION" }}</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'events' %}">{{ navbar_content.nav_events|default:"EVENTS" }}</a></li>
-        <li><a href="{{ SCRIPT_NAME }}{% url 'donate' %}" class="donate-btn"><span>{{ navbar_content.nav_donate|default:"DONATE" }}</span></a></li>
+        <li><a href="/">{{ navbar_content.nav_home|default:"HOME" }}</a></li>
+        <li><a href="{% url 'ourstory' %}">{{ navbar_content.nav_about|default:"ABOUT US" }}</a></li>
+        <li><a href="{% url 'stories' %}">{{ navbar_content.nav_stories|default:"STORIES" }}</a></li>
+        <li><a href="{% url 'blog' %}">{{ navbar_content.nav_blog|default:"BLOG" }}</a></li>
+        <li><a href="{% url 'take_action' %}">{{ navbar_content.nav_takeaction|default:"TAKE ACTION" }}</a></li>
+        <li><a href="{% url 'events' %}">{{ navbar_content.nav_events|default:"EVENTS" }}</a></li>
+        <li><a href="{% url 'donate' %}" class="donate-btn"><span>{{ navbar_content.nav_donate|default:"DONATE" }}</span></a></li>
     </ul>
 
     <!-- Language Toggle -->

@@ -104,14 +104,14 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = '/rotom/static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
 # Media files
-MEDIA_URL = '/rotom/media/'
+MEDIA_URL = '/media/'
 # Use mounted volume path for Docker deployment
 MEDIA_ROOT = config('MEDIA_ROOT', default=os.path.join(BASE_DIR, 'media'))
 
