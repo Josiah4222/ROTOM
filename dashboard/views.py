@@ -1,4 +1,5 @@
 # views.py (add edit views for Event and PreviousEvent)
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -1266,6 +1267,64 @@ def edit_page_content(request, page_slug):
         'page_label': page_label,
         'form_fields': form_fields,
     })
+
+
+# ── Import Translations from JSON ─────────────────────────────────────────────
+
+@staff_member_required(login_url='dashboard:login')
+def import_translations(request):
+    """Upload a JSON file to bulk-import Amharic translations for SiteContent."""
+    results = None
+
+    if request.method == 'POST' and request.FILES.get('json_file'):
+        try:
+            data = json.loads(request.FILES['json_file'].read().decode('utf-8'))
+        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+            messages.error(request, f'Invalid JSON file: {e}')
+            return render(request, 'dashboard/import_translations.html')
+
+        entries = data.get('site_content', [])
+        if not entries:
+            messages.error(request, 'JSON must contain a "site_content" array.')
+            return render(request, 'dashboard/import_translations.html')
+
+        updated = 0
+        skipped = 0
+        errors = []
+
+        for idx, entry in enumerate(entries):
+            page = entry.get('page', '').strip()
+            key = entry.get('key', '').strip()
+            amharic = entry.get('amharic', '').strip()
+
+            if not page or not key:
+                skipped += 1
+                errors.append(f'Missing page/key at index {idx} (label: {entry.get("label", "N/A")})')
+                continue
+
+            try:
+                obj = SiteContent.objects.get(page=page, key=key)
+                if amharic:
+                    obj.value_am = amharic
+                    obj.save()
+                    updated += 1
+                else:
+                    skipped += 1
+            except SiteContent.DoesNotExist:
+                skipped += 1
+                page_label = dict(SiteContent.PAGE_CHOICES).get(page, page)
+                errors.append(f'No match found: page="{page_label}" key="{key}"')
+
+        if updated > 0:
+            messages.success(request, f'Successfully updated {updated} Amharic translation(s).')
+        if skipped > 0:
+            messages.warning(request, f'Skipped {skipped} entry/entries (no match or empty).')
+            for err in errors:
+                messages.info(request, err)
+
+        results = {'updated': updated, 'skipped': skipped, 'errors': errors[:10]}
+
+    return render(request, 'dashboard/import_translations.html', {'results': results})
 
 
 # ── Volunteer Gallery ─────────────────────────────────────────────────────────

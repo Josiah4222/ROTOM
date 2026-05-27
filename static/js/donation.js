@@ -24,78 +24,69 @@ function updateImpactPreview(amount) {
     }
 
     let impact = '';
-    if (amount == 50 || amount == 100) {
-        impact = `Your donation of ${amount} ETB will help our organization a lot, contributing to essential services for seniors and education for children.`;
-    } else {
-        // Define programs and their costs
-        const programs = [
-            {
-                name: "Seniors Living at Home",
-                items: [
-                    { name: "Essential food commodities", cost: 1300, unit: "month" },
-                    { name: "Essential hygiene items", cost: 200, unit: "month" },
-                    { name: "Social outings and lunches", cost: 300, unit: "month" },
-                    { name: "Necessary healthcare support", cost: 1400, unit: "year" },
-                    { name: "Necessary clothing", cost: 3000, unit: "year" }
-                ]
-            },
-            {
-                name: "Seniors in Care Center",
-                items: [
-                    { name: "Nutritious meals three times a day", cost: 3000, unit: "month" },
-                    { name: "Hygiene supplies", cost: 500, unit: "month" },
-                    { name: "Essential healthcare support", cost: 500, unit: "month" },
-                    { name: "Essential clothing", cost: 3000, unit: "year" }
-                ]
-            },
-            {
-                name: "Education Support",
-                items: [
-                    { name: "School fees (primary/secondary)", cost: 2000, unit: "year" },
-                    { name: "School fees (college)", cost: 1400, unit: "month" },
-                    { name: "Uniforms and school supplies", cost: 5500, unit: "year" },
-                    { name: "Hygiene care for female students", cost: 150, unit: "month" }
-                ]
-            }
-        ];
+    const programs = [
+        {
+            name: "Seniors Living at Home",
+            items: [
+                { name: "Essential food commodities", cost: 1500, unit: "month" },
+                { name: "Essential hygiene items", cost: 300, unit: "month" },
+                { name: "Social outings and lunches", cost: 400, unit: "month" },
+                { name: "Necessary healthcare support", cost: 2000, unit: "year" },
+                { name: "Necessary clothing", cost: 4000, unit: "year" }
+            ]
+        },
+        {
+            name: "Seniors in Care Center",
+            items: [
+                { name: "Nutritious meals three times a day", cost: 5000, unit: "month" },
+                { name: "Hygiene supplies", cost: 1500, unit: "month" },
+                { name: "Essential healthcare support", cost: 2500, unit: "year" },
+                { name: "Essential clothing", cost: 4000, unit: "year" }
+            ]
+        },
+        {
+            name: "Education Support",
+            items: [
+                { name: "School supplies", cost: 2000, unit: "year" },
+                { name: "Private college", cost: 2000, unit: "year" },
+                { name: "Essential hygiene items", cost: 200, unit: "month" },
+                { name: "School fees", cost: 3000, unit: "year" },
+                { name: "Uniforms", cost: 7500, unit: "year" }
+            ]
+        }
+    ];
 
-        // Calculate maximum impact for each program
-        let maxImpact = { program: null, count: 0, items: [] };
-        programs.forEach(program => {
-            let totalCount = 0;
-            let programItems = [];
-            program.items.forEach(item => {
-                const count = Math.floor(amount / item.cost);
-                if (count > 0) {
-                    totalCount += count;
-                    programItems.push({
-                        name: item.name,
-                        count: count,
-                        unit: item.unit,
-                        people: item.name.includes("student") ? "student" : "senior"
-                    });
-                }
-            });
-            if (totalCount > maxImpact.count && programItems.length > 0) {
-                maxImpact = {
-                    program: program.name,
-                    count: totalCount,
-                    items: programItems
-                };
+    let maxCount = 0;
+    let bestItems = [];
+    programs.forEach(program => {
+        let totalCount = 0;
+        let programItems = [];
+        program.items.forEach(item => {
+            const count = Math.floor(amount / item.cost);
+            if (count > 0) {
+                totalCount += count;
+                programItems.push({
+                    name: item.name,
+                    count: count,
+                    unit: item.unit
+                });
             }
         });
-
-        // Generate impact text for the selected program
-        if (maxImpact.program) {
-            impact = `Your donation of ${amount} ETB will support ${maxImpact.program}:`;
-            impact += `<ul class="impact-list">`;
-            maxImpact.items.forEach(item => {
-                impact += `<li><i class="fas fa-check-circle"></i> ${item.name} for ${item.count} ${item.people}${item.count > 1 ? 's' : ''} for ${item.count} ${item.unit}${item.count > 1 ? 's' : ''}</li>`;
-            });
-            impact += `</ul>`;
-        } else {
-            impact = `Your donation of ${amount} ETB will help our organization provide essential services for seniors and education for children.`;
+        if (totalCount > maxCount && programItems.length > 0) {
+            maxCount = totalCount;
+            bestItems = programItems;
         }
+    });
+
+    if (bestItems.length > 0) {
+        impact = `Your donation of ${amount} ETB will support:`;
+        impact += `<ul class="impact-list">`;
+        bestItems.forEach(item => {
+            impact += `<li><i class="fas fa-check-circle"></i> ${item.name} for ${item.count} seniors for ${item.count} ${item.unit}${item.count > 1 ? 's' : ''}</li>`;
+        });
+        impact += `</ul>`;
+    } else {
+        impact = `Your donation of ${amount} ETB will help our organization provide essential services for seniors and education for children.`;
     }
 
     impactText.innerHTML = impact;

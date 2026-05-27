@@ -20,12 +20,14 @@
         <li><a href="{% url 'take_action' %}" class="donate-btn"><span>{{ navbar_content.nav_donate|default:"ENGAGE" }}</span></a></li>
     </ul>
 
+    {% comment %}
     <!-- Language Toggle -->
     <button class="lang-toggle" id="langToggle" aria-label="Switch language" title="Switch language">
         <span class="lang-option" data-lang="en">EN</span>
         <span class="lang-slider"></span>
         <span class="lang-option" data-lang="am">አማ</span>
     </button>
+    {% endcomment %}
 
     <button class="menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
         <svg class="menu-icon" viewBox="0 0 24 24">
@@ -105,19 +107,7 @@
             });
         });
 
-        // Language toggle
-        const langToggle = document.getElementById('langToggle');
-        const savedLang = localStorage.getItem('rotom_lang') || 'en';
-        document.documentElement.setAttribute('data-lang', savedLang);
-        if (langToggle) {
-            langToggle.setAttribute('data-active', savedLang);
-            langToggle.addEventListener('click', () => {
-                const current = langToggle.getAttribute('data-active');
-                const next = current === 'en' ? 'am' : 'en';
-                langToggle.setAttribute('data-active', next);
-                document.documentElement.setAttribute('data-lang', next);
-                localStorage.setItem('rotom_lang', next);
-            });
-        }
+        // Language always English
+        document.documentElement.setAttribute('data-lang', 'en');
     });
 </script>

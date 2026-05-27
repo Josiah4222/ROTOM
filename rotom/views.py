@@ -137,21 +137,15 @@ def homebased(request):
     return render(request, 'rotom/homebased.html', {'renovations': renovations, 'content': content, 'navbar_content': navbar_content})
 
 def ourstory(request):
-    try:
-        from rotom.models import Milestone, TeamMember
-        milestones = Milestone.objects.filter(is_active=True).order_by('order', 'year')
-        team_members = TeamMember.objects.filter(is_active=True).order_by('order', 'name')
-        content = _page_content('about')
-        navbar_content = _page_content('navbar')
-        return render(request, 'rotom/ourstory.html', {
-            'milestones': milestones,
-            'team_members': team_members,
-            'content': content,
-            'navbar_content': navbar_content,
-        })
-    except Exception as e:
-        import traceback
-        return HttpResponse(f"<pre>{traceback.format_exc()}</pre>", status=500)
+    from rotom.models import Story
+    stories = Story.objects.filter(published=True).order_by('order', '-created_at')
+    content = _page_content('about')
+    navbar_content = _page_content('navbar')
+    return render(request, 'rotom/ourstory.html', {
+        'stories': stories,
+        'content': content,
+        'navbar_content': navbar_content
+    })
 
 def ourplan(request):
     return render(request, 'rotom/ourplan.html')
@@ -441,31 +435,21 @@ def feeding_registration(request):
 
 
 def champions(request):
-    from rotom.models import Champion, GalleryImage, Story
+    from rotom.models import Champion, GalleryImage
     champions = Champion.objects.filter(is_active=True).order_by('order', '-created_at')
     gallery_images = GalleryImage.objects.filter(is_active=True).order_by('order', '-created_at')
-    stories = Story.objects.filter(published=True).order_by('order', '-created_at')
     content = _page_content('champions')
     navbar_content = _page_content('navbar')
     context = {
         'champions': champions,
         'gallery_images': gallery_images,
-        'stories': stories,
         'content': content,
         'navbar_content': navbar_content,
     }
     return render(request, 'rotom/champions.html', context)
 
 def stories(request):
-    from rotom.models import Champion
-    champions = Champion.objects.filter(is_active=True).order_by('order', '-created_at')
-    content = _page_content('stories')
-    navbar_content = _page_content('navbar')
-    return render(request, 'rotom/stories.html', {
-        'champions': champions,
-        'content': content,
-        'navbar_content': navbar_content
-    })
+    return redirect('ourstory')
 
 def blog(request):
     from .models import BlogPost

@@ -1,0 +1,63 @@
+{% extends 'rotom/base.html' %}
+{% load static %}
+
+{% block title %}Our Plan - ROTOM Ethiopia{% endblock %}
+
+{% block content %}
+{% include 'rotom/navbar.html' %}
+
+<section class="page-hero" style="position: relative; height: 40vh; min-height: 300px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 80px;">
+    <picture>
+        <source srcset="{% static 'images/abouthero-hero.webp' %}" type="image/webp">
+        <img src="{% static 'images/abouthero-hero.jpg' %}" alt="" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+    </picture>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28,101,27,0.75); z-index: 1;"></div>
+    <div style="position: relative; z-index: 2; text-align: center; color: white; padding: 2rem; max-width: 800px;">
+        <h1 style="font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">Our Plan</h1>
+        <p style="font-size: 1.1rem; line-height: 1.8; opacity: 0.95;">Strategic roadmap for expanding our impact and serving more vulnerable older persons and their dependents across Ethiopia.</p>
+    </div>
+</section>
+
+<section class="plan-content" style="padding: 4rem 2rem; background: white;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <h2 style="color: var(--main-color, #1C651B); font-size: 2rem; margin-bottom: 1.5rem;">Strategic Goals</h2>
+        <div style="display: grid; gap: 2rem; margin-bottom: 3rem;">
+            <div style="background: #f9fafb; padding: 2rem; border-radius: 12px; border-left: 4px solid #1C651B;">
+                <h3 style="color: #1C651B; margin-bottom: 0.5rem;">Expand Home-Based Care</h3>
+                <p style="color: #6b7280; line-height: 1.7;">Reach more seniors in their homes with comprehensive care packages including health monitoring, nutrition support, and social engagement programs.</p>
+            </div>
+            <div style="background: #f9fafb; padding: 2rem; border-radius: 12px; border-left: 4px solid #F1C93B;">
+                <h3 style="color: #1C651B; margin-bottom: 0.5rem;">Strengthen Center-Based Services</h3>
+                <p style="color: #6b7280; line-height: 1.7;">Enhance our rehabilitation center with better facilities, specialized care programs, and increased capacity to serve more beneficiaries.</p>
+            </div>
+            <div style="background: #f9fafb; padding: 2rem; border-radius: 12px; border-left: 4px solid #1C651B;">
+                <h3 style="color: #1C651B; margin-bottom: 0.5rem;">Education & Sponsorship Programs</h3>
+                <p style="color: #6b7280; line-height: 1.7;">Expand our champion program to support more students from vulnerable families through their educational journey.</p>
+            </div>
+            <div style="background: #f9fafb; padding: 2rem; border-radius: 12px; border-left: 4px solid #F1C93B;">
+                <h3 style="color: #1C651B; margin-bottom: 0.5rem;">Community Outreach & Awareness</h3>
+                <p style="color: #6b7280; line-height: 1.7;">Develop community-based awareness programs about elder care, and mobilize more volunteers and partners to join our mission.</p>
+            </div>
+        </div>
+        <p style="text-align: center; color: #6b7280; font-style: italic;">This page is being updated with detailed strategic plans. Check back soon for more information.</p>
+    </div>
+</section>
+
+{% include 'rotom/footer.html' %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --main-color: #1C651B;
+        --secondary-color: #154d14;
+        --accent-color: #F1C93B;
+    }
+    body { font-family: 'Poppins', sans-serif; line-height: 1.7; color: #1f2937; background: white; }
+    .page-hero { margin-top: 80px; }
+    @media (max-width: 768px) {
+        .page-hero { margin-top: 70px; height: 35vh; }
+        .plan-content { padding: 3rem 1.5rem; }
+    }
+</style>
+{% endblock %}

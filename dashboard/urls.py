@@ -98,4 +98,6 @@ urlpatterns = [
     # Site Content (Static Text Editor)
     path('site-content/', views.manage_site_content, name='manage_site_content'),
     path('site-content/<str:page_slug>/', views.edit_page_content, name='edit_page_content'),
+    # Import Translations from JSON
+    path('import-translations/', views.import_translations, name='import_translations'),
 ]

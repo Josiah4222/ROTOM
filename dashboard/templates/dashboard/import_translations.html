@@ -1,0 +1,165 @@
+{% extends 'dashboard/base_admin.html' %}
+
+{% block title %}Import Amharic Translations{% endblock %}
+
+{% block extra_styles %}
+<style>
+.upload-zone {
+    border: 2.5px dashed #d1d5db;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    background: #fafcfa;
+    transition: all 0.25s;
+    cursor: pointer;
+}
+.upload-zone:hover,
+.upload-zone.dragover {
+    border-color: #1C651B;
+    background: rgba(28,101,27,0.04);
+}
+.upload-zone i { font-size: 3rem; color: #1C651B; opacity: 0.5; }
+.upload-zone p { margin-bottom: 0; color: #6b7280; font-size: 0.95rem; }
+.upload-zone small { color: #9ca3af; }
+.result-card {
+    border-radius: 14px;
+    border-left: 5px solid;
+    padding: 1.25rem 1.5rem;
+}
+.result-card.success { border-left-color: #1C651B; background: rgba(28,101,27,0.04); }
+.result-card.warning { border-left-color: #F1C93B; background: rgba(241,201,59,0.08); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <a href="{% url 'dashboard:manage_site_content' %}" class="text-muted text-decoration-none small">
+            <i class="fas fa-arrow-left me-1"></i> Back to Site Content
+        </a>
+        <h2 class="mb-0 mt-1">
+            <i class="fas fa-upload me-2" style="color:#1C651B;"></i>Import Amharic Translations
+        </h2>
+        <p class="text-muted mb-0 mt-1">Upload a JSON file to bulk-update Amharic (<span class="fw-semibold">value_am</span>) translations for Site Content.</p>
+    </div>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3"><i class="fas fa-file-code me-2 text-primary"></i>Upload JSON File</h5>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label class="upload-zone d-block" id="uploadZone" for="fileInput">
+                        <div class="mb-3"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <p><strong>Click to select</strong> or drag &amp; drop your JSON file here</p>
+                        <small>Accepts <code>.json</code> files only</small>
+                        <input type="file" name="json_file" id="fileInput" accept=".json" class="d-none" required>
+                    </label>
+                    <div id="fileName" class="mt-2 small text-muted" style="display:none;">
+                        <i class="fas fa-check-circle text-success me-1"></i> Selected: <span id="fileNameText"></span>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3 w-100 py-2 fw-semibold">
+                        <i class="fas fa-upload me-2"></i>Import Translations
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h5 class="fw-bold mb-3"><i class="fas fa-info-circle me-2 text-primary"></i>Expected JSON Format</h5>
+                <p class="small text-muted">Your JSON file should have a <code>site_content</code> array with these fields:</p>
+                <pre class="bg-light p-3 rounded small" style="font-size:0.78rem; overflow-x:auto;">{
+  "site_content": [
+    {
+      "page": "home",
+      "key": "hero_title",
+      "english": "Welcome",
+      "amharic": "እንኳን ደህና መጡ"
+    }
+  ]
+}</pre>
+                <p class="small text-muted mt-2 mb-0">The system matches by <code>page</code> + <code>key</code> and fills the Amharic field.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if results %}
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-body">
+        <h5 class="fw-bold mb-3"><i class="fas fa-list me-2 text-primary"></i>Import Results</h5>
+        <div class="row g-3">
+            <div class="col-sm-4">
+                <div class="result-card success">
+                    <h3 class="fw-bold mb-0" style="color:#1C651B;">{{ results.updated }}</h3>
+                    <small class="text-muted">Translations Updated</small>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="result-card warning">
+                    <h3 class="fw-bold mb-0" style="color:#92400e;">{{ results.skipped }}</h3>
+                    <small class="text-muted">Skipped / Not Found</small>
+                </div>
+            </div>
+        </div>
+        {% if results.errors %}
+        <div class="mt-3">
+            <small class="text-muted fw-semibold">Skipped details:</small>
+            <ul class="small text-muted mt-1 mb-0" style="list-style: none; padding-left: 0;">
+                {% for err in results.errors %}
+                <li><i class="fas fa-exclamation-triangle me-1" style="color:#F1C93B;"></i>{{ err }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    const zone = document.getElementById('uploadZone');
+    const input = document.getElementById('fileInput');
+
+    zone.addEventListener('click', () => input.click());
+
+    input.addEventListener('change', function () {
+        if (this.files.length > 0) {
+            const el = document.getElementById('fileName');
+            el.style.display = 'block';
+            document.getElementById('fileNameText').textContent = this.files[0].name;
+        }
+    });
+
+    ['dragover', 'dragenter'].forEach(evt => {
+        zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+        zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.remove('dragover'); });
+    });
+    zone.addEventListener('drop', e => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            input.files = files;
+            input.dispatchEvent(new Event('change'));
+        }
+    });
+})();
+</script>
+{% endblock %}

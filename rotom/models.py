@@ -135,30 +135,7 @@ class Event(models.Model):
         # Compress image before saving
         if self.image:
             self.image = compress_image(self.image)
-        
-        # Check if we need to generate/regenerate the story poster
-        # If it's a new event or the image/title has changed
-        is_new = self.pk is None
-        old_image = None
-        old_title = None
-        if not is_new:
-            try:
-                old_instance = Event.objects.get(pk=self.pk)
-                old_image = old_instance.image
-                old_title = old_instance.title
-            except Event.DoesNotExist:
-                pass
-
         super().save(*args, **kwargs)
-        
-        # Generate poster if needed (after saving the main image)
-        if is_new or old_image != self.image or old_title != self.title:
-            from .utils import generate_event_poster
-            poster = generate_event_poster(self)
-            if poster:
-                # Use update to avoid recursion in save()
-                self.story_poster = poster
-                Event.objects.filter(pk=self.pk).update(story_poster=poster)
 
     def __str__(self):
         return self.title
@@ -305,12 +282,12 @@ class Story(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # Compress all three images before saving
-        if self.image_1:
+        from django.core.files.uploadedfile import InMemoryUploadedFile
+        if self.image_1 and isinstance(self.image_1.file, InMemoryUploadedFile):
             self.image_1 = compress_image(self.image_1)
-        if self.image_2:
+        if self.image_2 and isinstance(self.image_2.file, InMemoryUploadedFile):
             self.image_2 = compress_image(self.image_2)
-        if self.image_3:
+        if self.image_3 and isinstance(self.image_3.file, InMemoryUploadedFile):
             self.image_3 = compress_image(self.image_3)
         super().save(*args, **kwargs)
 
